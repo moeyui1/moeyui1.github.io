@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>不是很懂你们程序员</title>
+  <subtitle>不是很懂你们二次元，不是很懂你们程序员</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://moeyui.com/"/>
+  <updated>2016-04-15T17:09:22.460Z</updated>
+  <id>http://moeyui.com/</id>
+  
+  <author>
+    <name>moeyui</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>人人都能懂——vps搭建ss代理</title>
+    <link href="http://moeyui.com/2016/04/16/%E4%BA%BA%E4%BA%BA%E9%83%BD%E8%83%BD%E6%87%82%E2%80%94%E2%80%94vps%E6%90%AD%E5%BB%BAss%E4%BB%A3%E7%90%86/"/>
+    <id>http://moeyui.com/2016/04/16/人人都能懂——vps搭建ss代理/</id>
+    <published>2016-04-15T16:57:03.000Z</published>
+    <updated>2016-04-15T17:09:22.460Z</updated>
+    
+    <content type="html">&lt;p&gt;上次我们介绍了如何选购一台vps，这次我们来谈谈在自己的vps上搭建ss搭理。&lt;/p&gt;
+&lt;h2 id=&quot;1-ss版本&quot;&gt;&lt;a href=&quot;#1-ss版本&quot; class=&quot;headerlink&quot; title=&quot;1. ss版本&quot;&gt;&lt;/a&gt;1. ss版本&lt;/h2&gt;&lt;p&gt;首先确定我们要安装的版本是服务端，而&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;上次我们介绍了如何选购一台vps，这次我们来谈谈在自己的vps上搭建ss搭理。&lt;/p&gt;
+&lt;h2 id=&quot;1-ss版本&quot;&gt;&lt;a href=&quot;#1-ss版本&quot; class=&quot;headerlink&quot; title=&quot;1. ss版本&quot;&gt;&lt;/a&gt;1. ss版本&lt;/h2&gt;&lt;p&gt;首先确定我
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>程序员一周年总结——经验分享</title>
+    <link href="http://moeyui.com/2016/04/15/%E7%A8%8B%E5%BA%8F%E5%91%98%E4%B8%80%E5%91%A8%E5%B9%B4%E6%80%BB%E7%BB%93%E2%80%94%E2%80%94%E6%80%BB%E7%BB%93%E7%BB%8F%E9%AA%8C/"/>
+    <id>http://moeyui.com/2016/04/15/程序员一周年总结——总结经验/</id>
+    <published>2016-04-15T15:30:06.000Z</published>
+    <updated>2016-04-15T15:32:12.852Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;程序员一周年总结——经验分享&quot;&gt;&lt;a href=&quot;#程序员一周年总结——经验分享&quot; class=&quot;headerlink&quot; title=&quot;程序员一周年总结——经验分享&quot;&gt;&lt;/a&gt;程序员一周年总结——经验分享&lt;/h1&gt;&lt;p&gt;这篇文章的初衷是想随便写点东西给准备要开始人生第一个项目的后辈们。起初只打算写个提纲，不知不觉插了几张图片，然后不知不觉写了5k+字。。。&lt;br&gt;就当做是做个总结吧，想想自己就是去年这个时候入了那个不知道什么鬼三体游戏制作的坑，不提了黑历史。不过这次写的东西相对还是偏入门易懂，有点像给所谓初学者的建议之类的，没有写最近才开始玩的网络和博客相关的事。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;1-编程相关&quot;&gt;&lt;a href=&quot;#1-编程相关&quot; class=&quot;headerlink&quot; title=&quot;1. 编程相关&quot;&gt;&lt;/a&gt;1. 编程相关&lt;/h2&gt;&lt;h3 id=&quot;1-Intellij-idea——你还在用eclipse吗？&quot;&gt;&lt;a href=&quot;#1-Intellij-idea——你还在用eclipse吗？&quot; class=&quot;headerlink&quot; title=&quot;1. Intellij idea——你还在用eclipse吗？&quot;&gt;&lt;/a&gt;1. &lt;a href=&quot;https://www.jetbrains.com/idea/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Intellij idea&lt;/a&gt;——你还在用eclipse吗？&lt;/h3&gt;&lt;p&gt;java程序员入门一般都是选择eclipse吧？然而使用过idea之后感觉，，再也回不去了。。感觉就像是专业软件和普通软件的区别。。&lt;br&gt;idea的特性可以参考官网上的&lt;a href=&quot;https://www.jetbrains.com/idea/features/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;详细介绍&lt;/a&gt;，其中相比eclipse的便利实在太多太多（比如对Git的支持、界面布局的设计等），吾辈表示不知道怎么给大家详细表达，只能靠大家通过使用去感受了。至于很多人会问，既然idea那么好，怎么用的人好像很少啊。原因其实很简单：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;idea相比eclipse来说还是个后辈，普及还需要时间。&lt;/li&gt;
+&lt;li&gt;eclipse在插件数量上是有优势，这一点必须承认，但是以我目前的使用来说并没有遇到什么只支持eclipse的不可或缺的插件。&lt;/li&gt;
+&lt;li&gt;eclipse社区的强大，和第一点一个道理，在国内来说论坛求助什么的还是eclipse比较常见，但是在国外像&lt;a href=&quot;http://stackoverflow.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;stack overflow&lt;/a&gt;这样的论坛感觉用idea的人比较多。&lt;/li&gt;
+&lt;li&gt;Ultimate版价格吓人，而eclipse免费，个人觉得这也许也是eclipse与idea的根本分歧点。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;eclipse在纯java开发下可能还有一点点抵抗余地，但在Android和JavaFX的开发上我就觉得没什么理由选择eclipse了。别跟我扯谷歌官方推荐Android开发用&lt;a href=&quot;http://developer.android.com/intl/zh-cn/sdk/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;Android Studio&lt;/strong&gt;&lt;/a&gt;，那玩意儿就是基于idea改的。&lt;br&gt;此外强烈推荐大家直接下载安装Ultimate版，没错一年也就149$（摊手）。&lt;br&gt;&lt;img src=&quot;http://7xsxqz.com2.z0.glb.clouddn.com/%E5%96%9D%E5%92%96%E5%95%A1.jpg&quot; alt=&quot;喝咖啡&quot;&gt;&lt;br&gt;当然我没有那么多钱。。。学生可以&lt;a href=&quot;https://www.jetbrains.com/student/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;申请免费使用一年&lt;/a&gt;。&lt;br&gt;附上Ultimate版与Community版对比图，顺便一说Community版不支持css代码，使用javaFX需要注意。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E7%89%88%E6%9C%AC%E5%AF%B9%E6%AF%94%E5%9B%BE.PNG&quot; alt=&quot;版本对比&quot;&gt;&lt;br&gt;你以为我要安利的就是Intellij idea而已吗？不，吃我一发&lt;a href=&quot;https://www.jetbrains.com/products.html?fromMenu&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jetbrains全家桶安利&lt;/a&gt;！他们家的Clion和PyCharm同样优秀！&lt;/p&gt;
+&lt;h3 id=&quot;2-Git版本管理——你还在用qq传代码吗？&quot;&gt;&lt;a href=&quot;#2-Git版本管理——你还在用qq传代码吗？&quot; class=&quot;headerlink&quot; title=&quot;2. Git版本管理——你还在用qq传代码吗？&quot;&gt;&lt;/a&gt;2. Git版本管理——你还在用qq传代码吗？&lt;/h3&gt;&lt;p&gt;对于外行人来说，一般都以为我们程序员之间团队合作是用网盘传文件的（用QQ传的给我去面壁！）。但是自从接触到版本管理的概念，邂逅了Git之后，才感觉到版本管理的强大。保持团队中个人的代码同步，项目多版本都是非常重要的。&lt;br&gt;关于Git的基本使用可以参考我另一篇文章——&lt;a href=&quot;http://moeyui.cn/2016/03/26/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BF%85%E5%A4%87%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94Git%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;程序员基础系列——Git的安装和配置&lt;/a&gt;，最近还打算写Git的进阶使用来着。。。&lt;/p&gt;
+&lt;h3 id=&quot;3-Sublime-Text——你还在用记事本吗？&quot;&gt;&lt;a href=&quot;#3-Sublime-Text——你还在用记事本吗？&quot; class=&quot;headerlink&quot; title=&quot;3. Sublime Text——你还在用记事本吗？&quot;&gt;&lt;/a&gt;3. &lt;a href=&quot;https://www.sublimetext.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Sublime Text&lt;/a&gt;——你还在用记事本吗？&lt;/h3&gt;&lt;p&gt;写这一条纯粹是看不惯有些人现在还在用记事本读写代码（下面讨论的记事本全部指的是windows，OS X和Linux用户可以跳过）。。。同一份代码，记事本打开是这样的：&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E8%AE%B0%E4%BA%8B%E6%9C%AC%E7%9C%8B%E4%BB%A3%E7%A0%81.PNG&quot; alt=&quot;记事本&quot;&gt;&lt;br&gt;而sublime打开是这样的：&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/sublime%E6%89%93%E5%BC%80.PNG&quot; alt=&quot;此处输入图片的描述&quot;&gt;&lt;br&gt;没错，有代码高亮、行数显示、自动缩进，甚至打开整个项目（图中左边目录就是本blog的项目文件结构）的功能，实在没有理由选择记事本。真的不能理解当时许多老师建议初学者用记事本是什么心态。。&lt;br&gt;有人会说既然看java项目我打开eclipse不就好了吗？&lt;br&gt;&lt;img src=&quot;http://7xsxqz.com2.z0.glb.clouddn.com/%E5%B9%B4%E8%BD%BB.jpg&quot; alt=&quot;年轻&quot;&gt;&lt;br&gt;那一天，人类又回想起被eclipse淡定的启动速度所支配的恐惧。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/eclipse%E9%BE%9F%E9%80%9F%E5%8A%A0%E8%BD%BD.PNG&quot; alt=&quot;龟速eclipse&quot;&gt;&lt;br&gt;我只是想读一下代码啊啊啊！&lt;br&gt;相比eclipse，sublime这种本编辑器更加轻量级，而且更加专注于简单地阅读、修改代码。而且eclipse是一个java IDE，sublime是文本编辑器，所以你在打开各种什么.html、.c、.py甚至吾辈写本文时使用Markdown的时候，eclipse表示，无能为力。而sublime表示，我们支持这么多语言。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/sublime%E6%94%AF%E6%8C%81%E8%AF%AD%E8%A8%80.PNG&quot; alt=&quot;sublime语言支持&quot;&gt;&lt;br&gt;。。。还有谁吗？&lt;br&gt;不过这里说一句，吾辈并不是特指sublime， &lt;del&gt;（vim粉Atom粉要来喷我了）&lt;/del&gt;只是建议大家放弃windows的自带记事本选择一款专业的代码编辑器。你可以选择其他优秀的文本编辑器比如Github的Atom、微软家的Code（吾辈也装了）、甚至vim。只要它有如下特点：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;足够多种类的代码支持；&lt;br&gt;对Git有较好的支持（可选）；&lt;br&gt;界面舒服；&lt;br&gt;操作人性化；&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;4-Debug——你还在print调试吗？&quot;&gt;&lt;a href=&quot;#4-Debug——你还在print调试吗？&quot; class=&quot;headerlink&quot; title=&quot;4. Debug——你还在print调试吗？&quot;&gt;&lt;/a&gt;4. Debug——你还在print调试吗？&lt;/h3&gt;&lt;p&gt;首先明确下，print调试并不是完全无用，但更多时候我们应该使用debug功能。这里以idea为例简单说下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;public class tutorial {
+public static void main(String[] args) {
+    int a=0;
+    for (int i=0;i&amp;lt;100;i++){
+        a+=5;
+        System.out.println(a);
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;比如这段代码，想看到a的值，可以直接run然后打印出来。在debug下我们可以在 &lt;code&gt;a+=5;&lt;/code&gt;这一行下个断点，然后debug，程序就会停在这一行。然后你可以按&lt;code&gt;F8&lt;/code&gt;使程序单步执行，一步步跑完整个循环。你实时可以看到几乎所有变量的值。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/Idea%E8%B0%83%E8%AF%95.PNG&quot; alt=&quot;debug&quot;&gt;&lt;/p&gt;
+&lt;p&gt;你甚至可以通过下方的Variables看到所有当前类内的对象和变量状况，通过watches窗口还可以自定义各种表达式来观察变量状态。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/Idea%E8%B0%83%E8%AF%952.PNG&quot; alt=&quot;debug2&quot;&gt;&lt;/p&gt;
+&lt;p&gt;好吧我承认这里的例子不是很好，随手写的。debug在你的程序复杂的时候还可以帮助你一步一步跟踪，总的来说对调试是非常有帮助的。感觉周围的人都比较重视写的能力，反而忽视了调试的能力，有些小bug都要用print调试个半天。。。我们花在调试上的时间往往远超花在码代码上的时间，所以学好调试对于提高编程效率来说至关重要。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;2-技巧&quot;&gt;&lt;a href=&quot;#2-技巧&quot; class=&quot;headerlink&quot; title=&quot;2. 技巧&quot;&gt;&lt;/a&gt;2. 技巧&lt;/h2&gt;&lt;p&gt;下面随便扯一点小技巧吧。但是小技巧太多太零碎，一下子还是很难全部写下来呀。&lt;/p&gt;
+&lt;h3 id=&quot;1-学好英语&quot;&gt;&lt;a href=&quot;#1-学好英语&quot; class=&quot;headerlink&quot; title=&quot;1. 学好英语&quot;&gt;&lt;/a&gt;1. 学好英语&lt;/h3&gt;&lt;p&gt;恩，这点很关键。吾辈有时候实在无法忍受给组员推荐教程时，被回一句：“啊？这是英文的啊？看不懂啊。”&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;其实很多软件公司的文档本身就写得很好，比如Github developv3、idea的官方教程。没有必要去百度什么中文教程，看懂官方的英文教程更重要。&lt;/li&gt;
+&lt;li&gt;现在大多数优秀的常用的编程软件都是老外做的，他们的文档往往只有英文。虽然随着天朝地位的提高，越来越多公司开始重视中国客户，但很多比较新、比较小众、比较古老的技术一般是没有中文的。。。（装Debian的时候就发现Debian这么有名的系统，中文wiki和社区竟然才还处于建设状态。。。反而openSUSE能找到比较全的中文wiki支持。）&lt;/li&gt;
+&lt;li&gt;虽然现在有各种各样的汉化，但软件这个专业很多名词还是用英文会比较好理解。原来用eclipse汉化版后来换到idea英文才真正理解什么是build、refactor。&lt;/li&gt;
+&lt;li&gt;有时候有必要逛一下国外的论坛，包括github上各种交流&lt;del&gt;勾搭&lt;/del&gt;，不得不承认看懂那些英文还是很重要很关键的。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;最后说一点，吾辈也不是崇尚英文，有合适的中文的选择的话我会选中文，因为中文作为母语有一种亲切感，阅读检索速度也不是英文能比的。&lt;del&gt;所以请无视上面那张汉化版sublime的截图&lt;/del&gt;&lt;/p&gt;
+&lt;h3 id=&quot;2-学会翻越长城——通向更广阔的世界&quot;&gt;&lt;a href=&quot;#2-学会翻越长城——通向更广阔的世界&quot; class=&quot;headerlink&quot; title=&quot;2. 学会翻越长城——通向更广阔的世界&quot;&gt;&lt;/a&gt;2. 学会翻越长城——通向更广阔的世界&lt;/h3&gt;&lt;p&gt;这一点主要是为了解决下面的Google问题，众所周知我天朝万里长城牢不可破（笑）。学习软件工程很多时候也确实需要访问一些国外网站（不过也有很多是可以直接上的）。翻过去的方法可谓五花八门，这里就不一一罗列了，只挑比较常见的几种谈谈我的看法。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;国内各种各样的VPN。VPN实现方案有很多，所以这些代理的质量也是参差不齐。免费的VPN推荐碰都不要碰，先不提公交车的速度，安全性都没有保障。收费的吾辈没有用过，主要是配置起来还不如ss方便，而且VPN默认全局代理。。。&lt;/li&gt;
+&lt;li&gt;谷歌GoAgent，只要拥有一个谷歌账号就可以申请GoAgent账号。现在貌似已经不能找到这个项目的官方网站了。使用的时候需要安装GoAgent客户端，貌似没有找到mac下的版本。谷歌提供香港、台湾、美国的节点（没有日本！）。大概2014年的时候用起来还是可以的，15年下半年开始之后就各种抽风，经常拿不到可用ip地址，也导致我放弃了它。但是可以确信的是它现在还是活着的，而且有很多所谓傻瓜式翻（和）墙（谐）浏览器其实就是chrome+SwitchOmega+GoAgent公用账号配置成的，算是比较常见的方案吧。&lt;/li&gt;
+&lt;li&gt;改DNS大法。通过修改host文件使墙外网站指向国内可用的ip地址达到目的，这种做法很简单很粗暴。但是长城也不是死的，经常需要更改可用的ip地址，比较麻烦。而且也只能上host中添加的网站，算是比较麻烦的方式。&lt;/li&gt;
+&lt;li&gt;ss代理，这应该是目前最好的方案了，吾辈目前也在用的方案。就是用过墙外服务器搭建ss服务端，本地的设备通过ss客户端输入账号密码就可以代理上网了。一般建议直接买别人搭建好的ss服务账号，客户端登录一下就好，十分方便。当然网上也有很多免费账号共享，吾辈之前一直在用&lt;a href=&quot;http://www.ishadowsocks.net/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;iShadowsocks&lt;/a&gt;的账号，它们家提供香港、日本、美国三个免费节点，6小时更换一次密码。然而随着越来越多人知道这个网站后，代理质量越来越差，（甚至有一段时间日本节点被滥用至停止分享。。。）以及意识到&lt;a href=&quot;http://www.hekaiyu.cn/hacker/1527.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;免费代理的安全隐患&lt;/a&gt;后，吾辈选择了自己租vps搭代理，选购vps的教程&lt;a href=&quot;http://moeyui.cn/2016/03/28/%E4%B8%8D%E6%87%82%E7%A8%8B%E5%BA%8F%E4%B9%9F%E8%A6%81%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84VPS/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;在这里&lt;/a&gt;。自己搭代理还可以自己选地区，不用担心找不到合适的地区啦。&lt;del&gt;其实一般人用美国的代理就够了，然而吾辈还要玩舰娘，，，必须日本代理。。&lt;/del&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;比较推荐的就是通过ss的sock5代理，简单安全，方便稳定（前提是你有一个比较优质的ss账号（吾辈现在手上一堆vps主机，需要账号可以&lt;strong&gt;留言&lt;/strong&gt;问我要））。&lt;/p&gt;
+&lt;h3 id=&quot;3-使用谷歌等国外网站——深入学习&quot;&gt;&lt;a href=&quot;#3-使用谷歌等国外网站——深入学习&quot; class=&quot;headerlink&quot; title=&quot;3. 使用谷歌等国外网站——深入学习&quot;&gt;&lt;/a&gt;3. 使用谷歌等国外网站——深入学习&lt;/h3&gt;&lt;p&gt;上面既然说到要学好英语，那么在以英文为关键字搜索的时候就别用百度了。谷歌百度的区别不想多谈，不想参加什么搜索引擎撕逼，想知道的可以去&lt;a href=&quot;https://www.zhihu.com/search?type=content&amp;amp;q=%E8%B0%B7%E6%AD%8C%20%E7%99%BE%E5%BA%A6&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;知乎搜&lt;/a&gt;。&lt;br&gt;然而凭良心说百度的国内搜索做得已经有点样子了，平时搜番吾辈也比较习惯用百度。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;这里说一下用谷歌不一定要翻（和）墙（谐），方法有很多，但比较推荐使用各种各样的谷歌镜像站，这些基本都是基于国外vps搭建的反向代理，不保证一直能用，具体自己找吧，因为吾辈也很久没用过镜像站了，手上一堆vps，然而也懒得搭反向代理。这里随手推荐&lt;a href=&quot;https://g2.wen.lu/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;wen.lu&lt;/strong&gt;&lt;/a&gt;，它家的项目可以&lt;a href=&quot;https://github.com/cuber/ngx_http_google_filter_module&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;在github上找到&lt;/a&gt;，好用记得&lt;strong&gt;star&lt;/strong&gt;哦。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;4-使用快捷键——把鼠标给我扔了&quot;&gt;&lt;a href=&quot;#4-使用快捷键——把鼠标给我扔了&quot; class=&quot;headerlink&quot; title=&quot;4. 使用快捷键——把鼠标给我扔了&quot;&gt;&lt;/a&gt;4. 使用快捷键——把鼠标给我扔了&lt;/h3&gt;&lt;p&gt;Oh,,,真的无法忍受组员还有人不知道&lt;code&gt;ctrl+c&lt;/code&gt;和&lt;code&gt;ctrl+v&lt;/code&gt;,你们能想象一个靠右键工作的程序员有多慢吗？&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E6%A0%91%E6%87%92.gif&quot; alt=&quot;树懒&quot;&gt;&lt;br&gt;无法忍受！！！个人觉得代码果然还是算文字工作，文字工作就应该多多依靠键盘。实际上我这里想说的就是使用你的键盘，没错，把鼠标扔了。下面是吾辈随便总结的键盘使用的六个境界：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;学会&lt;code&gt;ctrl+c&lt;/code&gt;和&lt;code&gt;ctrl+v&lt;/code&gt;等编辑用快捷键，还有&lt;code&gt;alt+tab&lt;/code&gt;和&lt;code&gt;ctrl+win+←&lt;/code&gt;、&lt;code&gt;ctrl+win+→&lt;/code&gt;等窗口切换快捷键。这些很基本，多数人都会用；&lt;/li&gt;
+&lt;li&gt;学会通用快键键。许多软件的快捷键是通用的，这类似于业内不成文的标准，例如&lt;code&gt;ctrl+o&lt;/code&gt;(打开)、&lt;code&gt;ctrl+n&lt;/code&gt;(新建)等，很多人不知道这些快键键在很多软件内是一样的功能；&lt;/li&gt;
+&lt;li&gt;学会软件内的特殊快捷键，比如多数IDE里的&lt;code&gt;ctrl+/&lt;/code&gt;(注释当前行)、idea里的&lt;code&gt;shift+enter&lt;/code&gt;（另起一行）、浏览器的&lt;code&gt;ctrl+w&lt;/code&gt;等。学会一个软件的基本快捷键可以使你快速掌握&lt;del&gt;调教好&lt;/del&gt;它；&lt;/li&gt;
+&lt;li&gt;学会&lt;code&gt;ctrl+左右&lt;/code&gt;、&lt;code&gt;shift+方向&lt;/code&gt;、&lt;code&gt;shift+PageUp&lt;/code&gt;等快键键（甚至还有人不懂用tab键切换输入框。。。）在文字编辑工作中完全拜托鼠标；&lt;/li&gt;
+&lt;li&gt;使用&lt;a href=&quot;https://www.ntrun.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;nTurn&lt;/a&gt;等win+R软件启动方案，灵活使用&lt;code&gt;Home&lt;/code&gt;、&lt;code&gt;End&lt;/code&gt;、&lt;code&gt;PageUp&lt;/code&gt;、&lt;code&gt;PageDown&lt;/code&gt;、&lt;code&gt;win&lt;/code&gt;、&lt;code&gt;Delete&lt;/code&gt;这几个普通人很少用的快键键以及他们的各种组合键，达到日常使用都能摆脱鼠标的地步；&lt;del&gt;吾辈也没达到这一步&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;学会使用vim或Emacs系按键操作，&lt;strong&gt;丧心病狂&lt;/strong&gt;地在各种软件中使用vim等的键位操作（比如idea中的vim模式，甚至chrome中的Vimium），这真的是走火入魔，以至于旁人根本看不懂你的操作。&lt;br&gt;&lt;del&gt;7. 抛弃windows投靠Linux&lt;/del&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上面这些纯粹是随便扯扯，大家看着玩就好。吾辈是到了第五个阶段实在是懒得再往下了，有时候，纯粹是懒，就想一只手工作。。。顺便安利一下反键盘邪教&lt;a href=&quot;http://www.yingdev.com/projects/wgestures&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;WGestures&lt;/a&gt;,实现全局鼠标手势，单手操作的懒虫必备。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;PS:如果在使用软件内的快捷键中发生了不愉快的事，请把你的搜Dog输入法、企鹅聊天的全局快键键关掉，所有随便添加全局快捷键的行为都是流氓！！也不建议大家用那些一个按键就从桌面启动自定义应用的软件，兼容性不是很好，容易产生各种冲突，win+R还是比较安全实用的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;3-推荐网站&quot;&gt;&lt;a href=&quot;#3-推荐网站&quot; class=&quot;headerlink&quot; title=&quot;3. 推荐网站&quot;&gt;&lt;/a&gt;3. 推荐网站&lt;/h2&gt;&lt;p&gt;网站方面其实软件技术还是逛各种博客、论坛比较好，然而这些太多太杂，知识也比较片面化，所以这里还是推荐一些比较全面的网站。&lt;/p&gt;
+&lt;h3 id=&quot;1-极客学院&quot;&gt;&lt;a href=&quot;#1-极客学院&quot; class=&quot;headerlink&quot; title=&quot;1. 极客学院&quot;&gt;&lt;/a&gt;1. &lt;a href=&quot;http://www.jikexueyuan.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;极客学院&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;多数视频教程是要收费的，所幸他们家也参加了&lt;a href=&quot;http://moeyui.cn/2016/04/07/%E4%BA%94%E8%8A%B1%E5%85%AB%E9%97%A8%E7%9A%84%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;青葱计划&lt;/a&gt;，学生可以获得一个月的vip。而且他们&lt;a href=&quot;http://wiki.jikexueyuan.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;免费的文字wiki&lt;/a&gt;也做得很好，&lt;em&gt;虽然仍对他们的文字教程版权持疑问。&lt;/em&gt;&lt;br&gt;教程很全很细，你甚至可以找到Intellij和Atom这些工具的使用教程。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E6%9E%81%E5%AE%A2%E5%AD%A6%E9%99%A2wiki.PNG&quot; alt=&quot;极客学院wiki&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;2-菜鸟教程&quot;&gt;&lt;a href=&quot;#2-菜鸟教程&quot; class=&quot;headerlink&quot; title=&quot;2. 菜鸟教程&quot;&gt;&lt;/a&gt;2. &lt;a href=&quot;http://www.runoob.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;菜鸟教程&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E8%8F%9C%E9%B8%9F%E6%95%99%E7%A8%8B.PNG&quot; alt=&quot;菜鸟教程&quot;&gt;&lt;/p&gt;
+&lt;p&gt;涵盖多种程序语言的文字教程，相比极客学院更加轻量级，教程叙述更加简明，适合平时查阅常用语法或者入门学习时使用。&lt;/p&gt;
+&lt;h3 id=&quot;3-Github全球最大同性社交&quot;&gt;&lt;a href=&quot;#3-Github全球最大同性社交&quot; class=&quot;headerlink&quot; title=&quot;3. Github全球最大同性社交&quot;&gt;&lt;/a&gt;3. &lt;a href=&quot;https://github.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github&lt;/a&gt;&lt;del&gt;全球最大同性社交&lt;/del&gt;&lt;/h3&gt;&lt;p&gt;在这里你能看到全球各种各样的开源项目，有facebook-sdk这样的官方维护的项目,也有&lt;a href=&quot;https://github.com/snooda/net-speeder&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;net-speeder&lt;/a&gt;这样小而美的个人小项目，你能在github上找到各种各样的项目。包括本博客采用的主题&lt;a href=&quot;https://github.com/iissnan/hexo-theme-next&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;NexT&lt;/a&gt;也是在github上开源的。新手（包括吾辈）项目经验不足时最容易犯的就是项目结构的错误，好的项目果然还是需要一个合理的结构。这里就推荐大家多多看别人成熟项目的结构和实现，确实能学到很多。&lt;br&gt;在github上你也可以做很多有趣的事儿，比如本博客就是搭建在github上的一个静态博客。&lt;br&gt;最后说一句，遇到好项目要记得star哦！&lt;br&gt;最最后说一句，本博客右上角可以直达吾辈的github主页，欢迎到github上找吾辈玩~&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;写在结尾&quot;&gt;&lt;a href=&quot;#写在结尾&quot; class=&quot;headerlink&quot; title=&quot;写在结尾&quot;&gt;&lt;/a&gt;写在结尾&lt;/h2&gt;&lt;p&gt;嘛，希望后辈第一次项目能留下&lt;em&gt;美好的回忆&lt;/em&gt;啦（笑）。吾辈手上刚刚交付了一个迭代，暂时能喘口气，感觉这段时间博客开下的坑有点多啊，不知道什么时候能补完了。。。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;程序员一周年总结——经验分享&quot;&gt;&lt;a href=&quot;#程序员一周年总结——经验分享&quot; class=&quot;headerlink&quot; title=&quot;程序员一周年总结——经验分享&quot;&gt;&lt;/a&gt;程序员一周年总结——经验分享&lt;/h1&gt;&lt;p&gt;这篇文章的初衷是想随便写点东西给准备要开始人生第一个项目的后辈们。起初只打算写个提纲，不知不觉插了几张图片，然后不知不觉写了5k+字。。。&lt;br&gt;就当做是做个总结吧，想想自己就是去年这个时候入了那个不知道什么鬼三体游戏制作的坑，不提了黑历史。不过这次写的东西相对还是偏入门易懂，有点像给所谓初学者的建议之类的，没有写最近才开始玩的网络和博客相关的事。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="coding" scheme="http://moeyui.com/categories/coding/"/>
+    
+    
+      <category term="coding" scheme="http://moeyui.com/tags/coding/"/>
+    
+      <category term="新手向" scheme="http://moeyui.com/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
+    
+      <category term="日记向" scheme="http://moeyui.com/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>五花八门的教育优惠申请青葱创业计划</title>
+    <link href="http://moeyui.com/2016/04/07/%E4%BA%94%E8%8A%B1%E5%85%AB%E9%97%A8%E7%9A%84%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/"/>
+    <id>http://moeyui.com/2016/04/07/五花八门的教育优惠/</id>
+    <published>2016-04-07T13:01:06.000Z</published>
+    <updated>2016-04-08T16:21:09.800Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;青葱创业计划&quot;&gt;&lt;a href=&quot;#青葱创业计划&quot; class=&quot;headerlink&quot; title=&quot;青葱创业计划&quot;&gt;&lt;/a&gt;青葱创业计划&lt;/h2&gt;&lt;p&gt;今天邮箱塞了一封七牛的邮件。。。&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/%E9%9D%92%E8%91%B1%E8%AE%A1%E5%88%92%E9%82%AE%E4%BB%B6.png&quot; alt=&quot;青葱计划邮件&quot;&gt;&lt;/p&gt;
+&lt;p&gt;打开一看才想起来是前几天申请的&lt;a href=&quot;http://hd.qiniu.com/qingcong&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;青葱创业计划&lt;/a&gt;。其实这货和上次说到的&lt;a href=&quot;https://education.github.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub教育礼包&lt;/a&gt;类似，里面打包了很多国内的服务，在国内相对来说会更加实用。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;其中比较吸引人的首先就是七牛的&lt;strong&gt;1千元抵用券&lt;/strong&gt;了，本站的图床就是七牛提供的，其实一般博客免费空间都用不完吧。&lt;del&gt;现在反而不知道怎么用这1千大洋了。。。&lt;/del&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/%E9%9D%92%E8%91%B1_%E4%B8%83%E7%89%9B.PNG&quot; alt=&quot;七牛优惠&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;还有&lt;strong&gt;Coding&lt;/strong&gt;的一些服务。不过吾辈并没有用过Coding，听说在国内是类似于GitHub的平台吧。什么时候这个博客被&lt;del&gt;和谐&lt;/del&gt;了，吾辈可能会考虑搬到Coding上。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/%E9%9D%92%E8%91%B1_Coding.PNG&quot; alt=&quot;Coding优惠&quot;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;此外还有很多很多学习网站的会员、优惠。这就是大福利啦，51CTO、极客学院都是很优秀的学习网站。其中特别推荐一下极客学院，他们内容很全，很广。甚至可以找到Git、Intellij idea之类软件的使用教程，虽然个人对他的资料来源抱有一点怀疑，但对于自学和新手来说毫无疑问是很好的学习平台。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/%E9%9D%92%E8%91%B1_%E6%95%99%E5%AD%A6%E7%BD%91%E7%AB%99.PNG&quot; alt=&quot;教学优惠&quot;&gt;&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;五花八门的教育优惠&quot;&gt;&lt;a href=&quot;#五花八门的教育优惠&quot; class=&quot;headerlink&quot; title=&quot;五花八门的教育优惠&quot;&gt;&lt;/a&gt;五花八门的教育优惠&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/%E8%85%BE%E8%AE%AF%E4%BA%91%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0.PNG&quot; alt=&quot;腾讯云教育优惠&quot;&gt;&lt;/p&gt;
+&lt;p&gt;最近申请了GitHub和青葱的教育礼包，下一步也准备申请&lt;a href=&quot;http://www.qcloud.com/event/qcloudSchool?utm_source=qcloudbanner&amp;amp;utm_medium=banner3&amp;amp;utm_campaign=qcloud&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;腾讯云的学生优惠&lt;/a&gt;，1元一个月的服务器和免费.cn域名（我到现在还用的是奇葩的.tk域名。。。还曾经被一个老外吐槽以为是危险网站。。。），还是很让人心动的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/%E8%80%81%E5%A4%96%E5%90%90%E6%A7%BD.tk.PNG&quot; alt=&quot;吐槽.tk&quot;&gt;&lt;/p&gt;
+&lt;p&gt;只有这种占了便宜的时候才能体会到作为学生的轻松啊。谈到education呢，各大科技公司一般都持资瓷态度，往往出手十分大方，比如：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.jetbrains.com/student/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jetbrains全家桶&lt;/a&gt;，价值249$。。。严重推荐他们家的Intellij idea，从此告别eclipse。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://products.office.com/en-us/student?tab=students&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Office365&lt;/a&gt;，这个用的人估计就很多了，不过更多人用的还是盗版。。。微软家的优惠还是很多的，也包括硬件。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://hd.qiniu.com/qingcong&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;青葱创业计划&lt;/a&gt;，刚刚介绍。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.qcloud.com/event/qcloudSchool?utm_source=qcloudbanner&amp;amp;utm_medium=banner3&amp;amp;utm_campaign=qcloud&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;腾讯云的学生优惠&lt;/a&gt;，同上。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://education.github.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;GitHub教育礼包&lt;/a&gt;,包含DigitalOcean、亚马逊AWS、微软Azure等云主机和NameSpace等多种国外优质优质服务。不过相对来说国内还是青葱更实用。&lt;/li&gt;
+&lt;li&gt;待补充，再发现什么新的会往上加。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+</content>
+    
+    <summary type="html">
+    
+      今天随便说说那些让人感动（笑）的教育优惠
+    
+    </summary>
+    
+      <category term="生活" scheme="http://moeyui.com/categories/%E7%94%9F%E6%B4%BB/"/>
+    
+    
+      <category term="-福利 -日记向" scheme="http://moeyui.com/tags/%E7%A6%8F%E5%88%A9-%E6%97%A5%E8%AE%B0%E5%90%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>不懂程序也要搭建自己的vps</title>
+    <link href="http://moeyui.com/2016/03/28/%E4%B8%8D%E6%87%82%E7%A8%8B%E5%BA%8F%E4%B9%9F%E8%A6%81%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84VPS/"/>
+    <id>http://moeyui.com/2016/03/28/不懂程序也要搭建自己的VPS/</id>
+    <published>2016-03-28T15:49:40.000Z</published>
+    <updated>2016-04-12T16:17:13.516Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;搭建自己的VPS&quot;&gt;&lt;a href=&quot;#搭建自己的VPS&quot; class=&quot;headerlink&quot; title=&quot;搭建自己的VPS&quot;&gt;&lt;/a&gt;搭建自己的VPS&lt;/h1&gt;&lt;hr&gt;
+&lt;h2 id=&quot;1-概述&quot;&gt;&lt;a href=&quot;#1-概述&quot; class=&quot;headerlink&quot; title=&quot;1. 概述&quot;&gt;&lt;/a&gt;1. 概述&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;整个过程很简单，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;购买套餐&lt;/li&gt;
+&lt;li&gt;安装系统&lt;/li&gt;
+&lt;li&gt;远程连接至VPS进行管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这篇教程主要面对没有基础的普通人，用简短&lt;em&gt;（写完发现也不短了。。。）&lt;/em&gt;的教程让普通人也能走进看起来很复杂的Geek世界。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;2-什么是VPS，为什么要搭建自己的VPS？&quot;&gt;&lt;a href=&quot;#2-什么是VPS，为什么要搭建自己的VPS？&quot; class=&quot;headerlink&quot; title=&quot;2. 什么是VPS，为什么要搭建自己的VPS？&quot;&gt;&lt;/a&gt;2. 什么是VPS，为什么要搭建自己的VPS？&lt;/h2&gt;&lt;p&gt;&lt;em&gt;科普知识，不喜可以直接跳过&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;关于是什么的问题，&lt;del&gt;&lt;a href=&quot;http://baike.baidu.com/link?url=9aahX8T9qMWWdE5FCCU9ENfZ_SWszMQG5CrkKiOFQe3uwTttsxuyOm__1qJmEuZ5X6gRrj5BNqrx8_dC_uVEu_&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;问百度是最好的。&lt;/a&gt;&lt;/del&gt;百度的解释对于一般人来说还是很头晕的，其实看不看无所谓。简单理解为在远程租了一台电脑就好了。&lt;em&gt;如果想了解的话&lt;a href=&quot;http://www.vpsdaquan.cn/%E6%96%B0%E6%89%8B%E6%95%99%E7%A8%8B%E4%B8%80%EF%BC%9A%E4%BB%80%E4%B9%88%E6%98%AFvps%EF%BC%9F%E5%A6%82%E4%BD%95%E8%AE%A2%E8%B4%AD%E4%B8%80%E5%8F%B0vps%EF%BC%9F.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里更加详细&lt;/a&gt;。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;搭建vps能干些什么呢？在远程买了一台电脑，它一般是直接接入网络的，你可以&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在上面部署自己的&lt;strong&gt;个人网站&lt;/strong&gt;或&lt;strong&gt;博客&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;自己本地的电脑连接上去，通过远程主机来访问互联网（就是代理&lt;del&gt;FanQiang&lt;/del&gt;）&lt;/li&gt;
+&lt;li&gt;当网盘来用（还不如用国内的各种网盘。。&lt;del&gt;除非你要放和谐内容&lt;/del&gt;）&lt;/li&gt;
+&lt;li&gt;还有很多有趣的用法……&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一般人用VPS主要是用作代理比较多，而国内也能买到很多已经搭建好的ss代理账号，为什么要自己搭建呢？&lt;br&gt;吾辈认为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;便宜：一个人搭建的话还是有点小贵，但是如果三四个人分享的话就很划算了；&lt;/li&gt;
+&lt;li&gt;高速：一般买到的代理都是很多人共用一台VPS主机，带宽十分有限，而几个人搭建就爽多了；&lt;/li&gt;
+&lt;li&gt;安全：走别人的代理总不得不提防着些，&lt;em&gt;&lt;a href=&quot;http://www.hekaiyu.cn/hacker/1527.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;关于那些免费代理悄悄做的龌蹉事儿&lt;/a&gt;&lt;/em&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;3-选购&quot;&gt;&lt;a href=&quot;#3-选购&quot; class=&quot;headerlink&quot; title=&quot;3. 选购&quot;&gt;&lt;/a&gt;3. 选购&lt;/h2&gt;&lt;p&gt;首先你需要先挑选一个VPS服务提供商，这里简单推荐几个：&lt;/p&gt;
+&lt;h3 id=&quot;Vultr&quot;&gt;&lt;a href=&quot;#Vultr&quot; class=&quot;headerlink&quot; title=&quot;Vultr&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://www.vultr.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Vultr&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;首先吾辈现在用的就是vultr,通过&lt;a href=&quot;https://www.vultr.com/freetrial/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;这里&lt;/a&gt;注册可以获得50刀的余额，但是他们家的赠送的余额都是需要&lt;strong&gt;先充值至少5刀才能使用&lt;/strong&gt;，具体优惠如下图。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;代金券&lt;/th&gt;
+&lt;th&gt;激活条件&lt;/th&gt;
+&lt;th style=&quot;text-align:center&quot;&gt;有效期&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;50$&lt;/td&gt;
+&lt;td&gt;通过&lt;a href=&quot;https://www.vultr.com/freetrial/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;指定链接注册&lt;/a&gt;，绑定受支持的信用卡&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;60天&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;20$&lt;/td&gt;
+&lt;td&gt;输入优惠码SSDVPS&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;30天&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5$&lt;/td&gt;
+&lt;td&gt;注册就送，但不能与上述优惠券叠加&lt;/td&gt;
+&lt;td style=&quot;text-align:center&quot;&gt;不记得了。。。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;有效期指的是有效期过后这些余额不管你有没有用完都会消失&lt;/li&gt;
+&lt;li&gt;支持的信用卡是指国外支持的卡，visa、master card之类没有没测试，全球付这种亲测不行&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;如果你没有信用卡，不妨通过我的&lt;a href=&quot;http://www.vultr.com/?ref=6882308&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;邀请链接注册&lt;/a&gt;。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;vultr主要套餐价格如下：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2Fvultr%E5%A5%97%E9%A4%90.PNG&quot; alt=&quot;Vultr套餐&quot;&gt;&lt;/p&gt;
+&lt;p&gt;一般只是搭建博客或ss代理的话选最低配套餐就好了，5$一个月，配合赠送的余额充值5$可以用2个月，有信用卡可以用3个月，还是很划算的。还可以用赠送的余额体验高级套餐，过过瘾，反正到期不用也浪费。&lt;/p&gt;
+&lt;p&gt;其他方面;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;服务器有美国、日本，吾辈用的就是日本机房，稳定速度也很快；&lt;em&gt;玩舰娘再也不愁。&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;支持paypal，不支持支付宝；&lt;/li&gt;
+&lt;li&gt;支持ipv6！！对于教育网的小伙伴们可能很关键，而且在ipv6下连接速度也更快&lt;em&gt;（吧？）&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;免费为远程主机生成备份镜像,详细说明如下：&lt;blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;https://ooo.0o0.ooo/2016/03/28/56f9fb69748d6.png&quot; alt=&quot;vultr快照说明.PNG&quot;&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;搬瓦工&quot;&gt;&lt;a href=&quot;#搬瓦工&quot; class=&quot;headerlink&quot; title=&quot;搬瓦工&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://bandwagonhost.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;搬瓦工&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;搬瓦工的套餐一直以性价比著称，曾经有过3.99刀一年的传奇套餐（早已售空）。目前有19.99$一年的美国机房，如果是只是为了搭建ss的话配置也够用了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2F%E6%90%AC%E7%93%A6%E5%B7%A5%E5%A5%97%E9%A4%90.PNG&quot; alt=&quot;搬瓦工套餐&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;但是配置相对于上面vultr的5$套餐来说还是比较差，如果要折腾一些什么加速服务、ss—panel或者搞私有云什么的不推荐。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;而且搬瓦工尤其适合新手，其管理后台有一键安装ss，一键安装openVPN等便利功能，很省心。&lt;/p&gt;
+&lt;h3 id=&quot;DigitalOcean&quot;&gt;&lt;a href=&quot;#DigitalOcean&quot; class=&quot;headerlink&quot; title=&quot;DigitalOcean&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://www.digitalocean.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;DigitalOcean&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;这家也是比较老的厂商了，套餐价格一般。但是如果你能通过&lt;a href=&quot;https://education.github.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;github的教育认证&lt;/a&gt;（需要edu邮箱或者学生证），就可以获得他们家50$的余额！&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2FDigitalOcean%E5%A5%97%E9%A4%90.PNG&quot; alt=&quot;DigitalOcean套餐&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;强烈推荐有条件的小伙伴们都去领取&lt;a href=&quot;https://education.github.com/pack&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;github教育礼包&lt;/a&gt;，里面还有亚马逊的aws和.me域名一年的使用权。&lt;br&gt;想建站或者博客的绝对不能错过！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2F%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0.PNG&quot; alt=&quot;教育优惠&quot;&gt;&lt;/p&gt;
+&lt;p&gt;吾辈用过的也并不多，这里直接贴上&lt;a href=&quot;https://www.zhihu.com/question/20800554&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;知乎上的一个较全的vps推荐&lt;/a&gt;。大家也可以到&lt;a href=&quot;http://www.vpsdaquan.cn/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;答主冯硕的博客&lt;/a&gt;里了解更多各个VPS的实时价格信息。&lt;/p&gt;
+&lt;h2 id=&quot;4-购买流程&quot;&gt;&lt;a href=&quot;#4-购买流程&quot; class=&quot;headerlink&quot; title=&quot;4. 购买流程&quot;&gt;&lt;/a&gt;4. 购买流程&lt;/h2&gt;&lt;p&gt;各家的购买流程大同小异，这里以vultr为例，先注册账户。&lt;/p&gt;
+&lt;h3 id=&quot;1-充值&quot;&gt;&lt;a href=&quot;#1-充值&quot; class=&quot;headerlink&quot; title=&quot;1. 充值&quot;&gt;&lt;/a&gt;1. 充值&lt;/h3&gt;&lt;p&gt;登录之后是充值界面，默认就是信用卡充值，右边会显示赠送的余额。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2F%E5%85%85%E5%80%BC.PNG&quot; alt=&quot;充值&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;这是我的界面，新用户会有些不同&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;如果你有支持的信用卡可以直接绑定然后充值5$就可以拿到50$余额。如果你没有，先把右边的50$余额remove，然后输入优惠码SSDVPS拿到20$的余额，再在左边的PayPal处充值5$就好了。&lt;/p&gt;
+&lt;h3 id=&quot;2-选择套餐&quot;&gt;&lt;a href=&quot;#2-选择套餐&quot; class=&quot;headerlink&quot; title=&quot;2. 选择套餐&quot;&gt;&lt;/a&gt;2. 选择套餐&lt;/h3&gt;&lt;p&gt;点击右上的小加号进入选择新套餐界面，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2F%E9%80%89%E5%A5%97%E9%A4%90.PNG&quot; alt=&quot;选择套餐&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;首先选机房位置，这里推荐日本机房，ping较低些。&lt;/li&gt;
+&lt;li&gt;然后选择操作系统，建议切换到&lt;strong&gt;32bit OS&lt;/strong&gt;选择&lt;strong&gt;Debian7&lt;/strong&gt; &lt;em&gt;(Debian8不支持锐速)&lt;/em&gt;。&lt;/li&gt;
+&lt;li&gt;选配置，根据个人需要选，内存比较重要，硬盘一般都够用。&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;附加选项，&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2F%E9%99%84%E5%8A%A0%E9%80%89%E9%A1%B9.PNG&quot; alt=&quot;附加选项&quot;&gt;&lt;/p&gt;
+&lt;p&gt;  这里有需要的话可以勾选ipv6，反正不要钱。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;第5、6项不用动，之后随便填好主机名字和标签&lt;/li&gt;
+&lt;li&gt;左下角显示套餐费用，确认后点击右下角“&lt;strong&gt;Deploy Now&lt;/strong&gt;”就好了&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后回到Server界面，你的vps就会出现在列表中，等待操作系统安装完成就可以用了。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2F%E4%B8%BB%E6%9C%BA%E5%88%97%E8%A1%A8.PNG&quot; alt=&quot;列表&quot;&gt;&lt;/p&gt;
+&lt;p&gt;点击vps名字可以进入概览界面，可以查看ip地址和密码。&lt;/p&gt;
+&lt;h3 id=&quot;3-登录到vps进行管理&quot;&gt;&lt;a href=&quot;#3-登录到vps进行管理&quot; class=&quot;headerlink&quot; title=&quot;3. 登录到vps进行管理&quot;&gt;&lt;/a&gt;3. 登录到vps进行管理&lt;/h3&gt;&lt;p&gt;这里需要用到&lt;a href=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2Fputty.exe&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;putty&lt;/strong&gt;&lt;/a&gt;这个小巧的工具。&lt;em&gt;（windows用，其他系统我没研究过）&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2Fputty%E5%90%AF%E5%8A%A8.PNG&quot; alt=&quot;putty设置&quot;&gt;&lt;/p&gt;
+&lt;p&gt;按照上图填好ip，不用管端口号，点击open。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;你也可以点击Save将设置保存，下次可以不用再输入ip地址&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后出现命令行&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2Fputty%E7%99%BB%E5%BD%95.PNG&quot; alt=&quot;putty登录&quot;&gt;&lt;/p&gt;
+&lt;p&gt;先填写默认登录名&lt;strong&gt;root&lt;/strong&gt;，回车。然后输入上一步概览界面的密码，注意输入的时候不会有字符显示。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;可以复制过来，右键或者 &lt;code&gt;Shift + Insert&lt;/code&gt; 粘贴。&lt;strong&gt;注意在这里&lt;code&gt;Ctrl + C&lt;/code&gt;不是粘贴！！&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%90%AD%E5%BB%BAvps%2F%E7%99%BB%E5%BD%95%E6%88%90%E5%8A%9F.PNG&quot; alt=&quot;登录成功&quot;&gt;&lt;/p&gt;
+&lt;p&gt;登录成功之后界面如上，接下来就和Linux下的终端一样了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有的vps默认是root权限，执行命令不需要su或者sudo&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;5-挖个坑&quot;&gt;&lt;a href=&quot;#5-挖个坑&quot; class=&quot;headerlink&quot; title=&quot;5. 挖个坑&quot;&gt;&lt;/a&gt;5. 挖个坑&lt;/h2&gt;&lt;p&gt;到这里教程就结束了。&lt;em&gt;众人：ss教程呢？博客教程呢？&lt;/em&gt;&lt;br&gt;呃，，，这些嘛。。。。&lt;/p&gt;
+&lt;p&gt;之前写git的入门的时候有说过不喜欢写教程给新手，这次本来也只想简单写些记录而已。可是写的时候总把握不好度，总觉得自己写得太简单了，忍不住把各种情况都讲一讲。。。一不留神就写了好久，结果就写成了新手向的长教程。&lt;/p&gt;
+&lt;h3 id=&quot;关于搭建ss的教程&quot;&gt;&lt;a href=&quot;#关于搭建ss的教程&quot; class=&quot;headerlink&quot; title=&quot;关于搭建ss的教程&quot;&gt;&lt;/a&gt;关于搭建ss的教程&lt;/h3&gt;&lt;p&gt;至于ss之类的只好留到下次再写吧，ss搭建还是需要一定篇幅的。看到这里可能有前辈就要喷了：vps搭建ss不是几句命令的事情吗？确实通过几句就可以搭建起来，百度一下就好了。但是如果你直接搜索，可能会得到很多不同的方法，有的建议安装python来安装ss，有的用命令安装go版，有的安装libev版……很乱很杂，这也是我在学习的时候遇到的问题。我想把这些方法集中起来一起讲，没错，会写得偏探究向，新手向真的太累了。。&lt;/p&gt;
+&lt;h3 id=&quot;关于不懂程序系列&quot;&gt;&lt;a href=&quot;#关于不懂程序系列&quot; class=&quot;headerlink&quot; title=&quot;关于不懂程序系列&quot;&gt;&lt;/a&gt;关于&lt;strong&gt;不懂程序系列&lt;/strong&gt;&lt;/h3&gt;&lt;p&gt;这个系列的初衷就是为了让普通人或者刚入门的人也能看懂，也能去做那些看起来Geek的事情。这次虽然写了很多，但还算是我第一次写新手教程，感觉还是有很多地方说的不是很详细。如果有看不懂的地方可以在评论区留言。&lt;/p&gt;
+&lt;p&gt;这个系列接下来也会写简单、实用的面向零基础新手的教程。&lt;em&gt;好像又挖了一个大坑，什么时候能填上就不好说了。&lt;/em&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      专门面向普通人的Geek类教程系列，搭建自己的vps。本篇主要介绍购买和初始化。
+    
+    </summary>
+    
+      <category term="网站" scheme="http://moeyui.com/categories/%E7%BD%91%E7%AB%99/"/>
+    
+    
+      <category term="网络" scheme="http://moeyui.com/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="新手向" scheme="http://moeyui.com/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
+    
+      <category term="买买买" scheme="http://moeyui.com/tags/%E4%B9%B0%E4%B9%B0%E4%B9%B0/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>程序员基础系列——Git的安装和配置</title>
+    <link href="http://moeyui.com/2016/03/26/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BF%85%E5%A4%87%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94Git%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/"/>
+    <id>http://moeyui.com/2016/03/26/程序员必备系列——Git的安装和配置/</id>
+    <published>2016-03-26T06:52:26.000Z</published>
+    <updated>2016-03-26T16:35:53.097Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;Git的安装和配置&quot;&gt;&lt;a href=&quot;#Git的安装和配置&quot; class=&quot;headerlink&quot; title=&quot;Git的安装和配置&quot;&gt;&lt;/a&gt;Git的安装和配置&lt;/h1&gt;&lt;hr&gt;
+&lt;h2 id=&quot;1-引子&quot;&gt;&lt;a href=&quot;#1-引子&quot; class=&quot;headerlink&quot; title=&quot;1. 引子&quot;&gt;&lt;/a&gt;1. 引子&lt;/h2&gt;&lt;p&gt;开始写这个教程前允许我废话几句,吾辈git只用了一年，早先用的是github的GUI客户端，感觉那个玩意儿其实也还行吧。关于图形化的Git客户端待会儿会专门讲。可是作为一个现实的程序员不可能总是在Github上开发是吧？这时候要做版本控制就得回归根本，请出我们的Git啦。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;这篇教程主要是为入门用户准备的，如果你想了解git的进阶使用，那么可以看我的另一篇教程。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;2-安装&quot;&gt;&lt;a href=&quot;#2-安装&quot; class=&quot;headerlink&quot; title=&quot;2. 安装&quot;&gt;&lt;/a&gt;2. 安装&lt;/h2&gt;&lt;h3 id=&quot;1-win用户&quot;&gt;&lt;a href=&quot;#1-win用户&quot; class=&quot;headerlink&quot; title=&quot;1. win用户&quot;&gt;&lt;/a&gt;1. win用户&lt;/h3&gt;&lt;p&gt;win下安装没什么好说的吧？&lt;a href=&quot;https://git-scm.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官网直接下载&lt;/a&gt;。&lt;br&gt;安装过程中会有一些选择。&lt;br&gt;&lt;img src=&quot;http://ww4.sinaimg.cn/mw690/005JlzFfjw1f2a5ids4o7j30dv0arjtl.jpg&quot; alt=&quot;git安装1&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;新手一般默认这样勾选就好，务必把第3~5个勾上，并注意某安全卫士有没有拦截。。。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;http://ww4.sinaimg.cn/mw690/005JlzFfjw1f2a5x8kw1gj30dv0arq5w.jpg&quot; alt=&quot;git安装2&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;新手这里选第一个就好。&lt;br&gt;&lt;em&gt;第二个可以使你在cmd中使用git的命令&lt;/em&gt;&lt;br&gt;&lt;em&gt;第三个可以使你在cmd中使用git和Unix相关的命令&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;以上内容对于熟练的老手来说可以随便选 &lt;del&gt;（&lt;a href=&quot;https://zh.moegirl.org/%E7%99%BD%E5%AD%A6&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;你为什么那么熟练？&lt;/a&gt;）&lt;/del&gt; &lt;/strong&gt; &lt;img src=&quot;http://i6.qhimg.com/dr/270_500_/t010bf3476aa14511f8.jpg&quot; alt=&quot;冬三雪碧&quot;&gt;&lt;/p&gt;
+&lt;p&gt;安装完成后通过在任意目录下右键，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://ww1.sinaimg.cn/mw690/005JlzFfjw1f2a6kqau9xj306y0b23z5.jpg&quot; alt=&quot;右键启动git&quot;&gt;&lt;/p&gt;
+&lt;p&gt;选择Git Bash Here即可在当前路径启动git。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你的右键中没有这两个选项，那么有可能是git的操作被拦截了（&lt;em&gt;一般是某国产安全卫士&lt;/em&gt;），寻找对应的恢复区恢复即可。如果还是恢复不了，那你只能找到 &lt;strong&gt;自己的&lt;/strong&gt; git的安装目录，像这样， &lt;img src=&quot;http://ww3.sinaimg.cn/mw690/005JlzFfjw1f2a6q6pkfvj30hw0b176t.jpg&quot; alt=&quot;此处输入图片的描述&quot;&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;选择git-bash.exe来启动git，再通过cd等指令移动到目标目录。&lt;/p&gt;
+&lt;h3 id=&quot;2-Linux用户&quot;&gt;&lt;a href=&quot;#2-Linux用户&quot; class=&quot;headerlink&quot; title=&quot;2. Linux用户&quot;&gt;&lt;/a&gt;2. Linux用户&lt;/h3&gt;&lt;pre&gt;&lt;code&gt;apt-get install git #真是省事儿
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;安装完成之后在终端可以直接运行git的相关命令。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;安装好了之后可以输入&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git --version
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;如果显示了git的版本信息，那就是安装成功了。&lt;/p&gt;
+&lt;p&gt;第一次运行git我们需要进行一些简单的配置。&lt;/p&gt;
+&lt;h3 id=&quot;1-配置用户信息&quot;&gt;&lt;a href=&quot;#1-配置用户信息&quot; class=&quot;headerlink&quot; title=&quot;1. 配置用户信息&quot;&gt;&lt;/a&gt;1. 配置用户信息&lt;/h3&gt;&lt;p&gt;使用Git需要设置自己的用户名和邮箱。&lt;br&gt;&lt;em&gt;git本身不会对其真实性进行验证，只是保存起来在提交操作的时候用来区别不同的用户而已&lt;/em&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git config --global user.name &amp;apos;moeyui&amp;apos; #这里把moeyui替换成你的用户名
+git config --global user.email &amp;apos;moeyui@xxx.com&amp;apos; #这里替换你的邮箱
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;一般配置这两项就好了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;实际上git config可以对git的很多设置进行调整，有兴趣的话可以自行了解&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;配置好之后可以通过&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git config -l
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;来查看你的全局配置。&lt;/p&gt;
+&lt;h3 id=&quot;2-生成SSH-Key&quot;&gt;&lt;a href=&quot;#2-生成SSH-Key&quot; class=&quot;headerlink&quot; title=&quot;2. 生成SSH Key&quot;&gt;&lt;/a&gt;2. 生成SSH Key&lt;/h3&gt;&lt;p&gt;其实你可以跳过这一步，SSH Key的存在就是为了在每次与远程仓库同步时免于验证用户名和密码。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;git的项目有两种方式进行网络同步——http和ssh,使用http就会在每次同步远程仓库时要求验证用户名和密码。而SSH相当于为每台设备（抑或操作系统）生成一份受信任的凭据，以后每次链接只要检查是否持有对应的凭据就好了，不需要人进行交互。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;可以通过&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ssh-keygen -t rsa -C &amp;apos;moeyui@xxx.com&amp;apos; #替换自己的邮箱
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;来生成key。回车之后git会询问你key的存放位置和加密码的信息，记住git提示的存放位置，默认不输入直接回车就好了。&lt;br&gt;然后打开存放目录可以看到以一个id_rsa.pub文件，用记事本打开然后全选复制。&lt;br&gt;到你的远程&lt;strong&gt;账户管理页面&lt;/strong&gt;添加ssh key，不同的管理方案页面不同。&lt;br&gt;比如github的是这样：&lt;br&gt;&lt;img src=&quot;http://ww1.sinaimg.cn/mw690/005JlzFfjw1f2a8ddwjwij30kj0cbwfg.jpg&quot; alt=&quot;github添加ssh key&quot;&gt;&lt;/p&gt;
+&lt;p&gt;title可以随便写，添加成功后会显示当前所有的ssh key。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://ww2.sinaimg.cn/mw690/005JlzFfjw1f2a8db5mckj30tp0dpdiy.jpg&quot; alt=&quot;添加成功&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果你在多台设备，或者双系统上工作，你有必要添加多个ssh key。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;好的，到这里git的安装配置就完成了。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;下面是吾辈个人牢骚时间。&lt;/p&gt;
+&lt;h2 id=&quot;写本教程的牢骚&quot;&gt;&lt;a href=&quot;#写本教程的牢骚&quot; class=&quot;headerlink&quot; title=&quot;写本教程的牢骚&quot;&gt;&lt;/a&gt;写本教程的牢骚&lt;/h2&gt;&lt;p&gt;本来这个东西我真的不愿意写，原因如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;网上已经有很多很棒的教程了。&lt;br&gt;这里推荐&lt;a href=&quot;http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;廖雪峰的Git教程&lt;/a&gt;，讲的很详细，很全面，我现在还经常在那里查询一些操作命令。如果英文还可以的话，还推荐&lt;a href=&quot;https://try.github.io/levels/1/challenges/1&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;官网的新手训练&lt;/a&gt;，形象生动。怎么我学的时候就没发现这么好的教学呢？&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;这东西写起来很烦，我不喜欢写面向新手的教程，因为不好把握读者的水平，上文中提到的cd这种基本cmd命令都不会的话我觉得看这篇教程有点早。换句话说就是我不擅长照顾新手。而且如果你是英语有高中水平，就算是纯新也能按照提示结合官方help自己独立完成，还需要什么教程呢？&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;吾辈的技术也还没有达到能为人师表的水平，写这种基础的东西也不知道够不够客观、全面。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;无奈项目组里的人实在是懒，根本没有人有耐心去看那些啰嗦的教程&lt;del&gt;现在还有人不能独立pull和push的&lt;/del&gt;。所以作为组长的吾辈不得不写点简易的教程，顺便当做博客素材吧。其实这篇也并不是写给他们看的（大家已经装好了），只是作为一个引子，铺垫一下。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&quot;关于博客诈尸的说明&quot;&gt;&lt;a href=&quot;#关于博客诈尸的说明&quot; class=&quot;headerlink&quot; title=&quot;关于博客诈尸的说明&quot;&gt;&lt;/a&gt;关于博客诈尸的说明&lt;/h2&gt;&lt;p&gt;这个博客创建了也有大概半年了，当时创建了之后就直接闲置了。因为自己当时水平很有限&lt;del&gt;现在也是&lt;/del&gt;，也没什么好写的。然而最近买了个vps之后突然又想起这块自留地来，其中也受到&lt;a href=&quot;http://cnfeat.com/blog/2014/02/10/qianziwen-start/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;陈素封前辈千字文计划&lt;/a&gt;的感染。刚回来时看到这么简陋的博客是有些触景生情吧，想到自己当年&lt;del&gt;才半年&lt;/del&gt;~也是有够年轻，什么都不懂就随手搭建起来个博客……&lt;br&gt;回来之后花了几天时间修缮了一下，主要是&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;申请了自己的域名&lt;/li&gt;
+&lt;li&gt;换了blog主题&lt;/li&gt;
+&lt;li&gt;自己做了一些小美化&lt;/li&gt;
+&lt;li&gt;重新学习了Markdown&lt;/li&gt;
+&lt;li&gt;……还有很多小细节&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;关于这个简易博客的搭建也有挺多东西想与大家分享的，有空再写新的文章吧。&lt;em&gt;（先开个坑）&lt;/em&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      作为一个现实的程序员不可能总是在Github上开发是吧？这时候要做版本控制就得回归根本，请出我们的Git啦。这篇教程主要是为入门用户准备的，如果你已经安装并配置了git并已经学会了基本的使用，请手动无视。
+    
+    </summary>
+    
+      <category term="coding" scheme="http://moeyui.com/categories/coding/"/>
+    
+    
+      <category term="coding" scheme="http://moeyui.com/tags/coding/"/>
+    
+      <category term="版本控制" scheme="http://moeyui.com/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
+    
+      <category term="新手" scheme="http://moeyui.com/tags/%E6%96%B0%E6%89%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>建博大业</title>
+    <link href="http://moeyui.com/2015/10/31/a-new-post/"/>
+    <id>http://moeyui.com/2015/10/31/a-new-post/</id>
+    <published>2015-10-31T11:35:26.000Z</published>
+    <updated>2016-03-23T10:36:47.182Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;My-First-Post&quot;&gt;&lt;a href=&quot;#My-First-Post&quot; class=&quot;headerlink&quot; title=&quot;My First Post&quot;&gt;&lt;/a&gt;My First Post&lt;/h1&gt;&lt;p&gt;In fact,I still don’t know how to edit by Markdown…&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;这相当于这个blog的创始页面吧。简单来说这个blog就是吾辈一时兴起搞的。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;p&gt;主要原理就是用&lt;strong&gt;hexo&lt;/strong&gt;,一个基于&lt;strong&gt;Node.js&lt;/strong&gt;的静态博客程序。然后上传到github使用github&lt;br&gt; Pages的服务。文章的编写全部采用的是&lt;a href=&quot;https://www.zybuluo.com/mdeditor&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Markdown语法&lt;/a&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h2&gt;&lt;h3 id=&quot;1-hexo&quot;&gt;&lt;a href=&quot;#1-hexo&quot; class=&quot;headerlink&quot; title=&quot;1. hexo&quot;&gt;&lt;/a&gt;1. hexo&lt;/h3&gt;&lt;p&gt;前端的知识我实在不是很懂，只能用一些很简单的工具，大神莫笑。用于写博客的知识全部是参考&lt;a href=&quot;http://ibruce.info/2013/11/22/hexo-your-blog/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;不如的博客&lt;/a&gt;和&lt;a href=&quot;http://cnfeat.com/blog/2014/05/10/how-to-build-a-blog/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;读立写生的博客&lt;/a&gt;,这些教程虽然有点旧但并不影响使用，先开个坑&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;有空写一份搭建此博客的简单教程&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;2-Markdown&quot;&gt;&lt;a href=&quot;#2-Markdown&quot; class=&quot;headerlink&quot; title=&quot;2.Markdown&quot;&gt;&lt;/a&gt;2.Markdown&lt;/h3&gt;&lt;p&gt;对于我这种对HTML语言什么一窍不懂的来说实在是太方便了，配合&lt;a href=&quot;http://www.sublimetext.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Sublime&lt;/a&gt;在本地可以很方便地编辑博客。&lt;br&gt;&lt;img src=&quot;http://7xs6ei.com1.z0.glb.clouddn.com/sublime.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;3-Github&quot;&gt;&lt;a href=&quot;#3-Github&quot; class=&quot;headerlink&quot; title=&quot;3.Github&quot;&gt;&lt;/a&gt;3.Github&lt;/h3&gt;&lt;p&gt;github实在是太良心啦，感觉是真良心做网站。使用github Pages来搭建博客需要注意以下几点：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;空间只有300M，感觉是有点少，不过图片一般走外链其实问题也不大;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;github这么&lt;em&gt;自由&lt;/em&gt;的外国网站，个人感觉说不定哪天就被&lt;em&gt;QIANG&lt;/em&gt;了，不过也可以转移到国内的gitcafe中去;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;作为最大的&lt;em&gt;同性交友&lt;/em&gt;网站之一（手动斜眼）。。。。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xs6ei.com1.z0.glb.clouddn.com/bg2012082502.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;总的来说搭建起来还是很累，很费劲，也参考了很多教程，不过能自己动手总归是一件有趣的事情。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://ww4.sinaimg.cn/mw690/005JlzFfgw1exkn7onc3gj31400u0n7x.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;My-First-Post&quot;&gt;&lt;a href=&quot;#My-First-Post&quot; class=&quot;headerlink&quot; title=&quot;My First Post&quot;&gt;&lt;/a&gt;My First Post&lt;/h1&gt;&lt;p&gt;In fact,I still don’t know how to edit by Markdown…&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;这相当于这个blog的创始页面吧。简单来说这个blog就是吾辈一时兴起搞的。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="coding" scheme="http://moeyui.com/categories/coding/"/>
+    
+    
+      <category term="coding" scheme="http://moeyui.com/tags/coding/"/>
+    
+  </entry>
+  
+</feed>
