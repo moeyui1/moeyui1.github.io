@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-04-18T15:45:03.200Z</updated>
+  <updated>2016-04-21T15:30:52.632Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,59 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>校园网ipv6环境下免费上网</title>
+    <link href="http://moeyui.cn/2016/04/20/%E6%A0%A1%E5%9B%AD%E7%BD%91ipv6%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/"/>
+    <id>http://moeyui.cn/2016/04/20/校园网ipv6环境下免费上网/</id>
+    <published>2016-04-20T12:23:26.000Z</published>
+    <updated>2016-04-21T15:30:52.632Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;a href=&quot;#校园网ipv6环境下免费上网&quot; class=&quot;headerlink&quot; title=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;/a&gt;校园网ipv6环境下免费上网&lt;/h1&gt;&lt;p&gt;本文主要介绍在拥有&lt;strong&gt;ipv6&lt;/strong&gt;网络访问权限下如何进行免费上网。这里说的&lt;strong&gt;免费&lt;/strong&gt;指的是无需登录各种校园账户认证（锐捷等）、无需拨号（电信宽带拨号等）。整个教程难免出现一些难懂的用语，不懂没关系，不需要理解，只要按照步骤做就好了。有不懂的步骤随时留言。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;blockquote&gt;
+&lt;p&gt;虽然说很多大学都提供了ipv6的网络环境，然而各个学校的网络环境大相径庭，希望有测试过的小伙伴把测试结果告诉吾辈。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;必备条件&quot;&gt;&lt;a href=&quot;#必备条件&quot; class=&quot;headerlink&quot; title=&quot;必备条件&quot;&gt;&lt;/a&gt;必备条件&lt;/h2&gt;&lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;首先用网线将你的电脑与网线口&lt;strong&gt;直接&lt;/strong&gt;连接（不要用路由器无线连接或采用网线口-&amp;gt;路由器（或其它中转设备）-&amp;gt;电脑这样的连接结构）,也不要进行任何拨号、挂代理的操作。&lt;/li&gt;
+&lt;li&gt;按&lt;code&gt;win+R&lt;/code&gt;打开运行窗口，输入cmd,&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/%E8%BF%90%E8%A1%8C%E8%BE%93%E5%85%A5.PNG&quot; alt=&quot;输入cmd&quot;&gt;&lt;br&gt;打开命令提示符窗口后，输入命令&lt;code&gt;ping www.6kuaibo.com&lt;/code&gt;或&lt;code&gt;ping ipv6.google.com&lt;/code&gt;,成功结果显示如图：&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/cmd%E5%91%BD%E4%BB%A4.PNG&quot; alt=&quot;输入cmd命令&quot;&gt;只要有一条命令是成功的即可。如果显示请求超时或者很久都没有反应，那应该是你没有ipv6网络访问权限了。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;开始行动吧&quot;&gt;&lt;a href=&quot;#开始行动吧&quot; class=&quot;headerlink&quot; title=&quot;开始行动吧&quot;&gt;&lt;/a&gt;开始行动吧&lt;/h2&gt;&lt;p&gt;在你实现免费上网前，先按照你平时做那样的把网络连上。&lt;/p&gt;
+&lt;h3 id=&quot;安装ss&quot;&gt;&lt;a href=&quot;#安装ss&quot; class=&quot;headerlink&quot; title=&quot;安装ss&quot;&gt;&lt;/a&gt;安装ss&lt;/h3&gt;&lt;p&gt;ss是一款代理软件，你不需要知道它是什么，只需要下载链接文件夹中两个文件（杀毒软件应该不会报毒，如果报毒了请执行斟酌吧，吾辈只能告诉你很安全）: &lt;a href=&quot;http://pan.baidu.com/s/1qYIfqKs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;http://pan.baidu.com/s/1qYIfqKs 密码: kss6&lt;/code&gt;&lt;/a&gt;&lt;br&gt;然后把两个文件放在同一个文件夹下，打开&lt;code&gt;ShadowsocksR-dotnet4.0.exe&lt;/code&gt;这个文件。不出意外的话，你会看到这个界面：&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/ss%E9%85%8D%E7%BD%AE.PNG&quot; alt=&quot;ss配置&quot;&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;如果“服务器ip”显示的是127.0.0.1,那只能请你用记事本打开&lt;code&gt;gui-config.json&lt;/code&gt;这个文件，理解一下英文参照上图来填写配置了。实在不会微博私吾辈。。。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;然后右键点击系统右下角托盘的小飞机图标，确保勾选“启用系统代理”，&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/ss%E9%85%8D%E7%BD%AE2.PNG&quot; alt=&quot;勾选“启用系统代理”&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;配置浏览器&quot;&gt;&lt;a href=&quot;#配置浏览器&quot; class=&quot;headerlink&quot; title=&quot;配置浏览器&quot;&gt;&lt;/a&gt;配置浏览器&lt;/h3&gt;&lt;p&gt;理论上，此时通过ie就可以直接上网了。但是也不一定，而且，还有人用ie上网的吗？&lt;br&gt;如果你用的是ie内核的浏览器，比如猎豹啊，360安全浏览器啊，直接打开应该就能上网了。&lt;br&gt;否则就需要配置一下你的浏览器，这里以360极速浏览器为例，打开设置，&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/360%E6%B5%8F%E8%A7%88%E5%99%A8%E9%85%8D%E7%BD%AE.PNG&quot; alt=&quot;360极速代理设置&quot;&gt;&lt;br&gt;找到“高级设置”-&amp;gt;“代理服务器设置……”，在代理服务器列表中添加一行（注意符号都是英文的）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;127.0.0.1:1080
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;保存之后，点击浏览器右上角的菜单&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/360%E4%BB%A3%E7%90%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E7%BD%AE.PNG&quot; alt=&quot;代理配置&quot;&gt;&lt;br&gt;勾选刚刚填写的&lt;code&gt;127.0.0.1:1080&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;上网冲浪&quot;&gt;&lt;a href=&quot;#上网冲浪&quot; class=&quot;headerlink&quot; title=&quot;上网冲浪&quot;&gt;&lt;/a&gt;上网冲浪&lt;/h3&gt;&lt;p&gt;好了现在用刚才配置的浏览器打开&lt;code&gt;www.baidu.com&lt;/code&gt;试试，可能会很慢，请耐心等一等。&lt;br&gt;如果还是上不了，把浏览器关了，重新打开再试试，再等一等。&lt;/p&gt;
+&lt;hr&gt;
+&lt;h3 id=&quot;成功的分割线&quot;&gt;&lt;a href=&quot;#成功的分割线&quot; class=&quot;headerlink&quot; title=&quot;成功的分割线&quot;&gt;&lt;/a&gt;成功的分割线&lt;/h3&gt;&lt;hr&gt;
+&lt;p&gt;如果可以上网了，先打开&lt;a href=&quot;moeyui.cn&quot;&gt;吾辈的博客&lt;/a&gt;，找到&lt;a href=&quot;http://moeyui.cn/guestbook/&quot;&gt;留言板&lt;/a&gt;， &lt;del&gt;点一下“喜欢”,&lt;/del&gt; 到评论区留下你的学校或地理位置以供参考。&lt;/p&gt;
+&lt;h3 id=&quot;注意事项&quot;&gt;&lt;a href=&quot;#注意事项&quot; class=&quot;headerlink&quot; title=&quot;注意事项&quot;&gt;&lt;/a&gt;注意事项&lt;/h3&gt;&lt;p&gt;虽然你成功实现了免费上网，但是请不要用它代替你原来的上网方式。因为这里免费上网的方案其实是利用了吾辈的小服务器，小服务器负载能力不是很大，每个月的流量也是有限的。这篇文章只是提供一种思路，让大家验证是否具有免费上网的可能性。后面有空&lt;strong&gt;可能会&lt;/strong&gt;专门搭一个服务器共享给小伙伴们上网，至少也会写一篇教程教大家自行搭建。&lt;br&gt;实在想免费上网的建议自行百度“6快拨”和“马上6”，他们都提供了成熟的方案，虽然速度有点感人。。。但是免费还要什么自行车？&lt;/p&gt;
+&lt;h2 id=&quot;后记&quot;&gt;&lt;a href=&quot;#后记&quot; class=&quot;headerlink&quot; title=&quot;后记&quot;&gt;&lt;/a&gt;后记&lt;/h2&gt;&lt;p&gt;最后是吾辈的一些自言自语，说一下最近的博客计划吧。&lt;br&gt;这个校园网ipv6免费上网系列吾辈是从上个月开始研究的，研究过程还是比较曲折的，概括起来大概是这样：&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91%E6%8E%A2%E7%B4%A2%E8%BF%87%E7%A8%8B.png&quot; alt=&quot;免费上网过程探索&quot;&gt;&lt;/p&gt;
+&lt;p&gt;接下来大概两周的时间会很忙但是又不想把这个东西拖太久，所以就先把分享出来了，剩下的总是会写的，就是慢一些。&lt;br&gt;有人可能会问实用性何在，好吧这东西用起来是有点麻烦，不过贵在探索吧，而且比起“6快拨”、校园网什么的龟速吾辈只想放一张图：&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/%E7%BD%91%E9%80%9F%E7%88%86%E7%82%B8.PNG&quot; alt=&quot;网速&quot;&gt;&lt;br&gt;还有谁质疑吾辈小服务器的网速吗？但大家不要拿吾辈的服务器来下载，有流量限制！！！&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;a href=&quot;#校园网ipv6环境下免费上网&quot; class=&quot;headerlink&quot; title=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;/a&gt;校园网ipv6环境下免费上网&lt;/h1&gt;&lt;p&gt;本文主要介绍在拥有&lt;strong&gt;ipv6&lt;/strong&gt;网络访问权限下如何进行免费上网。这里说的&lt;strong&gt;免费&lt;/strong&gt;指的是无需登录各种校园账户认证（锐捷等）、无需拨号（电信宽带拨号等）。整个教程难免出现一些难懂的用语，不懂没关系，不需要理解，只要按照步骤做就好了。有不懂的步骤随时留言。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="网络" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%BB%9C/"/>
+    
+    
+      <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="ipv6免费上网系列" scheme="http://moeyui.cn/tags/ipv6%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91%E7%B3%BB%E5%88%97/"/>
+    
+      <category term="新手" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B/"/>
+    
+  </entry>
   
   <entry>
     <title>vps搭建ss代理</title>
@@ -108,7 +161,7 @@ chmod +x shadowsocks-libev-debian.sh
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;eclipse在纯java开发下可能还有一点点抵抗余地，但在Android和JavaFX的开发上我就觉得没什么理由选择eclipse了。别跟我扯谷歌官方推荐Android开发用&lt;a href=&quot;http://developer.android.com/intl/zh-cn/sdk/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;strong&gt;Android Studio&lt;/strong&gt;&lt;/a&gt;，那玩意儿就是基于idea改的。&lt;br&gt;此外强烈推荐大家直接下载安装Ultimate版，没错一年也就149$（摊手）。&lt;br&gt;&lt;img src=&quot;http://7xsxqz.com2.z0.glb.clouddn.com/%E5%96%9D%E5%92%96%E5%95%A1.jpg&quot; alt=&quot;喝咖啡&quot;&gt;&lt;br&gt;当然我没有那么多钱。。。学生可以&lt;a href=&quot;https://www.jetbrains.com/student/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;申请免费使用一年&lt;/a&gt;。&lt;br&gt;附上Ultimate版与Community版对比图，顺便一说Community版不支持css代码，使用javaFX需要注意。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E7%89%88%E6%9C%AC%E5%AF%B9%E6%AF%94%E5%9B%BE.PNG&quot; alt=&quot;版本对比&quot;&gt;&lt;br&gt;你以为我要安利的就是Intellij idea而已吗？不，吃我一发&lt;a href=&quot;https://www.jetbrains.com/products.html?fromMenu&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Jetbrains全家桶安利&lt;/a&gt;！他们家的Clion和PyCharm同样优秀！&lt;/p&gt;
-&lt;h3 id=&quot;2-Git版本管理——你还在用qq传代码吗？&quot;&gt;&lt;a href=&quot;#2-Git版本管理——你还在用qq传代码吗？&quot; class=&quot;headerlink&quot; title=&quot;2. Git版本管理——你还在用qq传代码吗？&quot;&gt;&lt;/a&gt;2. Git版本管理——你还在用qq传代码吗？&lt;/h3&gt;&lt;p&gt;对于外行人来说，一般都以为我们程序员之间团队合作是用网盘传文件的（用QQ传的给我去面壁！）。但是自从接触到版本管理的概念，邂逅了Git之后，才感觉到版本管理的强大。保持团队中个人的代码同步，项目多版本都是非常重要的。&lt;br&gt;关于Git的基本使用可以参考我另一篇文章——&lt;a href=&quot;http://moeyui.cn/2016/03/26/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BF%85%E5%A4%87%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94Git%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;程序员基础系列——Git的安装和配置&lt;/a&gt;，最近还打算写Git的进阶使用来着。。。&lt;/p&gt;
+&lt;h3 id=&quot;2-Git版本管理——你还在用qq传代码吗？&quot;&gt;&lt;a href=&quot;#2-Git版本管理——你还在用qq传代码吗？&quot; class=&quot;headerlink&quot; title=&quot;2. Git版本管理——你还在用qq传代码吗？&quot;&gt;&lt;/a&gt;2. Git版本管理——你还在用qq传代码吗？&lt;/h3&gt;&lt;p&gt;对于外行人来说，一般都以为我们程序员之间团队合作是用网盘传文件的（用QQ传的给我去面壁！）。但是自从接触到版本管理的概念，邂逅了Git之后，才感觉到版本管理的强大。保持团队中个人的代码同步，项目多版本都是非常重要的。&lt;br&gt;关于Git的基本使用可以参考我另一篇文章——&lt;a href=&quot;http://moeyui.cn/2016/03/26/%E7%A8%8B%E5%BA%8F%E5%91%98%E5%BF%85%E5%A4%87%E7%B3%BB%E5%88%97%E2%80%94%E2%80%94Git%E7%9A%84%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AE/&quot;&gt;程序员基础系列——Git的安装和配置&lt;/a&gt;，最近还打算写Git的进阶使用来着。。。&lt;/p&gt;
 &lt;h3 id=&quot;3-Sublime-Text——你还在用记事本吗？&quot;&gt;&lt;a href=&quot;#3-Sublime-Text——你还在用记事本吗？&quot; class=&quot;headerlink&quot; title=&quot;3. Sublime Text——你还在用记事本吗？&quot;&gt;&lt;/a&gt;3. &lt;a href=&quot;https://www.sublimetext.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Sublime Text&lt;/a&gt;——你还在用记事本吗？&lt;/h3&gt;&lt;p&gt;写这一条纯粹是看不惯有些人现在还在用记事本读写代码（下面讨论的记事本全部指的是windows，OS X和Linux用户可以跳过）。。。同一份代码，记事本打开是这样的：&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E8%AE%B0%E4%BA%8B%E6%9C%AC%E7%9C%8B%E4%BB%A3%E7%A0%81.PNG&quot; alt=&quot;记事本&quot;&gt;&lt;br&gt;而sublime打开是这样的：&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/sublime%E6%89%93%E5%BC%80.PNG&quot; alt=&quot;此处输入图片的描述&quot;&gt;&lt;br&gt;没错，有代码高亮、行数显示、自动缩进，甚至打开整个项目（图中左边目录就是本blog的项目文件结构）的功能，实在没有理由选择记事本。真的不能理解当时许多老师建议初学者用记事本是什么心态。。&lt;br&gt;有人会说既然看java项目我打开eclipse不就好了吗？&lt;br&gt;&lt;img src=&quot;http://7xsxqz.com2.z0.glb.clouddn.com/%E5%B9%B4%E8%BD%BB.jpg&quot; alt=&quot;年轻&quot;&gt;&lt;br&gt;那一天，人类又回想起被eclipse淡定的启动速度所支配的恐惧。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/eclipse%E9%BE%9F%E9%80%9F%E5%8A%A0%E8%BD%BD.PNG&quot; alt=&quot;龟速eclipse&quot;&gt;&lt;br&gt;我只是想读一下代码啊啊啊！&lt;br&gt;相比eclipse，sublime这种本编辑器更加轻量级，而且更加专注于简单地阅读、修改代码。而且eclipse是一个java IDE，sublime是文本编辑器，所以你在打开各种什么.html、.c、.py甚至吾辈写本文时使用Markdown的时候，eclipse表示，无能为力。而sublime表示，我们支持这么多语言。&lt;br&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/sublime%E6%94%AF%E6%8C%81%E8%AF%AD%E8%A8%80.PNG&quot; alt=&quot;sublime语言支持&quot;&gt;&lt;br&gt;。。。还有谁吗？&lt;br&gt;不过这里说一句，吾辈并不是特指sublime， &lt;del&gt;（vim粉Atom粉要来喷我了）&lt;/del&gt;只是建议大家放弃windows的自带记事本选择一款专业的代码编辑器。你可以选择其他优秀的文本编辑器比如Github的Atom、微软家的Code（吾辈也装了）、甚至vim。只要它有如下特点：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;足够多种类的代码支持；&lt;br&gt;对Git有较好的支持（可选）；&lt;br&gt;界面舒服；&lt;br&gt;操作人性化；&lt;/p&gt;
@@ -143,7 +196,7 @@ public static void main(String[] args) {
 &lt;li&gt;国内各种各样的VPN。VPN实现方案有很多，所以这些代理的质量也是参差不齐。免费的VPN推荐碰都不要碰，先不提公交车的速度，安全性都没有保障。收费的吾辈没有用过，主要是配置起来还不如ss方便，而且VPN默认全局代理。。。&lt;/li&gt;
 &lt;li&gt;谷歌GoAgent，只要拥有一个谷歌账号就可以申请GoAgent账号。现在貌似已经不能找到这个项目的官方网站了。使用的时候需要安装GoAgent客户端，貌似没有找到mac下的版本。谷歌提供香港、台湾、美国的节点（没有日本！）。大概2014年的时候用起来还是可以的，15年下半年开始之后就各种抽风，经常拿不到可用ip地址，也导致我放弃了它。但是可以确信的是它现在还是活着的，而且有很多所谓傻瓜式翻（和）墙（谐）浏览器其实就是chrome+SwitchOmega+GoAgent公用账号配置成的，算是比较常见的方案吧。&lt;/li&gt;
 &lt;li&gt;改DNS大法。通过修改host文件使墙外网站指向国内可用的ip地址达到目的，这种做法很简单很粗暴。但是长城也不是死的，经常需要更改可用的ip地址，比较麻烦。而且也只能上host中添加的网站，算是比较麻烦的方式。&lt;/li&gt;
-&lt;li&gt;ss代理，这应该是目前最好的方案了，吾辈目前也在用的方案。就是用过墙外服务器搭建ss服务端，本地的设备通过ss客户端输入账号密码就可以代理上网了。一般建议直接买别人搭建好的ss服务账号，客户端登录一下就好，十分方便。当然网上也有很多免费账号共享，吾辈之前一直在用&lt;a href=&quot;http://www.ishadowsocks.net/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;iShadowsocks&lt;/a&gt;的账号，它们家提供香港、日本、美国三个免费节点，6小时更换一次密码。然而随着越来越多人知道这个网站后，代理质量越来越差，（甚至有一段时间日本节点被滥用至停止分享。。。）以及意识到&lt;a href=&quot;http://www.hekaiyu.cn/hacker/1527.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;免费代理的安全隐患&lt;/a&gt;后，吾辈选择了自己租vps搭代理，选购vps的教程&lt;a href=&quot;http://moeyui.cn/2016/03/28/%E4%B8%8D%E6%87%82%E7%A8%8B%E5%BA%8F%E4%B9%9F%E8%A6%81%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84VPS/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;在这里&lt;/a&gt;。自己搭代理还可以自己选地区，不用担心找不到合适的地区啦。&lt;del&gt;其实一般人用美国的代理就够了，然而吾辈还要玩舰娘，，，必须日本代理。。&lt;/del&gt;&lt;/li&gt;
+&lt;li&gt;ss代理，这应该是目前最好的方案了，吾辈目前也在用的方案。就是用过墙外服务器搭建ss服务端，本地的设备通过ss客户端输入账号密码就可以代理上网了。一般建议直接买别人搭建好的ss服务账号，客户端登录一下就好，十分方便。当然网上也有很多免费账号共享，吾辈之前一直在用&lt;a href=&quot;http://www.ishadowsocks.net/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;iShadowsocks&lt;/a&gt;的账号，它们家提供香港、日本、美国三个免费节点，6小时更换一次密码。然而随着越来越多人知道这个网站后，代理质量越来越差，（甚至有一段时间日本节点被滥用至停止分享。。。）以及意识到&lt;a href=&quot;http://www.hekaiyu.cn/hacker/1527.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;免费代理的安全隐患&lt;/a&gt;后，吾辈选择了自己租vps搭代理，选购vps的教程&lt;a href=&quot;http://moeyui.cn/2016/03/28/%E4%B8%8D%E6%87%82%E7%A8%8B%E5%BA%8F%E4%B9%9F%E8%A6%81%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84VPS/&quot;&gt;在这里&lt;/a&gt;。自己搭代理还可以自己选地区，不用担心找不到合适的地区啦。&lt;del&gt;其实一般人用美国的代理就够了，然而吾辈还要玩舰娘，，，必须日本代理。。&lt;/del&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;比较推荐的就是通过ss的sock5代理，简单安全，方便稳定（前提是你有一个比较优质的ss账号（吾辈现在手上一堆vps主机，需要账号可以&lt;strong&gt;留言&lt;/strong&gt;问我要））。&lt;/p&gt;
@@ -168,7 +221,7 @@ public static void main(String[] args) {
 &lt;/blockquote&gt;
 &lt;hr&gt;
 &lt;h2 id=&quot;3-推荐网站&quot;&gt;&lt;a href=&quot;#3-推荐网站&quot; class=&quot;headerlink&quot; title=&quot;3. 推荐网站&quot;&gt;&lt;/a&gt;3. 推荐网站&lt;/h2&gt;&lt;p&gt;网站方面其实软件技术还是逛各种博客、论坛比较好，然而这些太多太杂，知识也比较片面化，所以这里还是推荐一些比较全面的网站。&lt;/p&gt;
-&lt;h3 id=&quot;1-极客学院&quot;&gt;&lt;a href=&quot;#1-极客学院&quot; class=&quot;headerlink&quot; title=&quot;1. 极客学院&quot;&gt;&lt;/a&gt;1. &lt;a href=&quot;http://www.jikexueyuan.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;极客学院&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;多数视频教程是要收费的，所幸他们家也参加了&lt;a href=&quot;http://moeyui.cn/2016/04/07/%E4%BA%94%E8%8A%B1%E5%85%AB%E9%97%A8%E7%9A%84%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;青葱计划&lt;/a&gt;，学生可以获得一个月的vip。而且他们&lt;a href=&quot;http://wiki.jikexueyuan.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;免费的文字wiki&lt;/a&gt;也做得很好，&lt;em&gt;虽然仍对他们的文字教程版权持疑问。&lt;/em&gt;&lt;br&gt;教程很全很细，你甚至可以找到Intellij和Atom这些工具的使用教程。&lt;/p&gt;
+&lt;h3 id=&quot;1-极客学院&quot;&gt;&lt;a href=&quot;#1-极客学院&quot; class=&quot;headerlink&quot; title=&quot;1. 极客学院&quot;&gt;&lt;/a&gt;1. &lt;a href=&quot;http://www.jikexueyuan.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;极客学院&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;多数视频教程是要收费的，所幸他们家也参加了&lt;a href=&quot;http://moeyui.cn/2016/04/07/%E4%BA%94%E8%8A%B1%E5%85%AB%E9%97%A8%E7%9A%84%E6%95%99%E8%82%B2%E4%BC%98%E6%83%A0/&quot;&gt;青葱计划&lt;/a&gt;，学生可以获得一个月的vip。而且他们&lt;a href=&quot;http://wiki.jikexueyuan.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;免费的文字wiki&lt;/a&gt;也做得很好，&lt;em&gt;虽然仍对他们的文字教程版权持疑问。&lt;/em&gt;&lt;br&gt;教程很全很细，你甚至可以找到Intellij和Atom这些工具的使用教程。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E6%9E%81%E5%AE%A2%E5%AD%A6%E9%99%A2wiki.PNG&quot; alt=&quot;极客学院wiki&quot;&gt;&lt;/p&gt;
 &lt;h3 id=&quot;2-菜鸟教程&quot;&gt;&lt;a href=&quot;#2-菜鸟教程&quot; class=&quot;headerlink&quot; title=&quot;2. 菜鸟教程&quot;&gt;&lt;/a&gt;2. &lt;a href=&quot;http://www.runoob.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;菜鸟教程&lt;/a&gt;&lt;/h3&gt;&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E7%A8%8B%E5%BA%8F%E5%91%98%E6%80%BB%E7%BB%93/%E8%8F%9C%E9%B8%9F%E6%95%99%E7%A8%8B.PNG&quot; alt=&quot;菜鸟教程&quot;&gt;&lt;/p&gt;
 &lt;p&gt;涵盖多种程序语言的文字教程，相比极客学院更加轻量级，教程叙述更加简明，适合平时查阅常用语法或者入门学习时使用。&lt;/p&gt;
@@ -186,9 +239,9 @@ public static void main(String[] args) {
       <category term="coding" scheme="http://moeyui.cn/categories/coding/"/>
     
     
-      <category term="coding" scheme="http://moeyui.cn/tags/coding/"/>
-    
       <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
+    
+      <category term="coding" scheme="http://moeyui.cn/tags/coding/"/>
     
       <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
     
@@ -242,9 +295,9 @@ public static void main(String[] args) {
       <category term="生活" scheme="http://moeyui.cn/categories/%E7%94%9F%E6%B4%BB/"/>
     
     
-      <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
-    
       <category term="福利" scheme="http://moeyui.cn/tags/%E7%A6%8F%E5%88%A9/"/>
+    
+      <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
     
   </entry>
   
