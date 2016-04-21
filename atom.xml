@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-04-21T15:30:52.632Z</updated>
+  <updated>2016-04-21T15:45:32.879Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://moeyui.cn/2016/04/20/%E6%A0%A1%E5%9B%AD%E7%BD%91ipv6%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/"/>
     <id>http://moeyui.cn/2016/04/20/校园网ipv6环境下免费上网/</id>
     <published>2016-04-20T12:23:26.000Z</published>
-    <updated>2016-04-21T15:30:52.632Z</updated>
+    <updated>2016-04-21T15:45:32.879Z</updated>
     
-    <content type="html">&lt;h1 id=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;a href=&quot;#校园网ipv6环境下免费上网&quot; class=&quot;headerlink&quot; title=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;/a&gt;校园网ipv6环境下免费上网&lt;/h1&gt;&lt;p&gt;本文主要介绍在拥有&lt;strong&gt;ipv6&lt;/strong&gt;网络访问权限下如何进行免费上网。这里说的&lt;strong&gt;免费&lt;/strong&gt;指的是无需登录各种校园账户认证（锐捷等）、无需拨号（电信宽带拨号等）。整个教程难免出现一些难懂的用语，不懂没关系，不需要理解，只要按照步骤做就好了。有不懂的步骤随时留言。&lt;/p&gt;
+    <content type="html">&lt;p&gt;本文主要介绍在拥有&lt;strong&gt;ipv6&lt;/strong&gt;网络访问权限下如何进行免费上网。这里说的&lt;strong&gt;免费&lt;/strong&gt;指的是无需登录各种校园账户认证（锐捷等）、无需拨号（电信宽带拨号等）。整个教程难免出现一些难懂的用语，不懂没关系，不需要理解，只要按照步骤做就好了。有不懂的步骤随时留言。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;blockquote&gt;
 &lt;p&gt;虽然说很多大学都提供了ipv6的网络环境，然而各个学校的网络环境大相径庭，希望有测试过的小伙伴把测试结果告诉吾辈。&lt;/p&gt;
@@ -53,7 +53,7 @@
     
     <summary type="html">
     
-      &lt;h1 id=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;a href=&quot;#校园网ipv6环境下免费上网&quot; class=&quot;headerlink&quot; title=&quot;校园网ipv6环境下免费上网&quot;&gt;&lt;/a&gt;校园网ipv6环境下免费上网&lt;/h1&gt;&lt;p&gt;本文主要介绍在拥有&lt;strong&gt;ipv6&lt;/strong&gt;网络访问权限下如何进行免费上网。这里说的&lt;strong&gt;免费&lt;/strong&gt;指的是无需登录各种校园账户认证（锐捷等）、无需拨号（电信宽带拨号等）。整个教程难免出现一些难懂的用语，不懂没关系，不需要理解，只要按照步骤做就好了。有不懂的步骤随时留言。&lt;/p&gt;
+      &lt;p&gt;本文主要介绍在拥有&lt;strong&gt;ipv6&lt;/strong&gt;网络访问权限下如何进行免费上网。这里说的&lt;strong&gt;免费&lt;/strong&gt;指的是无需登录各种校园账户认证（锐捷等）、无需拨号（电信宽带拨号等）。整个教程难免出现一些难懂的用语，不懂没关系，不需要理解，只要按照步骤做就好了。有不懂的步骤随时留言。&lt;/p&gt;
     
     </summary>
     
