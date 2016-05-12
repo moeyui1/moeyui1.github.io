@@ -59,7 +59,7 @@
     <link href="http://moeyui.cn/2016/04/20/%E6%A0%A1%E5%9B%AD%E7%BD%91ipv6%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/"/>
     <id>http://moeyui.cn/2016/04/20/校园网ipv6环境下免费上网/</id>
     <published>2016-04-20T12:23:26.000Z</published>
-    <updated>2016-04-21T15:45:32.879Z</updated>
+    <updated>2016-05-09T09:38:26.354Z</updated>
     
     <content type="html">&lt;p&gt;本文主要介绍在拥有&lt;strong&gt;ipv6&lt;/strong&gt;网络访问权限下如何进行免费上网。这里说的&lt;strong&gt;免费&lt;/strong&gt;指的是无需登录各种校园账户认证（锐捷等）、无需拨号（电信宽带拨号等）。整个教程难免出现一些难懂的用语，不懂没关系，不需要理解，只要按照步骤做就好了。有不懂的步骤随时留言。&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
@@ -73,7 +73,7 @@
 &lt;/ol&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&quot;开始行动吧&quot;&gt;&lt;a href=&quot;#开始行动吧&quot; class=&quot;headerlink&quot; title=&quot;开始行动吧&quot;&gt;&lt;/a&gt;开始行动吧&lt;/h2&gt;&lt;p&gt;在你实现免费上网前，先按照你平时做那样的把网络连上。&lt;/p&gt;
-&lt;h3 id=&quot;安装ss&quot;&gt;&lt;a href=&quot;#安装ss&quot; class=&quot;headerlink&quot; title=&quot;安装ss&quot;&gt;&lt;/a&gt;安装ss&lt;/h3&gt;&lt;p&gt;ss是一款代理软件，你不需要知道它是什么，只需要下载链接文件夹中两个文件（杀毒软件应该不会报毒，如果报毒了请执行斟酌吧，吾辈只能告诉你很安全）: &lt;a href=&quot;http://pan.baidu.com/s/1qYIfqKs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;http://pan.baidu.com/s/1qYIfqKs 密码: kss6&lt;/code&gt;&lt;/a&gt;&lt;br&gt;然后把两个文件放在同一个文件夹下，打开&lt;code&gt;ShadowsocksR-dotnet4.0.exe&lt;/code&gt;这个文件。不出意外的话，你会看到这个界面：&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/ss%E9%85%8D%E7%BD%AE.PNG&quot; alt=&quot;ss配置&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;安装ss（此处提供的ss已经失效，请自行寻找合适的ipv6服务器）&quot;&gt;&lt;a href=&quot;#安装ss（此处提供的ss已经失效，请自行寻找合适的ipv6服务器）&quot; class=&quot;headerlink&quot; title=&quot;安装ss（此处提供的ss已经失效，请自行寻找合适的ipv6服务器）&quot;&gt;&lt;/a&gt;安装ss（此处提供的ss已经失效，请自行寻找合适的ipv6服务器）&lt;/h3&gt;&lt;p&gt;ss是一款代理软件，你不需要知道它是什么，只需要下载链接文件夹中两个文件（杀毒软件应该不会报毒，如果报毒了请执行斟酌吧，吾辈只能告诉你很安全）: &lt;a href=&quot;http://pan.baidu.com/s/1qYIfqKs&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;&lt;code&gt;http://pan.baidu.com/s/1qYIfqKs 密码: kss6&lt;/code&gt;&lt;/a&gt;&lt;br&gt;然后把两个文件放在同一个文件夹下，打开&lt;code&gt;ShadowsocksR-dotnet4.0.exe&lt;/code&gt;这个文件。不出意外的话，你会看到这个界面：&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%A0%A1%E5%9B%AD%E7%BD%91%E5%85%8D%E8%B4%B9%E4%B8%8A%E7%BD%91/ss%E9%85%8D%E7%BD%AE.PNG&quot; alt=&quot;ss配置&quot;&gt;&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;如果“服务器ip”显示的是127.0.0.1,那只能请你用记事本打开&lt;code&gt;gui-config.json&lt;/code&gt;这个文件，理解一下英文参照上图来填写配置了。实在不会微博私吾辈。。。&lt;/p&gt;
 &lt;/blockquote&gt;
