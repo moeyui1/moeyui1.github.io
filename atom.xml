@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-05-29T10:26:34.090Z</updated>
+  <updated>2016-07-18T01:12:48.307Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,49 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>小记JAVAFX-Maven-Html项目路径引用</title>
+    <link href="http://moeyui.cn/2016/07/18/%E5%B0%8F%E8%AE%B0JAVAFX-Maven-Html%E9%A1%B9%E7%9B%AE%E8%B7%AF%E5%BE%84%E5%BC%95%E7%94%A8/"/>
+    <id>http://moeyui.cn/2016/07/18/小记JAVAFX-Maven-Html项目路径引用/</id>
+    <published>2016-07-18T00:41:11.000Z</published>
+    <updated>2016-07-18T01:12:48.307Z</updated>
+    
+    <content type="html">&lt;p&gt;本来java的路径引用还是很宽松的，你可以用相对路径、绝对路径、&lt;code&gt;getClass()&lt;/code&gt;获取类路径甚至获取运行项目路径。然而扯上maven之后就不得不规范起来，因为maven项目打包前后目录结构差别较大，这之后扯上javaFX的各种fxml文件引用更是让人蛋疼。更不提拉上html之后应用js文件的不同规范。。。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h2 id=&quot;maven项目的标准引用&quot;&gt;&lt;a href=&quot;#maven项目的标准引用&quot; class=&quot;headerlink&quot; title=&quot;maven项目的标准引用&quot;&gt;&lt;/a&gt;maven项目的标准引用&lt;/h2&gt;&lt;p&gt;maven项目在打包时会将resource下的资源文件和java目录下的源代码一起放到根目录下，所以简单地用&lt;code&gt;项目路径/resouce/*&lt;/code&gt;来引用是不对的，根本没有java和resource这两个文件夹了。&lt;/p&gt;
+&lt;p&gt;这时就需要我们用&lt;code&gt;this.getClass().getResource(&amp;quot;路径&amp;quot;)&lt;/code&gt;这样的方法啦，在读写文件的时候可能需要&lt;strong&gt;InputStream&lt;/strong&gt;对象，此时使用&lt;code&gt;this.getClass().getResourceAsStream(&amp;quot;路径&amp;quot;)&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;不同目录层级的引用&quot;&gt;&lt;a href=&quot;#不同目录层级的引用&quot; class=&quot;headerlink&quot; title=&quot;不同目录层级的引用&quot;&gt;&lt;/a&gt;不同目录层级的引用&lt;/h3&gt;&lt;p&gt;一般来说都通过&lt;code&gt;../&lt;/code&gt;可以表示上一级目录，通过&lt;code&gt;./&lt;/code&gt;可以表示当前目录，这种常识在调试项目的时候或许是行得通的，然而打包出来的maven却不能识别这种标识。这里吾辈也没有找到好方法，最后在项目中只好使用&lt;code&gt;/目录名/...&lt;/code&gt;的形式。这种形式是在路径名前加一个&lt;code&gt;/&lt;/code&gt;这样代表直接从项目根目录开始检索，不使用相对路径。&lt;/p&gt;
+&lt;h2 id=&quot;javaFX项目的fxml文件&quot;&gt;&lt;a href=&quot;#javaFX项目的fxml文件&quot; class=&quot;headerlink&quot; title=&quot;javaFX项目的fxml文件&quot;&gt;&lt;/a&gt;javaFX项目的fxml文件&lt;/h2&gt;&lt;p&gt;javaFX可以通过读取fxml文件完成界面的配置，相比代码编写界面，这种方法拥有可视化的优点，而这个可视化设计的优点主要依赖于Oracle的&lt;strong&gt;Sence Builder&lt;/strong&gt;这款软件，它可以将fxml文件与其对应的controller类绑定起来，提供友好的可视化设计。&lt;/p&gt;
+&lt;p&gt;然而，，javaFX现今尴尬的处境，导致Sence Builder也基本处于半弃坑的状态，重要的一点是，它只能自动帮用户将同一目录下的controller和fxml文件绑定起来。。而按照maven的思想，fxml文件应该放在resource文件夹下，虽然编译后resource文件夹和java文件夹会合并，但开发的时候Sence Builder就会找不到对应的controller文件，无法提供可视化设计。。。&lt;/p&gt;
+&lt;h3 id=&quot;maven编译资源文件&quot;&gt;&lt;a href=&quot;#maven编译资源文件&quot; class=&quot;headerlink&quot; title=&quot;maven编译资源文件&quot;&gt;&lt;/a&gt;maven编译资源文件&lt;/h3&gt;&lt;p&gt;为了开发的时候更方便一些，我们选择将fxml文件放在与controller类同一目录下。但是默认情况下maven是不会编译源码文件夹下的非&lt;code&gt;.java&lt;/code&gt;文件的，我们可以通过修改maven的pom.xml文件来实现这一需求。&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt; &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;resource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;src/main/java&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;includes&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.fxml&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;includes&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;comment&quot;&gt;&amp;lt;!-- 是否替换资源中的属性--&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;filtering&lt;/span&gt;&amp;gt;&lt;/span&gt;false&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;filtering&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;resource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这种写法是将源码文件夹java也作为一个资源文件夹，但是一旦这样定义，原来的resource文件夹就不会作为资源文件夹，所以我们需要把它也加到pom文件中，如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight xml&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;resource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;src/main/resource&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;directory&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;includes&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.png&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.json&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.txt&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.jpg&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.icon&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.js&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.fxml&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.css&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;*.css&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;**/*.html&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;src/chart.js/**&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;echarts.min.js&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;echarts.js&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;charts/**&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;needed/*&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;include&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;includes&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;resource&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;还有一个问题，在手动指定资源文件夹后，maven就不会帮我们管理这些资源了，所以我们需要手动指定资源文件夹中需要编译的文件的类型，添加&lt;code&gt;include&lt;/code&gt;标签即可。&lt;/p&gt;
+&lt;h2 id=&quot;html资源文件的引用&quot;&gt;&lt;a href=&quot;#html资源文件的引用&quot; class=&quot;headerlink&quot; title=&quot;html资源文件的引用&quot;&gt;&lt;/a&gt;html资源文件的引用&lt;/h2&gt;&lt;p&gt;在html文件中引用外部js文件时，一般采用&lt;code&gt;script&lt;/code&gt;标签，而在项目中这种引用方式不但不支持&lt;code&gt;../&lt;/code&gt;，连&lt;code&gt;/目录名/**&lt;/code&gt;都不支持。。。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;其实这两种方式在ide中调试的时候都是支持的，然而打包之后各种混乱。吾辈采用的打包方式是将所有文件全部打包进一个jar包中。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;此处的问题到现在依然没有一个好的解决方案，其中一种方案是，将需要用的js文件上传到cdn，通过http引用，但考虑到网络条件，我们项目最后采用了，，很傻的一种方法。。以下方法不要借鉴。。。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;因为项目只引用一个js文件，而且这个js文件也不是很大，所以为了避免出现父级目录访问，我们在每个html文件的文件夹下都拷贝了一份js文件，这样，引用的时候就可以直接：&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&amp;lt;script src=&lt;span class=&quot;string&quot;&gt;&#39;custom.js&#39;&lt;/span&gt;&amp;gt;&lt;span class=&quot;xml&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;script&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;本来java的路径引用还是很宽松的，你可以用相对路径、绝对路径、&lt;code&gt;getClass()&lt;/code&gt;获取类路径甚至获取运行项目路径。然而扯上maven之后就不得不规范起来，因为maven项目打包前后目录结构差别较大，这之后扯上javaFX的各种fxml文件引用更是让人蛋疼。更不提拉上html之后应用js文件的不同规范。。。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="coding" scheme="http://moeyui.cn/categories/coding/"/>
+    
+    
+      <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
+    
+  </entry>
   
   <entry>
     <title>程序员必备系列-Git仓库迁移</title>
@@ -205,9 +248,9 @@ chmod +x shadowsocks-libev-debian.sh
       <category term="网络" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
-    
       <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
+    
+      <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
     
       <category term="科学上网" scheme="http://moeyui.cn/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
@@ -313,9 +356,9 @@ public static void main(String[] args) {
     
       <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
     
-      <category term="coding" scheme="http://moeyui.cn/tags/coding/"/>
-    
       <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
+    
+      <category term="coding" scheme="http://moeyui.cn/tags/coding/"/>
     
   </entry>
   
@@ -524,9 +567,9 @@ public static void main(String[] args) {
       <category term="网站" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%AB%99/"/>
     
     
-      <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
-    
       <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
+    
+      <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
     
       <category term="买买买" scheme="http://moeyui.cn/tags/%E4%B9%B0%E4%B9%B0%E4%B9%B0/"/>
     
