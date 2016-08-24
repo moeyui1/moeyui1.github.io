@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-07-18T01:12:48.307Z</updated>
+  <updated>2016-08-24T16:07:49.370Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>本站最近的一点小动作</title>
+    <link href="http://moeyui.cn/2016/08/24/%E6%9C%AC%E7%AB%99%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E5%8A%A8%E4%BD%9C/"/>
+    <id>http://moeyui.cn/2016/08/24/本站最近的一点小动作/</id>
+    <published>2016-08-24T13:43:17.000Z</published>
+    <updated>2016-08-24T16:07:49.370Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;1-搬运至国内主机&quot;&gt;&lt;a href=&quot;#1-搬运至国内主机&quot; class=&quot;headerlink&quot; title=&quot;1. 搬运至国内主机&quot;&gt;&lt;/a&gt;1. 搬运至国内主机&lt;/h2&gt;&lt;p&gt;本博原是部署在github上，然而美国机房延迟实在感人。再来手上有一台腾讯云的学生机，干脆就部署过来吧。&lt;/p&gt;
+&lt;p&gt;由于本博实质为静态网站，所以直接将文件部署到nginx下就好。主机用的是&lt;a href=&quot;http://lnmp.org/download.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;lnmp&lt;/a&gt;所以步骤也很简单：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;lnmp vhost add moeyui.cn 	#添加网站&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;然后在&lt;code&gt;/home/wwwroot/&lt;/code&gt;目录下会生成一个名为&lt;code&gt;moeyui.cn&lt;/code&gt;的文件夹，接下来把静态文件全部搬过来就好了。然而相比直接拷贝，我们不如利用git来帮我们实时同步。通过&lt;code&gt;git clone&lt;/code&gt;命令将文件clone到文件夹下，为了与github上的文件时刻保持同步，我们可以编辑crontab来添加定时任务。如果还没有安装crontab，centos可以&lt;code&gt;yum install -y vixie-cron&lt;/code&gt;来安装，其它系统请自行百度。输入&lt;code&gt;crontab -e&lt;/code&gt;编辑任务计划，添加以下语句：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;*/5 * * * * cd /home/wwwroot/moeyui.cn/moeyui1.github.io&amp;amp;&amp;amp;git pull&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这样就可以保证博客实时同步了。&lt;/p&gt;
+&lt;h2 id=&quot;2-cdn加速&quot;&gt;&lt;a href=&quot;#2-cdn加速&quot; class=&quot;headerlink&quot; title=&quot;2. cdn加速&quot;&gt;&lt;/a&gt;2. cdn加速&lt;/h2&gt;&lt;p&gt;后来才发现改善国内访问速度其实可以使用国内的cdn服务，国内免费且不用备案的cdn吾辈推荐&lt;a href=&quot;http://su.baidu.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;百度云加速&lt;/a&gt;，国外推荐&lt;a href=&quot;https://www.cloudflare.com/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;cloudfare&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;百度云加速提供了两种cdn加速方式——NS和CNAME。&lt;/p&gt;
+&lt;p&gt;NS方式实际上就是改用百度的dns服务，让百度直接调度，而CNAME方式相对较传统，通过将对域名的访问指向百度的服务器来让百度调度。&lt;/p&gt;
+&lt;h2 id=&quot;3-启用https&quot;&gt;&lt;a href=&quot;#3-启用https&quot; class=&quot;headerlink&quot; title=&quot;3. 启用https&quot;&gt;&lt;/a&gt;3. 启用https&lt;/h2&gt;&lt;p&gt;于是乎，心血来潮又想搞一波https，反正免费证书满大街是吧，浏览器地址栏绿色的https多有B格ヾ(o◕∀◕)ﾉヾ。于是乎申请了&lt;strong&gt;&lt;a href=&quot;https://letsencrypt.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Let’s encrypt&lt;/a&gt;&lt;/strong&gt;的免费证书。&lt;/p&gt;
+&lt;p&gt;安装证书的方式有很多，官方给了一个&lt;a href=&quot;https://letsencrypt.org/docs/client-options/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;很长的列表&lt;/a&gt;。官方推荐使用&lt;a href=&quot;https://certbot.eff.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;certbot&lt;/a&gt;，环境要求python2.7，然而腾讯云上的centos6.7自带的是python2.6。。。重点是自带源里面最新就是2.6，而且手动编译安装2.7之后会出现莫名其妙的问题——yum都用不了（&lt;em&gt;具体原因吾辈也不清楚&lt;/em&gt;）。&lt;/p&gt;
+&lt;p&gt;所以只好找其它办法，这里推荐一个&lt;a href=&quot;https://github.com/xdtianyu/scripts/tree/master/lets-encrypt&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;脚本获取证书的方式&lt;/a&gt;，简单快捷。作者的&lt;a href=&quot;https://github.com/xdtianyu/scripts/blob/master/lets-encrypt/README-CN.md&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;readme&lt;/a&gt;写得很清楚，这里就不再细说。&lt;/p&gt;
+&lt;h3 id=&quot;在nginx上配置&quot;&gt;&lt;a href=&quot;#在nginx上配置&quot; class=&quot;headerlink&quot; title=&quot;在nginx上配置&quot;&gt;&lt;/a&gt;在nginx上配置&lt;/h3&gt;&lt;p&gt;&lt;strong&gt;需要提醒的是&lt;/strong&gt;，脚本需要先通过文件路径在网站文件夹下存放一个文件，再通过根据网站地址从网络上把那个文件下载下来校验。在nginx上配置时，记得检查网站的配置文件，如果有以下这句话：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;location ~  /\.&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            deny all;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;可能会访问不到校验文件，需要在这段话前面加上一段：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;location ~ /.well-known/acme-challenge/&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                expires 12h;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h3 id=&quot;和cdn的冲突&quot;&gt;&lt;a href=&quot;#和cdn的冲突&quot; class=&quot;headerlink&quot; title=&quot;和cdn的冲突&quot;&gt;&lt;/a&gt;和cdn的冲突&lt;/h3&gt;&lt;p&gt;cdn缓存页面是不会使用上一步生成的证书的，所以不能支持https访问。并且百度云加速不能上传自定义的证书，使用百度云的https服务又必须付费，故不得不从cdn和https中选其一。&lt;/p&gt;
+&lt;p&gt;国外的cloudflare可以免费提供证书cdn，然而其国内速度感人。。。&lt;/p&gt;
+&lt;h3 id=&quot;全站https&quot;&gt;&lt;a href=&quot;#全站https&quot; class=&quot;headerlink&quot; title=&quot;全站https&quot;&gt;&lt;/a&gt;全站https&lt;/h3&gt;&lt;p&gt;虽然启用了https，但本站并不是全站https，当你打开首页可以看到浏览器地址栏是这样的：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%9C%AC%E7%AB%99%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E5%8A%A8%E4%BD%9C/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E5%AE%8C%E5%85%A8https.png&quot; alt=&quot;完全https&quot;&gt;&lt;/p&gt;
+&lt;p&gt;但随便点进一篇带图片的文章，就变成了这样：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://7xsf5m.com1.z0.glb.clouddn.com/%E6%9C%AC%E7%AB%99%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E7%82%B9%E5%B0%8F%E5%8A%A8%E4%BD%9C/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E4%B8%8D%E5%AE%8C%E5%85%A8https.png&quot; alt=&quot;不完全https&quot;&gt;&lt;/p&gt;
+&lt;p&gt;这是因为本站图片外链是http，所以全站只能算不完全https。七牛自定义外链域名需要付费。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      本站最近搬运到国内主机，并尝试启用了cdn加速，最后为了启用https放弃了cdn加速，关于这点破事儿的小记录。
+    
+    </summary>
+    
+      <category term="网站" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%AB%99/"/>
+    
+    
+      <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="cdn" scheme="http://moeyui.cn/tags/cdn/"/>
+    
+      <category term="https" scheme="http://moeyui.cn/tags/https/"/>
+    
+  </entry>
   
   <entry>
     <title>小记JAVAFX-Maven-Html项目路径引用</title>
@@ -248,9 +297,9 @@ chmod +x shadowsocks-libev-debian.sh
       <category term="网络" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%BB%9C/"/>
     
     
-      <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
-    
       <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
     
       <category term="科学上网" scheme="http://moeyui.cn/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
     
@@ -567,9 +616,9 @@ public static void main(String[] args) {
       <category term="网站" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%AB%99/"/>
     
     
-      <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
-    
       <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
     
       <category term="买买买" scheme="http://moeyui.cn/tags/%E4%B9%B0%E4%B9%B0%E4%B9%B0/"/>
     

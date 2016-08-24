@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="新手向,网络,科学上网," />
+  <meta name="keywords" content="网络,新手向,科学上网," />
 
 
 
@@ -235,34 +235,25 @@
             
 
   <div id="posts" class="posts-expand">
-    
+         
 
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+<article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
     
-      <header class="post-header">
+    <header class="post-header">
 
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+         
+        <h1 class="post-title" itemprop="name headline">
             
             
               
                 vps搭建ss代理
               
             
-          </h1>
-        
+          </h1> 
 
         <div class="post-meta">
-          <span class="post-time">
+            <span class="post-time">
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
@@ -270,67 +261,49 @@
             <time itemprop="dateCreated" datetime="2016-04-16T00:57:03+08:00" content="2016-04-16">
               2016-04-16
             </time>
-          </span>
+            </span>
 
-          
-            <span class="post-category" >
+            
+            <span class="post-category">
               &nbsp; | &nbsp;
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+            <span class="post-meta-item-text">分类于</span> 
+            <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/网络/" itemprop="url" rel="index">
                     <span itemprop="name">网络</span>
-                  </a>
-                </span>
-
-                
-                
+            </a>
+            </span>
 
               
             </span>
-          
-
-          
-            
-              <span class="post-comments-count">
+              
+            <span class="post-comments-count">
                 &nbsp; | &nbsp;
                 <a href="/2016/04/16/人人都能懂——vps搭建ss代理/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/16/人人都能懂——vps搭建ss代理/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-    
-          
-          
-             <span id="/2016/04/16/人人都能懂——vps搭建ss代理/" class="leancloud_visitors" data-flag-title="vps搭建ss代理">
+            </a>
+            </span>
+                
+            <span id="/2016/04/16/人人都能懂——vps搭建ss代理/" class="leancloud_visitors" data-flag-title="vps搭建ss代理">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
                </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
+            <span class="post-meta-item-text">阅读次数 </span>
+            <span class="leancloud-visitors-count"></span>
+            </span>
+            
 
         </div>
-      </header>
+    </header>
     
 
 
     <div class="post-body" itemprop="articleBody">
 
-      
-      
-
-      
-        <p>上次我们介绍了如何选购一台vps，这次我们来谈谈在自己的vps上搭建ss搭理。</p>
+           <p>上次我们介绍了如何选购一台vps，这次我们来谈谈在自己的vps上搭建ss搭理。</p>
 <a id="more"></a>
 <h2 id="1-ss版本"><a href="#1-ss版本" class="headerlink" title="1. ss版本"></a>1. ss版本</h2><p>首先确定我们要安装的版本是服务端，而光是<a href="https://github.com/shadowsocks" target="_blank" rel="external">ss官方github</a>上就有各种各样的版本，再加上网上五花八门的个人修改版，初学者恐怕难以适从。<br>这里简单说说几个吾辈用过的版本，以供参考。<strong>选择一个合适的版本安装就好了。</strong></p>
 <h3 id="1-Python版"><a href="#1-Python版" class="headerlink" title="1. Python版"></a>1. Python版</h3><p>首先安装最简单最easy的应该就是Python版，这应该也是官方的主要版本。<a href="https://github.com/shadowsocks/shadowsocks/wiki/Shadowsocks-%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E" target="_blank" rel="external">官方wiki</a>写得很明白，这里小小地补充一下。<br>在debian或ubuntu下安装</p>
@@ -377,53 +350,42 @@ chmod +x shadowsocks-libev-debian.sh
 }
 </code></pre><p>就是更改server_password的定义形式就好了，注意libev版不支持这样配置。<br>配置好之后通过<code>/etc/init.d/shadowsocks restart</code>重新启动ss服务来生效。</p>
 <h2 id="结尾吐槽"><a href="#结尾吐槽" class="headerlink" title="结尾吐槽"></a>结尾吐槽</h2><p>好的到这里服务端的ss配置就结束了，其实也很简单啊有没有觉得？这次写教程一张图片都没加，怪怪的。客户端的配置暂时没有打算写，感觉更加简单，，，而且教程一搜一大坨。但是考虑到Linux用户配置起来还是也可能会写一下。<br>顺便一提，吾辈在侧边栏加了一个“福利”界面，暂时是用来分享自用ss账号，不过想想还是不要写密码出来吧（一想到ishadowsocks那边被人用脚本定时获取账号密码），有需要的人估计也不是很多，所以直接微博问我要密码吧。微博基本不玩，这次把微博链接放上来也只是作为一个联系的方式，毕竟国人很少用Twitter等平台。</p>
-
-      
+ 
     </div>
 
+
     <div>
-      
-        
-      
+          
     </div>
 
     <footer class="post-footer">
-      
+        
         <div class="post-tags">
-          
-            <a href="/tags/新手向/" rel="tag">#新手向</a>
-          
-            <a href="/tags/网络/" rel="tag">#网络</a>
-          
-            <a href="/tags/科学上网/" rel="tag">#科学上网</a>
-          
+            
+            <a href="/tags/网络/" rel="tag">#网络</a> 
+            <a href="/tags/新手向/" rel="tag">#新手向</a> 
+            <a href="/tags/科学上网/" rel="tag">#科学上网</a> 
         </div>
-      
-
-      
+         
         <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2016/04/15/程序员一周年总结——总结经验/" rel="next" title="程序员一周年总结——经验分享">
-                <i class="fa fa-chevron-left"></i> 程序员一周年总结——经验分享
-              </a>
-            
-          </div>
+            <div class="post-nav-next post-nav-item">
+                
+                <a href="/2016/04/15/程序员一周年总结——总结经验/" rel="next" title="程序员一周年总结——经验分享">
+                    <i class="fa fa-chevron-left"></i> 程序员一周年总结——经验分享
+                </a>
+                
+            </div>
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/04/20/校园网ipv6环境下免费上网/" rel="prev" title="校园网ipv6环境下免费上网">
+            <div class="post-nav-prev post-nav-item">
+                
+                <a href="/2016/04/20/校园网ipv6环境下免费上网/" rel="prev" title="校园网ipv6环境下免费上网">
                 校园网ipv6环境下免费上网 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
+              </a> 
+            </div>
         </div>
-      
-
-      
-      
+          
     </footer>
-  </article>
+</article>
 
 
 
@@ -505,7 +467,7 @@ chmod +x shadowsocks-libev-debian.sh
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -522,7 +484,7 @@ chmod +x shadowsocks-libev-debian.sh
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
