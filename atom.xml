@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-08-24T16:07:49.370Z</updated>
+  <updated>2016-09-19T03:22:24.537Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,60 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>scrapy中css和xpath选择的一些坑</title>
+    <link href="http://moeyui.cn/2016/09/19/scrapy%E4%B8%ADcss%E5%92%8Cxpath%E9%80%89%E6%8B%A9%E7%9A%84%E4%B8%80%E4%BA%9B%E5%9D%91/"/>
+    <id>http://moeyui.cn/2016/09/19/scrapy中css和xpath选择的一些坑/</id>
+    <published>2016-09-19T02:50:48.000Z</published>
+    <updated>2016-09-19T03:22:24.537Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;问题背景&quot;&gt;&lt;a href=&quot;#问题背景&quot; class=&quot;headerlink&quot; title=&quot;问题背景&quot;&gt;&lt;/a&gt;问题背景&lt;/h2&gt;&lt;p&gt;最近观摩一个&lt;a href=&quot;https://github.com/LiuXingMing/SinaSpider&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;新浪微博爬虫&lt;/a&gt;项目时，发现该项目中对微博内容的提取有点问题，具体表现在提取诸如以下的html代码时，&lt;/p&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;ctt&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;:无组织排放？[吃惊]分享&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;http://weibo.cn/pages/100808topic?extparam=%E8%94%9A%E8%93%9D%E5%9C%B0%E5%9B%BE&amp;amp;amp;from=feed&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;#蔚蓝地图#&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;a&lt;/span&gt;&amp;gt;&lt;/span&gt;上一张图片，2016年09月15日12点。 &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;br&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;http://weibo.cn/sinaurl?f=w&amp;amp;amp;u=http%3A%2F%2Ft.cn%2FRcXZofm&amp;amp;amp;ep=E8mVR5zcW%2C2174951252%2CE8mVR5zcW%2C2174951252&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;http://t.cn/RcXZofm&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;a&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;span&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;提取结果为：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;:无组织排放？[吃惊]分享&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;后面的文字都丢失了。看一下代码，&lt;/p&gt;
+&lt;figure class=&quot;highlight py&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;content = tweet.xpath(&lt;span class=&quot;string&quot;&gt;&#39;div/span[@class=&quot;ctt&quot;]/text()&#39;&lt;/span&gt;).extract_first()  &lt;span class=&quot;comment&quot;&gt;# 微博内容&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;使用了xpath选择器，语法应该没有错，确实能选到&lt;code&gt;span&lt;/code&gt;节点。但是问题在于节点的text属性遇到子节点的时候就中断了。&lt;/p&gt;
+&lt;h2 id=&quot;换用css选择器&quot;&gt;&lt;a href=&quot;#换用css选择器&quot; class=&quot;headerlink&quot; title=&quot;换用css选择器&quot;&gt;&lt;/a&gt;换用css选择器&lt;/h2&gt;&lt;p&gt;会不会是受限于xpath的语法？吾辈自行在shell中实验了一下，&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; scrapy.selector &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Selector&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sel = Selector(text=&lt;span class=&quot;string&quot;&gt;&#39;&amp;lt;a href=&quot;#&quot; class=&quot;hhh&quot;&amp;gt;Click here to go to the &amp;lt;strong&amp;gt;Next Page&amp;lt;/strong&amp;gt;&amp;lt;/a&amp;gt;&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt; sel.css(&lt;span class=&quot;string&quot;&gt;&#39;.hhh::text&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;好吧其实就是拿&lt;a href=&quot;http://doc.scrapy.org/en/latest/topics/selectors.html#some-xpath-tips&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;scrapy文档中的例子&lt;/a&gt;改了一下。输出是&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[u&amp;apos;Click here to go to the &amp;apos;]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;结果是一样的。&lt;/p&gt;
+&lt;h2 id=&quot;解决方案&quot;&gt;&lt;a href=&quot;#解决方案&quot; class=&quot;headerlink&quot; title=&quot;解决方案&quot;&gt;&lt;/a&gt;解决方案&lt;/h2&gt;&lt;h3 id=&quot;xpath解决方案&quot;&gt;&lt;a href=&quot;#xpath解决方案&quot; class=&quot;headerlink&quot; title=&quot;xpath解决方案&quot;&gt;&lt;/a&gt;xpath解决方案&lt;/h3&gt;&lt;p&gt;查阅了一下scrapy的文档，发现&lt;a href=&quot;http://doc.scrapy.org/en/latest/topics/selectors.html#using-text-nodes-in-a-condition&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;其中提到了这样的情况&lt;/a&gt;，解决方案是改成这么写：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;content = tweet.xpath(&lt;span class=&quot;string&quot;&gt;&#39;string(div/span[@class=&quot;ctt&quot;])&#39;&lt;/span&gt;).extract_first()  &lt;span class=&quot;comment&quot;&gt;# 微博内容&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;就是用一个&lt;code&gt;string()&lt;/code&gt;将节点内容转换为字符串，并且子节点内容也被转换为string。官方文档是这么解释的：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A &lt;em&gt;node&lt;/em&gt; converted to a string, however, puts together the text of itself plus of all its descendants.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;css解决方案&quot;&gt;&lt;a href=&quot;#css解决方案&quot; class=&quot;headerlink&quot; title=&quot;css解决方案&quot;&gt;&lt;/a&gt;css解决方案&lt;/h3&gt;&lt;p&gt;然而官方并没有给出css选择器的解决方案ヽ(°◇° )ノ…&lt;/p&gt;
+&lt;p&gt;感觉官方文档似乎偏向于用xpath解决问题●︿●&lt;/p&gt;
+&lt;p&gt;其实通过上面的xpath的解决可以看出来，原代码的选择错在只选择了父节点，所有没有处理子节点，那么只要用css选择所有子节点就好啦=￣ω￣=&lt;/p&gt;
+&lt;p&gt;以上文css选择器的例子来说明，目标html代码为：&lt;/p&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;href&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;#&quot;&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;hhh&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;Click here to go to the &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;strong&lt;/span&gt;&amp;gt;&lt;/span&gt;Next Page&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;strong&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;a&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;那么&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; scrapy.selector &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Selector&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sel = Selector(text=&lt;span class=&quot;string&quot;&gt;&#39;&amp;lt;a href=&quot;#&quot; class=&quot;hhh&quot;&amp;gt;Click here to go to the &amp;lt;strong&amp;gt;Next Page&amp;lt;/strong&amp;gt;&amp;lt;/a&amp;gt;&#39;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;print&lt;/span&gt; sel.css(&lt;span class=&quot;string&quot;&gt;&#39;.hhh *::text&#39;&lt;/span&gt;).extract()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;就好了。输出是&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[u&amp;apos;Click here to go to the &amp;apos;, u&amp;apos;Next Page&amp;apos;]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;注意这是个数组！！不同于xpath的&lt;code&gt;string()&lt;/code&gt;递归处理子节点，css选择器返回的是一个list，调用&lt;code&gt;extract()&lt;/code&gt;自然返回的是每个子节点&lt;code&gt;extract()&lt;/code&gt;的结果数组。所以之后只要拼接一下就好啦o(￣▽￣)d&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      scrapy中xpath和css提取节点中子节点文本的一些坑
+    
+    </summary>
+    
+    
+      <category term="scrapy" scheme="http://moeyui.cn/tags/scrapy/"/>
+    
+      <category term="爬虫" scheme="http://moeyui.cn/tags/%E7%88%AC%E8%99%AB/"/>
+    
+      <category term="python" scheme="http://moeyui.cn/tags/python/"/>
+    
+  </entry>
   
   <entry>
     <title>本站最近的一点小动作</title>
@@ -403,11 +457,11 @@ public static void main(String[] args) {
       <category term="coding" scheme="http://moeyui.cn/categories/coding/"/>
     
     
+      <category term="coding" scheme="http://moeyui.cn/tags/coding/"/>
+    
       <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
     
       <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
-    
-      <category term="coding" scheme="http://moeyui.cn/tags/coding/"/>
     
   </entry>
   

@@ -41,7 +41,7 @@
 <link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, moeyui" />
+  <meta name="keywords" content="scrapy,爬虫,python," />
 
 
 
@@ -59,15 +59,16 @@
 
 
 
-<meta name="description" content="moeyui | moeyui&apos;s blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="不是很懂你们程序员">
-<meta property="og:url" content="http://moeyui.cn/page/2/index.html">
+<meta name="description" content="scrapy中xpath和css提取节点中子节点文本的一些坑">
+<meta property="og:type" content="article">
+<meta property="og:title" content="scrapy中css和xpath选择的一些坑">
+<meta property="og:url" content="http://moeyui.cn/2016/09/19/scrapy中css和xpath选择的一些坑/index.html">
 <meta property="og:site_name" content="不是很懂你们程序员">
-<meta property="og:description" content="moeyui | moeyui&apos;s blog">
+<meta property="og:description" content="scrapy中xpath和css提取节点中子节点文本的一些坑">
+<meta property="og:updated_time" content="2016-09-19T03:22:24.537Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="不是很懂你们程序员">
-<meta name="twitter:description" content="moeyui | moeyui&apos;s blog">
+<meta name="twitter:title" content="scrapy中css和xpath选择的一些坑">
+<meta name="twitter:description" content="scrapy中xpath和css提取节点中子节点文本的一些坑">
 
 
 
@@ -85,7 +86,7 @@
   };
 </script>
 
-  <title> 不是很懂你们程序员 </title>
+  <title> scrapy中css和xpath选择的一些坑 | 不是很懂你们程序员 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -115,9 +116,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,9 +233,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
-    
-           
+
+  <div id="posts" class="posts-expand">
+         
 
 <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
 
@@ -248,10 +247,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/04/07/五花八门的教育优惠/" itemprop="url">
-                  五花八门的教育优惠申请青葱创业计划
-                </a>
+                scrapy中css和xpath选择的一些坑
               
             
           </h1> 
@@ -262,35 +258,20 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-04-07T21:01:06+08:00" content="2016-04-07">
-              2016-04-07
+            <time itemprop="dateCreated" datetime="2016-09-19T10:50:48+08:00" content="2016-09-19">
+              2016-09-19
             </time>
             </span>
 
-            
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-            <span class="post-meta-item-text">分类于</span> 
-            <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/生活/" itemprop="url" rel="index">
-                    <span itemprop="name">生活</span>
-            </a>
-            </span>
-
-              
-            </span>
               
             <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/04/07/五花八门的教育优惠/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/04/07/五花八门的教育优惠/" itemprop="commentsCount"></span>
+                <a href="/2016/09/19/scrapy中css和xpath选择的一些坑/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/19/scrapy中css和xpath选择的一些坑/" itemprop="commentsCount"></span>
             </a>
             </span>
                 
-            <span id="/2016/04/07/五花八门的教育优惠/" class="leancloud_visitors" data-flag-title="五花八门的教育优惠申请青葱创业计划">
+            <span id="/2016/09/19/scrapy中css和xpath选择的一些坑/" class="leancloud_visitors" data-flag-title="scrapy中css和xpath选择的一些坑">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -307,320 +288,95 @@
 
     <div class="post-body" itemprop="articleBody">
 
-            今天随便说说那些让人感动（笑）的教育优惠
-    <div class="post-more-link text-center">
-        <a class="btn" href="/2016/04/07/五花八门的教育优惠/">
-              阅读全文 &raquo;
-            </a>
-    </div>
-     
+           <h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>最近观摩一个<a href="https://github.com/LiuXingMing/SinaSpider" target="_blank" rel="external">新浪微博爬虫</a>项目时，发现该项目中对微博内容的提取有点问题，具体表现在提取诸如以下的html代码时，</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"ctt"</span>&gt;</span>:无组织排放？[吃惊]分享<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://weibo.cn/pages/100808topic?extparam=%E8%94%9A%E8%93%9D%E5%9C%B0%E5%9B%BE&amp;amp;from=feed"</span>&gt;</span>#蔚蓝地图#<span class="tag">&lt;/<span class="name">a</span>&gt;</span>上一张图片，2016年09月15日12点。 <span class="tag">&lt;<span class="name">br</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://weibo.cn/sinaurl?f=w&amp;amp;u=http%3A%2F%2Ft.cn%2FRcXZofm&amp;amp;ep=E8mVR5zcW%2C2174951252%2CE8mVR5zcW%2C2174951252"</span>&gt;</span>http://t.cn/RcXZofm<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>提取结果为：</p>
+<blockquote>
+<p>:无组织排放？[吃惊]分享</p>
+</blockquote>
+<p>后面的文字都丢失了。看一下代码，</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">content = tweet.xpath(<span class="string">'div/span[@class="ctt"]/text()'</span>).extract_first()  <span class="comment"># 微博内容</span></span><br></pre></td></tr></table></figure>
+<p>使用了xpath选择器，语法应该没有错，确实能选到<code>span</code>节点。但是问题在于节点的text属性遇到子节点的时候就中断了。</p>
+<h2 id="换用css选择器"><a href="#换用css选择器" class="headerlink" title="换用css选择器"></a>换用css选择器</h2><p>会不会是受限于xpath的语法？吾辈自行在shell中实验了一下，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.selector <span class="keyword">import</span> Selector</span><br><span class="line">sel = Selector(text=<span class="string">'&lt;a href="#" class="hhh"&gt;Click here to go to the &lt;strong&gt;Next Page&lt;/strong&gt;&lt;/a&gt;'</span>)</span><br><span class="line"><span class="keyword">print</span> sel.css(<span class="string">'.hhh::text'</span>).extract()</span><br></pre></td></tr></table></figure>
+<p>好吧其实就是拿<a href="http://doc.scrapy.org/en/latest/topics/selectors.html#some-xpath-tips" target="_blank" rel="external">scrapy文档中的例子</a>改了一下。输出是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[u&apos;Click here to go to the &apos;]</span><br></pre></td></tr></table></figure>
+<p>结果是一样的。</p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><h3 id="xpath解决方案"><a href="#xpath解决方案" class="headerlink" title="xpath解决方案"></a>xpath解决方案</h3><p>查阅了一下scrapy的文档，发现<a href="http://doc.scrapy.org/en/latest/topics/selectors.html#using-text-nodes-in-a-condition" target="_blank" rel="external">其中提到了这样的情况</a>，解决方案是改成这么写：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">content = tweet.xpath(<span class="string">'string(div/span[@class="ctt"])'</span>).extract_first()  <span class="comment"># 微博内容</span></span><br></pre></td></tr></table></figure>
+<p>就是用一个<code>string()</code>将节点内容转换为字符串，并且子节点内容也被转换为string。官方文档是这么解释的：</p>
+<blockquote>
+<p>A <em>node</em> converted to a string, however, puts together the text of itself plus of all its descendants.</p>
+</blockquote>
+<h3 id="css解决方案"><a href="#css解决方案" class="headerlink" title="css解决方案"></a>css解决方案</h3><p>然而官方并没有给出css选择器的解决方案ヽ(°◇° )ノ…</p>
+<p>感觉官方文档似乎偏向于用xpath解决问题●︿●</p>
+<p>其实通过上面的xpath的解决可以看出来，原代码的选择错在只选择了父节点，所有没有处理子节点，那么只要用css选择所有子节点就好啦=￣ω￣=</p>
+<p>以上文css选择器的例子来说明，目标html代码为：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">class</span>=<span class="string">"hhh"</span>&gt;</span>Click here to go to the <span class="tag">&lt;<span class="name">strong</span>&gt;</span>Next Page<span class="tag">&lt;/<span class="name">strong</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>那么</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy.selector <span class="keyword">import</span> Selector</span><br><span class="line">sel = Selector(text=<span class="string">'&lt;a href="#" class="hhh"&gt;Click here to go to the &lt;strong&gt;Next Page&lt;/strong&gt;&lt;/a&gt;'</span>)</span><br><span class="line"><span class="keyword">print</span> sel.css(<span class="string">'.hhh *::text'</span>).extract()</span><br></pre></td></tr></table></figure>
+<p>就好了。输出是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[u&apos;Click here to go to the &apos;, u&apos;Next Page&apos;]</span><br></pre></td></tr></table></figure>
+<p>注意这是个数组！！不同于xpath的<code>string()</code>递归处理子节点，css选择器返回的是一个list，调用<code>extract()</code>自然返回的是每个子节点<code>extract()</code>的结果数组。所以之后只要拼接一下就好啦o(￣▽￣)d</p>
+ 
     </div>
 
 
     <div>
-        
+          
     </div>
 
     <footer class="post-footer">
-           
-        <div class="post-eof"></div>
         
-    </footer>
-</article>
-
-
-    
-           
-
-<article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-    <header class="post-header">
-
-         
-        <h1 class="post-title" itemprop="name headline">
+        <div class="post-tags">
             
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/28/不懂程序也要搭建自己的VPS/" itemprop="url">
-                  不懂程序也要搭建自己的vps
-                </a>
-              
-            
-          </h1> 
-
-        <div class="post-meta">
-            <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-28T23:49:40+08:00" content="2016-03-28">
-              2016-03-28
-            </time>
-            </span>
-
-            
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-            <span class="post-meta-item-text">分类于</span> 
-            <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/网站/" itemprop="url" rel="index">
-                    <span itemprop="name">网站</span>
-            </a>
-            </span>
-
-              
-            </span>
-              
-            <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/28/不懂程序也要搭建自己的VPS/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/28/不懂程序也要搭建自己的VPS/" itemprop="commentsCount"></span>
-            </a>
-            </span>
-                
-            <span id="/2016/03/28/不懂程序也要搭建自己的VPS/" class="leancloud_visitors" data-flag-title="不懂程序也要搭建自己的vps">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-            <span class="post-meta-item-text">阅读次数 </span>
-            <span class="leancloud-visitors-count"></span>
-            </span>
-            
-
+            <a href="/tags/scrapy/" rel="tag">#scrapy</a> 
+            <a href="/tags/爬虫/" rel="tag">#爬虫</a> 
+            <a href="/tags/python/" rel="tag">#python</a> 
         </div>
-    </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-            专门面向普通人的Geek类教程系列，搭建自己的vps。本篇主要介绍购买和初始化。
-    <div class="post-more-link text-center">
-        <a class="btn" href="/2016/03/28/不懂程序也要搭建自己的VPS/">
-              阅读全文 &raquo;
-            </a>
-    </div>
-     
-    </div>
-
-
-    <div>
-        
-    </div>
-
-    <footer class="post-footer">
-           
-        <div class="post-eof"></div>
-        
-    </footer>
-</article>
-
-
-    
-           
-
-<article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-    <header class="post-header">
-
          
-        <h1 class="post-title" itemprop="name headline">
-            
-            
-              
+        <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
                 
-                <a class="post-title-link" href="/2016/03/26/程序员必备系列——Git的安装和配置/" itemprop="url">
-                  程序员基础系列——Git的安装和配置
+                <a href="/2016/08/24/本站最近的一点小动作/" rel="next" title="本站最近的一点小动作">
+                    <i class="fa fa-chevron-left"></i> 本站最近的一点小动作
                 </a>
-              
-            
-          </h1> 
-
-        <div class="post-meta">
-            <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-26T14:52:26+08:00" content="2016-03-26">
-              2016-03-26
-            </time>
-            </span>
-
-            
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-            <span class="post-meta-item-text">分类于</span> 
-            <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/coding/" itemprop="url" rel="index">
-                    <span itemprop="name">coding</span>
-            </a>
-            </span>
-
-              
-            </span>
-              
-            <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/03/26/程序员必备系列——Git的安装和配置/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/03/26/程序员必备系列——Git的安装和配置/" itemprop="commentsCount"></span>
-            </a>
-            </span>
                 
-            <span id="/2016/03/26/程序员必备系列——Git的安装和配置/" class="leancloud_visitors" data-flag-title="程序员基础系列——Git的安装和配置">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-            <span class="post-meta-item-text">阅读次数 </span>
-            <span class="leancloud-visitors-count"></span>
-            </span>
-            
+            </div>
 
+            <div class="post-nav-prev post-nav-item">
+                
+            </div>
         </div>
-    </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-            作为一个现实的程序员不可能总是在Github上开发是吧？这时候要做版本控制就得回归根本，请出我们的Git啦。这篇教程主要是为入门用户准备的，如果你已经安装并配置了git并已经学会了基本的使用，请手动无视。
-    <div class="post-more-link text-center">
-        <a class="btn" href="/2016/03/26/程序员必备系列——Git的安装和配置/">
-              阅读全文 &raquo;
-            </a>
-    </div>
-     
-    </div>
-
-
-    <div>
-        
-    </div>
-
-    <footer class="post-footer">
-           
-        <div class="post-eof"></div>
-        
+          
     </footer>
 </article>
 
 
-    
-           
 
-<article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2016/09/19/scrapy中css和xpath选择的一些坑/"
+     data-title="scrapy中css和xpath选择的一些坑"
+     data-content=""
+     data-url="http://moeyui.cn/2016/09/19/scrapy中css和xpath选择的一些坑/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
 
-    
-    <header class="post-header">
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
 
-         
-        <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/31/a-new-post/" itemprop="url">
-                  建博大业
-                </a>
-              
-            
-          </h1> 
-
-        <div class="post-meta">
-            <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-31T19:35:26+08:00" content="2015-10-31">
-              2015-10-31
-            </time>
-            </span>
-
-            
-            <span class="post-category">
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-            <span class="post-meta-item-text">分类于</span> 
-            <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/coding/" itemprop="url" rel="index">
-                    <span itemprop="name">coding</span>
-            </a>
-            </span>
-
-              
-            </span>
-              
-            <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2015/10/31/a-new-post/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/31/a-new-post/" itemprop="commentsCount"></span>
-            </a>
-            </span>
-                
-            <span id="/2015/10/31/a-new-post/" class="leancloud_visitors" data-flag-title="建博大业">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-            <span class="post-meta-item-text">阅读次数 </span>
-            <span class="leancloud-visitors-count"></span>
-            </span>
-            
-
-        </div>
-    </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-            <h1 id="My-First-Post"><a href="#My-First-Post" class="headerlink" title="My First Post"></a>My First Post</h1><p>In fact,I still don’t know how to edit by Markdown…</p>
-<hr>
-<p>这相当于这个blog的创始页面吧。简单来说这个blog就是吾辈一时兴起搞的。</p>
-    <div class="post-more-link text-center">
-        <a class="btn" href="/2015/10/31/a-new-post/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
+    </ul>
+    <div class="ds-share-icons-more">
     </div>
-     
+  </div>
+</div>
+      
     </div>
-
-
-    <div>
-        
-    </div>
-
-    <footer class="post-footer">
-           
-        <div class="post-eof"></div>
-        
-    </footer>
-</article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
-  </nav>
-
+  </div>
 
 
           </div>
@@ -628,6 +384,14 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/09/19/scrapy中css和xpath选择的一些坑/"
+           data-title="scrapy中css和xpath选择的一些坑" data-url="http://moeyui.cn/2016/09/19/scrapy中css和xpath选择的一些坑/">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -647,8 +411,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/blogAvatar.jpg"
@@ -742,6 +515,23 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景"><span class="nav-number">1.</span> <span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#换用css选择器"><span class="nav-number">2.</span> <span class="nav-text">换用css选择器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决方案"><span class="nav-number">3.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xpath解决方案"><span class="nav-number">3.1.</span> <span class="nav-text">xpath解决方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css解决方案"><span class="nav-number">3.2.</span> <span class="nav-text">css解决方案</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
       
 
       <!-- <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=180 height=300 src="http://music.163.com/outchain/player?type=0&id=24247966&auto=0&height=430"></iframe> -->
@@ -849,6 +639,167 @@
 
 
   
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
 
   
 
