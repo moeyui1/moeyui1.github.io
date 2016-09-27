@@ -4,7 +4,7 @@ The blog is written by **node.js** and is generated to static web by **hexo**.
 
 if you are in China,please visit 
 
-> [http://moeyui.cn](http://moeyui.cn)
+> [https://moeyui.cn](https://moeyui.cn)
 >
 > which is deployed on qcloud.
 
