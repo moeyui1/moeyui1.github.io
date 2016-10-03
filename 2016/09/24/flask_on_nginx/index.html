@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next muse use-motion">
+<html class="theme-next pisces use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -55,7 +55,7 @@
   
     
     
-    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+    <link href="//fonts.gmirror.org/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
   
 
 
@@ -88,13 +88,13 @@
 
 <meta name="description" content="小记flask框架编写的网站使用uwsgi部署到nginx主机上，并使用supervisor守护进程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="本站最近的一点小动作">
+<meta property="og:title" content="小记flask网站部署到nginx主机">
 <meta property="og:url" content="http://moeyui.cn/2016/09/24/flask_on_nginx/index.html">
 <meta property="og:site_name" content="不是很懂你们程序员">
 <meta property="og:description" content="小记flask框架编写的网站使用uwsgi部署到nginx主机上，并使用supervisor守护进程。">
-<meta property="og:updated_time" content="2016-10-03T09:27:12.090Z">
+<meta property="og:updated_time" content="2016-10-03T09:33:57.583Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="本站最近的一点小动作">
+<meta name="twitter:title" content="小记flask网站部署到nginx主机">
 <meta name="twitter:description" content="小记flask框架编写的网站使用uwsgi部署到nginx主机上，并使用supervisor守护进程。">
 
 
@@ -102,7 +102,7 @@
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Muse',
+    scheme: 'Pisces',
     sidebar: {"position":"left","display":"post"},
     fancybox: true,
     motion: true,
@@ -118,7 +118,7 @@
 
   <link rel="canonical" href="http://moeyui.cn/2016/09/24/flask_on_nginx/"/>
 
-  <title> 本站最近的一点小动作 | 不是很懂你们程序员 </title>
+  <title> 小记flask网站部署到nginx主机 | 不是很懂你们程序员 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -287,7 +287,7 @@
             
             
               
-                本站最近的一点小动作
+                小记flask网站部署到nginx主机
               
             
           </h1>
@@ -340,7 +340,7 @@
 
           
           
-             <span id="/2016/09/24/flask_on_nginx/" class="leancloud_visitors" data-flag-title="本站最近的一点小动作">
+             <span id="/2016/09/24/flask_on_nginx/" class="leancloud_visitors" data-flag-title="小记flask网站部署到nginx主机">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -362,7 +362,7 @@
       
 
       
-        <h1 id="小记flask网站部署到nginx主机"><a href="#小记flask网站部署到nginx主机" class="headerlink" title="小记flask网站部署到nginx主机"></a>小记flask网站部署到nginx主机</h1><h2 id="说说flask"><a href="#说说flask" class="headerlink" title="说说flask"></a>说说<a href="http://flask.pocoo.org/" target="_blank" rel="external">flask</a></h2><p>接触到<code>flask</code>之前只会用j2ee建站，现在看来<code>ssh</code>框架真是太重了ヽ(°◇° )ノ，果然还是适合ERP系统。个人要建个小站来玩玩的话，果然还是需要轻量级，容易上手，或者cool一点的框架啊ヽ(=^･ω･^=)丿。<del>用wordpress感觉不够geek啊</del></p>
+        <h2 id="说说flask"><a href="#说说flask" class="headerlink" title="说说flask"></a>说说<a href="http://flask.pocoo.org/" target="_blank" rel="external">flask</a></h2><p>接触到<code>flask</code>之前只会用j2ee建站，现在看来<code>ssh</code>框架真是太重了ヽ(°◇° )ノ，果然还是适合ERP系统。个人要建个小站来玩玩的话，果然还是需要轻量级，容易上手，或者cool一点的框架啊ヽ(=^･ω･^=)丿。<del>用wordpress感觉不够geek啊</del></p>
 <p>贴一段官网的Hello World你们感受下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route("/")</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hello</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">"Hello World!"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
 <h2 id="uwsgi"><a href="#uwsgi" class="headerlink" title="uwsgi"></a><a href="https://github.com/unbit/uwsgi" target="_blank" rel="external">uwsgi</a></h2><p>关于flask上手多简单多好用的开发过程此处省去一万字。。。网站写好了，该怎么部署呢？总不能用python运行main方法来部署吧。。。<del>其实也不是不行</del></p>
@@ -443,7 +443,7 @@
     <div class="post-spread">
       
         <div class="ds-share flat" data-thread-key="2016/09/24/flask_on_nginx/"
-     data-title="本站最近的一点小动作"
+     data-title="小记flask网站部署到nginx主机"
      data-content=""
      data-url="http://moeyui.cn/2016/09/24/flask_on_nginx/">
   <div class="ds-share-inline">
@@ -473,7 +473,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2016/09/24/flask_on_nginx/"
-           data-title="本站最近的一点小动作" data-url="http://moeyui.cn/2016/09/24/flask_on_nginx/">
+           data-title="小记flask网站部署到nginx主机" data-url="http://moeyui.cn/2016/09/24/flask_on_nginx/">
       </div>
     
   </div>
@@ -614,7 +614,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#小记flask网站部署到nginx主机"><span class="nav-number">1.</span> <span class="nav-text">小记flask网站部署到nginx主机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#说说flask"><span class="nav-number">1.1.</span> <span class="nav-text">说说flask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uwsgi"><span class="nav-number">1.2.</span> <span class="nav-text">uwsgi</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">1.2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uwsgi配置文件"><span class="nav-number">1.2.2.</span> <span class="nav-text">uwsgi配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置nginx"><span class="nav-number">1.3.</span> <span class="nav-text">配置nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置supervisor"><span class="nav-number">1.4.</span> <span class="nav-text">配置supervisor</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#说说flask"><span class="nav-number">1.</span> <span class="nav-text">说说flask</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#uwsgi"><span class="nav-number">2.</span> <span class="nav-text">uwsgi</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装"><span class="nav-number">2.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uwsgi配置文件"><span class="nav-number">2.2.</span> <span class="nav-text">uwsgi配置文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置nginx"><span class="nav-number">3.</span> <span class="nav-text">配置nginx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置supervisor"><span class="nav-number">4.</span> <span class="nav-text">配置supervisor</span></a></li></ol></div>
             
           </div>
         </section>
@@ -647,7 +647,7 @@
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Muse
+    NexT.Pisces
   </a>
 </div>
 
@@ -712,6 +712,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

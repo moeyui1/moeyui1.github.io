@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-10-03T09:27:12.090Z</updated>
+  <updated>2016-10-03T09:33:57.583Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -16,13 +16,13 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>本站最近的一点小动作</title>
+    <title>小记flask网站部署到nginx主机</title>
     <link href="http://moeyui.cn/2016/09/24/flask_on_nginx/"/>
     <id>http://moeyui.cn/2016/09/24/flask_on_nginx/</id>
     <published>2016-09-24T09:23:23.000Z</published>
-    <updated>2016-10-03T09:27:12.090Z</updated>
+    <updated>2016-10-03T09:33:57.583Z</updated>
     
-    <content type="html">&lt;h1 id=&quot;小记flask网站部署到nginx主机&quot;&gt;&lt;a href=&quot;#小记flask网站部署到nginx主机&quot; class=&quot;headerlink&quot; title=&quot;小记flask网站部署到nginx主机&quot;&gt;&lt;/a&gt;小记flask网站部署到nginx主机&lt;/h1&gt;&lt;h2 id=&quot;说说flask&quot;&gt;&lt;a href=&quot;#说说flask&quot; class=&quot;headerlink&quot; title=&quot;说说flask&quot;&gt;&lt;/a&gt;说说&lt;a href=&quot;http://flask.pocoo.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;flask&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;接触到&lt;code&gt;flask&lt;/code&gt;之前只会用j2ee建站，现在看来&lt;code&gt;ssh&lt;/code&gt;框架真是太重了ヽ(°◇° )ノ，果然还是适合ERP系统。个人要建个小站来玩玩的话，果然还是需要轻量级，容易上手，或者cool一点的框架啊ヽ(=^･ω･^=)丿。&lt;del&gt;用wordpress感觉不够geek啊&lt;/del&gt;&lt;/p&gt;
+    <content type="html">&lt;h2 id=&quot;说说flask&quot;&gt;&lt;a href=&quot;#说说flask&quot; class=&quot;headerlink&quot; title=&quot;说说flask&quot;&gt;&lt;/a&gt;说说&lt;a href=&quot;http://flask.pocoo.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;flask&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;接触到&lt;code&gt;flask&lt;/code&gt;之前只会用j2ee建站，现在看来&lt;code&gt;ssh&lt;/code&gt;框架真是太重了ヽ(°◇° )ノ，果然还是适合ERP系统。个人要建个小站来玩玩的话，果然还是需要轻量级，容易上手，或者cool一点的框架啊ヽ(=^･ω･^=)丿。&lt;del&gt;用wordpress感觉不够geek啊&lt;/del&gt;&lt;/p&gt;
 &lt;p&gt;贴一段官网的Hello World你们感受下：&lt;/p&gt;
 &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; flask &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Flask&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;app = Flask(__name__)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@app.route(&quot;/&quot;)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;Hello World!&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; __name__ == &lt;span class=&quot;string&quot;&gt;&quot;__main__&quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app.run()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;h2 id=&quot;uwsgi&quot;&gt;&lt;a href=&quot;#uwsgi&quot; class=&quot;headerlink&quot; title=&quot;uwsgi&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://github.com/unbit/uwsgi&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;uwsgi&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;关于flask上手多简单多好用的开发过程此处省去一万字。。。网站写好了，该怎么部署呢？总不能用python运行main方法来部署吧。。。&lt;del&gt;其实也不是不行&lt;/del&gt;&lt;/p&gt;
