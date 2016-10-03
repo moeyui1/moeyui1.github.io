@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-09-27T12:00:32.416Z</updated>
+  <updated>2016-10-03T09:27:12.090Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>本站最近的一点小动作</title>
+    <link href="http://moeyui.cn/2016/09/24/flask_on_nginx/"/>
+    <id>http://moeyui.cn/2016/09/24/flask_on_nginx/</id>
+    <published>2016-09-24T09:23:23.000Z</published>
+    <updated>2016-10-03T09:27:12.090Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;小记flask网站部署到nginx主机&quot;&gt;&lt;a href=&quot;#小记flask网站部署到nginx主机&quot; class=&quot;headerlink&quot; title=&quot;小记flask网站部署到nginx主机&quot;&gt;&lt;/a&gt;小记flask网站部署到nginx主机&lt;/h1&gt;&lt;h2 id=&quot;说说flask&quot;&gt;&lt;a href=&quot;#说说flask&quot; class=&quot;headerlink&quot; title=&quot;说说flask&quot;&gt;&lt;/a&gt;说说&lt;a href=&quot;http://flask.pocoo.org/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;flask&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;接触到&lt;code&gt;flask&lt;/code&gt;之前只会用j2ee建站，现在看来&lt;code&gt;ssh&lt;/code&gt;框架真是太重了ヽ(°◇° )ノ，果然还是适合ERP系统。个人要建个小站来玩玩的话，果然还是需要轻量级，容易上手，或者cool一点的框架啊ヽ(=^･ω･^=)丿。&lt;del&gt;用wordpress感觉不够geek啊&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;贴一段官网的Hello World你们感受下：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;from&lt;/span&gt; flask &lt;span class=&quot;keyword&quot;&gt;import&lt;/span&gt; Flask&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;app = Flask(__name__)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;@app.route(&quot;/&quot;)&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;hello&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;:&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;string&quot;&gt;&quot;Hello World!&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; __name__ == &lt;span class=&quot;string&quot;&gt;&quot;__main__&quot;&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    app.run()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;uwsgi&quot;&gt;&lt;a href=&quot;#uwsgi&quot; class=&quot;headerlink&quot; title=&quot;uwsgi&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://github.com/unbit/uwsgi&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;uwsgi&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;关于flask上手多简单多好用的开发过程此处省去一万字。。。网站写好了，该怎么部署呢？总不能用python运行main方法来部署吧。。。&lt;del&gt;其实也不是不行&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;官方文档提供了&lt;a href=&quot;http://flask.pocoo.org/docs/0.11/deploying/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;非常多方案&lt;/a&gt;，考虑到手上的主机装有nginx，遂选择了&lt;code&gt;uWSGI&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h3&gt;&lt;p&gt;没想到从安装这一步就坑住吾辈了。。。(๑°ㅁ°๑)‼&lt;/p&gt;
+&lt;p&gt;手上主机系统是&lt;code&gt;centos6.6&lt;/code&gt;，不知道是不是源的问题，&lt;code&gt;yum install uwsgi&lt;/code&gt;装下来的是很旧很旧的版本，然而网上各种文档和教程都是基于新版本。。。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;说到这里就情不自禁婊一下python的各种库。一个两个更新得比西方记者还快，这本来到没有什么大问题，但是你们好歹做好向下兼容啊。。。今天说的&lt;code&gt;uwsgi&lt;/code&gt;，以前用过的&lt;code&gt;scrapy&lt;/code&gt;，甚至包括&lt;code&gt;python3&lt;/code&gt;（万恶之源ヽ(ｏ`皿′ｏ)ﾉ）。。。毕竟不能和j2ee上那些屹立十几年的框架比稳定性。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;既然uwsgi也是python库，那么直接&lt;code&gt;pip install uwsgi&lt;/code&gt;就好了。&lt;/p&gt;
+&lt;h3 id=&quot;uwsgi配置文件&quot;&gt;&lt;a href=&quot;#uwsgi配置文件&quot; class=&quot;headerlink&quot; title=&quot;uwsgi配置文件&quot;&gt;&lt;/a&gt;uwsgi配置文件&lt;/h3&gt;&lt;p&gt;使用uwsgi之前需要新建一个配置文件（当然你可以不用配置文件，命令后面跟一大坨参数。。）&lt;/p&gt;
+&lt;p&gt;这里贴出我的简化配置：&lt;/p&gt;
+&lt;figure class=&quot;highlight ini&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;section&quot;&gt;[uwsgi]&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;socket&lt;/span&gt;= /tmp/uwsgi.sock&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;module&lt;/span&gt;=PicWall:app	#picwall是我的项目名字&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;processes&lt;/span&gt;=&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;	#&lt;span class=&quot;number&quot;&gt;4&lt;/span&gt;个工作进程，提高并发处理能力&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;master&lt;/span&gt;=&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;#permissions for the socket file&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attr&quot;&gt;chmod-socket&lt;/span&gt;    = &lt;span class=&quot;number&quot;&gt;666&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这里说一下&lt;code&gt;chmod-socket&lt;/code&gt;这个配置项，因为&lt;code&gt;/tmp/uwsgi.sock&lt;/code&gt;这个文件收到Unix系统的权限管理，所以这里需要把它的权限改一下（此处设为了666）。&lt;/p&gt;
+&lt;h2 id=&quot;配置nginx&quot;&gt;&lt;a href=&quot;#配置nginx&quot; class=&quot;headerlink&quot; title=&quot;配置nginx&quot;&gt;&lt;/a&gt;配置nginx&lt;/h2&gt;&lt;p&gt;与&lt;code&gt;Gunicorn&lt;/code&gt;这种Standalone的容器不同，uwsgi现在需要与nginx协作，站点的nginx配置文件作如下修改：&lt;/p&gt;
+&lt;figure class=&quot;highlight nginx&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;location&lt;/span&gt; / &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;attribute&quot;&gt;uwsgi_pass&lt;/span&gt; unix:///tmp/uwsgi.sock;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;attribute&quot;&gt;include&lt;/span&gt; uwsgi_params;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;配置supervisor&quot;&gt;&lt;a href=&quot;#配置supervisor&quot; class=&quot;headerlink&quot; title=&quot;配置supervisor&quot;&gt;&lt;/a&gt;配置&lt;a href=&quot;http://supervisord.org/index.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;supervisor&lt;/a&gt;&lt;/h2&gt;&lt;p&gt;实际上做完以上工作之后运行&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;uwsgi --ini path #path是uwsgi配置文件路径&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;网站就可以访问了。但是为了使进程能稳定地在后台运行，吾辈选择使用supervisor来守护uwsgi的进程。&lt;/p&gt;
+&lt;p&gt;安装十分简单，&lt;code&gt;pip install supervisor&lt;/code&gt;，也可以&lt;code&gt;yum install supervisor&lt;/code&gt;之后需要找到supervisor默认配置文件，一般在/etc/下，名字是&lt;code&gt;supervisord.conf&lt;/code&gt;具体位置不同系统、不同安装方式是不同的。&lt;/p&gt;
+&lt;p&gt;编辑默认配置文件，在文件末尾加上你需要运行的进程，简单的格式如下：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;[program:picwallnew]&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;command= uwsgi --ini path/uwsgi.ini&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;directory=命令运行目录&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;user = root #运行身份&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;还可以通过参数配置进程意外结束自动重启等功能。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      小记flask框架编写的网站使用uwsgi部署到nginx主机上，并使用supervisor守护进程。
+    
+    </summary>
+    
+      <category term="网站" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%AB%99/"/>
+    
+    
+      <category term="网站" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%AB%99/"/>
+    
+      <category term="flask" scheme="http://moeyui.cn/tags/flask/"/>
+    
+      <category term="python - uwsgi - nginx - supervisor" scheme="http://moeyui.cn/tags/python-uwsgi-nginx-supervisor/"/>
+    
+  </entry>
   
   <entry>
     <title>scrapy中css和xpath选择的一些坑</title>
