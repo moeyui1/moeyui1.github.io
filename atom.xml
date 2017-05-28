@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2016-10-16T16:37:40.338Z</updated>
+  <updated>2017-05-28T09:33:50.694Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,91 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>初探 Kotlin 给 android 代码风格带来的改变</title>
+    <link href="http://moeyui.cn/2017/05/28/%E5%88%9D%E6%8E%A2kotlin%E7%BB%99android%E4%BB%A3%E7%A0%81%E9%A3%8E%E6%A0%BC%E5%B8%A6%E6%9D%A5%E7%9A%84%E6%94%B9%E5%8F%98/"/>
+    <id>http://moeyui.cn/2017/05/28/初探kotlin给android代码风格带来的改变/</id>
+    <published>2017-05-27T16:00:00.000Z</published>
+    <updated>2017-05-28T09:33:50.694Z</updated>
+    
+    <content type="html">&lt;p&gt;Kotlin 是由 JetBrains 推出的用于现代多平台应用的静态编程语言。它与 Scala 和 Java 一样可以运行在 JVM 上，但 Kotlin 与 Scala 不同之处在于它能与 Java 无缝互操作。JetBrains 声称 Kotlin 甚至可以和 Java 互相调用彼此的 &lt;code&gt;.class&lt;/code&gt; 文件，以至于 Kotlin 可以完美融于现有的 Java 项目中。&lt;/p&gt;
+&lt;p&gt;Kotlin 自2016年2月发布第一个官方稳定版以来，一直受到 Java 开发者的密切关注。而就在最近，Google 在2017年5月的 Google I/O 上正式宣布将 Kotlin 作为 android 开发的官方语言。&lt;/p&gt;
+&lt;p&gt;本文试从代码风格的角度分析 Kotlin 给 Android 开发带来的改变。&lt;/p&gt;
+&lt;h1 id=&quot;启用-Kotlin-支持&quot;&gt;&lt;a href=&quot;#启用-Kotlin-支持&quot; class=&quot;headerlink&quot; title=&quot;启用 Kotlin 支持&quot;&gt;&lt;/a&gt;启用 Kotlin 支持&lt;/h1&gt;&lt;p&gt;目前 Android Studio 正式版还没有加入对 Kotlin 的支持[^1]，故我们需要手动安装 Kotlin 插件。&lt;/p&gt;
+&lt;p&gt;在 Settings-&amp;gt; Plugins 中搜索 “Kotlin” 安装，之后重启 AS。&lt;/p&gt;
+&lt;p&gt;然后在项目中，Tools-&amp;gt; Kotlin-&amp;gt; Configure Kotlin in Project 配置 gradle 中的依赖。&lt;/p&gt;
+&lt;p&gt;最后在已有代码中使用快捷键 &lt;code&gt;Ctrl+Alt+Shift+K&lt;/code&gt;，就可以将已有代码转换成 Kotlin 了。这里用到了 JetBrains 提供的 Java 代码自动转换为 Kotlin 代码的功能，需要注意的是此过程是不可逆的，如果需要转换回 Java，只能手动重新修改代码。&lt;/p&gt;
+&lt;h1 id=&quot;Kotlin-带来的改变&quot;&gt;&lt;a href=&quot;#Kotlin-带来的改变&quot; class=&quot;headerlink&quot; title=&quot;Kotlin 带来的改变&quot;&gt;&lt;/a&gt;Kotlin 带来的改变&lt;/h1&gt;&lt;p&gt;Kotlin 有很多新一代高级语言的特性，接下来我们以 AS 中内置的 LoginActivity 分析 Kotlin 与 Java 的不同。&lt;/p&gt;
+&lt;h1 id=&quot;1-静态成员&quot;&gt;&lt;a href=&quot;#1-静态成员&quot; class=&quot;headerlink&quot; title=&quot;1.  静态成员&quot;&gt;&lt;/a&gt;1.  静态成员&lt;/h1&gt;&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;companion&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;object&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; REQUEST_READ_CONTACTS = &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; DUMMY_CREDENTIALS = arrayOf(&lt;span class=&quot;string&quot;&gt;&quot;foo@example.com:hello&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;bar@example.com:world&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;项目中的静态变量不能直接声明为类本身的静态变量。&lt;/p&gt;
+&lt;p&gt;Kotlin 中类可以声明一个内置对象，以 &lt;code&gt;object&lt;/code&gt;关键字注明，就像变量声明一样，它可以通过类实例来引用。&lt;/p&gt;
+&lt;p&gt;而通过给 object 加上 &lt;code&gt;companion&lt;/code&gt;关键字，可以声明一个伴生对象，这个伴生对象的成员变量和成员方法可以直接通过类名来引用。Kotlin 以此来实现单例模式。&lt;/p&gt;
+&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;class&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;MyClass&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;companion&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;object&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;: MyClass = MyClass()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; instance = MyClass.create()&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;这样是不是很像 Java 中的静态成员呢？但 Kotlin 官方文档提到&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Note that, even though the members of companion objects look like static members in other languages, at runtime those are still instance members of real objects&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;且他们还提到&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;However, on the JVM you can have members of companion objects generated as real static methods and fields, if you use the &lt;code&gt;@JvmStatic&lt;/code&gt; annotation.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;即 Kotlin 原生并不提供静态成员的实现，它通过伴生对象来提供近似静态成员的功能。是的，Kotlin 的类中没有静态成员。它提倡将静态成员写成一个包级变量或函数，与 Java 不同，Kotlin 的每个文件不一定包含一个 public class，它可以只是一些代码片段。&lt;/p&gt;
+&lt;h1 id=&quot;2-Kotlin-与-NPE-NullPointerException&quot;&gt;&lt;a href=&quot;#2-Kotlin-与-NPE-NullPointerException&quot; class=&quot;headerlink&quot; title=&quot;2. Kotlin 与 NPE(NullPointerException)&quot;&gt;&lt;/a&gt;2. Kotlin 与 NPE(NullPointerException)&lt;/h1&gt;&lt;p&gt;在使用 Java 编写代码时最为头疼的问题就是NPE，造成NPE的原因有很多，它往往让开发人员摸不着头脑。Kotlin 为了从代码中消除NPE，对语言的类型系统做了很多改善，以达到将NPE可能的原因限制如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;显式调用 &lt;code&gt;throw NullPointerException()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;使用了 &lt;code&gt;!!&lt;/code&gt; 操作符&lt;/li&gt;
+&lt;li&gt;外部 Java 代码导致的&lt;/li&gt;
+&lt;li&gt;对于初始化，有一些数据不一致（如一个未初始化的 &lt;code&gt;this&lt;/code&gt; 用于构造函数的某个地方）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 Android 开发中，Activity 需要获取UI中的组件，在 Kotlin 中是这样声明的：&lt;/p&gt;
+&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// UI references.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; mEmailView: AutoCompleteTextView? = &lt;span class=&quot;literal&quot;&gt;null&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;mEmailView = findViewById(R.id.email) &lt;span class=&quot;keyword&quot;&gt;as&lt;/span&gt; AutoCompleteTextView&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;注意到类型后面跟了一个&lt;code&gt;?&lt;/code&gt;，这表示该变量可能为null。相反如果后面没有&lt;code&gt;?&lt;/code&gt;，则表示该变量一定不为null。&lt;/p&gt;
+&lt;p&gt;之后的代码如果需要使用该变量，则&lt;/p&gt;
+&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;mEmailView?.setAdapter(adapter)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;试想如果用 Java 编写，&lt;code&gt;mEmailView&lt;/code&gt;这个变量如果为 null 则这里就会直接 NPE。而 Kotlin 中 &lt;code&gt;?.&lt;/code&gt;表示当 &lt;code&gt;mEmailView&lt;/code&gt;为 null 时，该调用返回 null ，且不会执行&lt;code&gt;setAdapter()&lt;/code&gt;这个方法，避免了NPE。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;需要注意的是 JetBrains 的 Java 自动转 Kotlin 工具中为了保持程序运行结果一致，默认没有转换&lt;code&gt;.&lt;/code&gt;为&lt;code&gt;?.&lt;/code&gt;，而是转换为了&lt;code&gt;!!.&lt;/code&gt;，此时如果&lt;code&gt;mEmailView&lt;/code&gt;为 null ，会产生NPE。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;通过对类型加上许多限定，Kotlin 基本解决了 Java 的NPE问题，仅仅通过这一点已经可以肯定它的先进性。&lt;/p&gt;
+&lt;h1 id=&quot;3-Lamda-与高阶函数&quot;&gt;&lt;a href=&quot;#3-Lamda-与高阶函数&quot; class=&quot;headerlink&quot; title=&quot;3. Lamda 与高阶函数&quot;&gt;&lt;/a&gt;3. Lamda 与高阶函数&lt;/h1&gt;&lt;p&gt;Java 在 1.8 加入了对 Lamda 表达式的支持，但其远远没有在 JavaScript、Python等语言中这么易用。&lt;/p&gt;
+&lt;p&gt;Kotlin 则提供了较好的支持和实现，我们可以对比一段代码：&lt;/p&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; String[] DUMMY_CREDENTIALS = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; String[]&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;string&quot;&gt;&quot;foo@example.com:hello&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;bar@example.com:world&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (String credential : DUMMY_CREDENTIALS) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  String[] pieces = credential.split(&lt;span class=&quot;string&quot;&gt;&quot;:&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (pieces[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;].equals(mEmail)) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// Account exists, return true if the password matches.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; pieces[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;].equals(mPassword);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;true&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;该代码主要逻辑就是查询登录信息是否与默认账户匹配。而 Kotlin 可以这么写：&lt;/p&gt;
+&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; DUMMY_CREDENTIALS = arrayOf(&lt;span class=&quot;string&quot;&gt;&quot;foo@example.com:hello&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;bar@example.com:world&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; DUMMY_CREDENTIALS&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.map &amp;#123; credential -&amp;gt; credential.split(&lt;span class=&quot;string&quot;&gt;&quot;:&quot;&lt;/span&gt;.toRegex()).dropLastWhile(&amp;#123; it.isEmpty() &amp;#125;).toTypedArray() &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;.firstOrNull &amp;#123; it[&lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;] == mEmail &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;?.let &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;comment&quot;&gt;// Account exists, return true if the password matches.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  it[&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;] == mPassword&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;?: &lt;span class=&quot;literal&quot;&gt;true&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;其中先使用&lt;code&gt;map()&lt;/code&gt;方法代替 for 循环遍历生成分割字符串后的数组，然后使用&lt;code&gt;firstOrNull()&lt;/code&gt;寻找 email 匹配项，最后使用了&lt;code&gt;.?let{}&lt;/code&gt;的调用形式，表示如果找到匹配项，则执行 let 后的代码块，判断密码是否相等；如果找不到，该表达式为 null ，则返回 true。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;代码中表达式值及 &lt;code&gt;?:&lt;/code&gt;操作符将在下一部分介绍&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这段代码体现了函数式编程的风格，成功地使函数式编程在 Android 开发中更加易用。&lt;/p&gt;
+&lt;h1 id=&quot;4-糖分&quot;&gt;&lt;a href=&quot;#4-糖分&quot; class=&quot;headerlink&quot; title=&quot;4. 糖分&quot;&gt;&lt;/a&gt;4. 糖分&lt;/h1&gt;&lt;p&gt;上面的代码对比中，出现了很多 Kotlin 的独有特性。现在，程序语言正逐渐朝着接近自然语言的方向发展，其主要目的是为了让代码更好写、更好读。&lt;/p&gt;
+&lt;p&gt;举个例子，从 Java6 开始，你可以直接只用&lt;code&gt;+&lt;/code&gt;拼接字符串而不用担心带来的性能损失，因为 Java 会在编译时帮你替换为 StringBuilder 的构建方式。这使得字符串拼接的代码编写更简单方便了，但没有影响语言的功能。我们称之为&lt;a href=&quot;http://baike.baidu.com/item/%E8%AF%AD%E6%B3%95%E7%B3%96&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;语法糖（Syntactic sugar）&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;语言含糖量高可以大大提高开发人员的效率，这也是近代需要高级语言的特征。&lt;/p&gt;
+&lt;p&gt;Kotlin 就是一个含糖量很高的语言，在上面的代码中，return 直接返回了&lt;code&gt;?:&lt;/code&gt;操作的结果，其中&lt;code&gt;?:&lt;/code&gt;表示如果&lt;code&gt;?:&lt;/code&gt;前的表达式为 null 则返回&lt;code&gt;?:&lt;/code&gt;后的值。而 &lt;code&gt;.?let{}&lt;/code&gt;操作在操作数为 null 时也会返回 null。&lt;/p&gt;
+&lt;p&gt;此时我们注意到 Kotlin 中其实很多操作都是带返回值的，比如 if 操作：&lt;/p&gt;
+&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; a= &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; b= &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; c= &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt;(a&amp;gt;b)a &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; b	&lt;span class=&quot;comment&quot;&gt;// if 返回较大值&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;上面的代码中还有这么一句：&lt;/p&gt;
+&lt;figure class=&quot;highlight kotlin&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;val&lt;/span&gt; DUMMY_CREDENTIALS = arrayOf(&lt;span class=&quot;string&quot;&gt;&quot;foo@example.com:hello&quot;&lt;/span&gt;, &lt;span class=&quot;string&quot;&gt;&quot;bar@example.com:world&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;code&gt;arrayOf()&lt;/code&gt;可以用于快速构建数组。在构建数组上这种方式相比 Java 的构建方式优势不是很明显，那如果我告诉你 Kotlin 还提供了 &lt;code&gt;mapOf()&lt;/code&gt;、&lt;code&gt;listOf()&lt;/code&gt;呢？Java 原有的语法中新建一个 list并添加几个值比较麻烦，需要重复调用 &lt;code&gt;add(T t)&lt;/code&gt;方法，而 Kotlin 就提供了类似与数组初始化的简便方法。&lt;/p&gt;
+&lt;h1 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h1&gt;&lt;p&gt;Kotlin 相对 Java 的改进真的很多，诸如受检异常、when 表达式等，相信它也将为 Android 开发注入新的活力。本文仅通过一小段代码分析，未免管中窥豹，Kotlin 所代表的新一代程序语言的思想也值得所有 Java 开发者学习。&lt;/p&gt;
+&lt;p&gt;Google 此次大力推行 Kotlin ，也许是考虑到与 Oracle 的版权纠纷，所以 Kotlin 今后在 Android 开发的发展还是值得期待的。&lt;/p&gt;
+&lt;p&gt;[^1]: AS 的3.0（preview）版本中已经内置了 Kotlin 插件&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      Kotlin 自2016年2月发布第一个官方稳定版以来，一直受到 Java 开发者的密切关注。而就在最近，Google 在2017年5月的 Google I/O 上正式宣布将 Kotlin 作为 android 开发的官方语言。
+    
+    </summary>
+    
+      <category term="开发" scheme="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="android" scheme="http://moeyui.cn/tags/android/"/>
+    
+      <category term="kotlin" scheme="http://moeyui.cn/tags/kotlin/"/>
+    
+  </entry>
   
   <entry>
     <title>滚吧！ .tk</title>
