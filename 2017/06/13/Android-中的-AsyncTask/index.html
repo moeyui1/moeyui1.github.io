@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="日记向," />
+  <meta name="keywords" content="Android," />
 
 
 
@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="本来java的路径引用还是很宽松的，你可以用相对路径、绝对路径、getClass()获取类路径甚至获取运行项目路径。然而扯上maven之后就不得不规范起来，因为maven项目打包前后目录结构差别较大，这之后扯上javaFX的各种fxml文件引用更是让人蛋疼。更不提拉上html之后应用js文件的不同规范。。。">
+<meta name="description" content="当尝试在 Android 应用的主线程中访问网络时，会抛出一个NetworkOnMainThreadException异常，这是为什么呢？因为网络请求通常是很耗时的，若想确保应用流畅，主线程的任务执行时间应该控制在十几毫秒级。且当主线程无响应超过5秒，系统就会提示弹出一个对话框，告诉用户当前应用无响应，是否要强制关闭。所以要使用网络请求，我们只能使用辅助线程。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="小记JAVAFX-Maven-Html项目路径引用">
-<meta property="og:url" content="http://moeyui.cn/2016/07/18/小记JAVAFX-Maven-Html项目路径引用/index.html">
+<meta property="og:title" content="Android 中的 AsyncTask">
+<meta property="og:url" content="http://moeyui.cn/2017/06/13/Android-中的-AsyncTask/index.html">
 <meta property="og:site_name" content="不是很懂你们程序员">
-<meta property="og:description" content="本来java的路径引用还是很宽松的，你可以用相对路径、绝对路径、getClass()获取类路径甚至获取运行项目路径。然而扯上maven之后就不得不规范起来，因为maven项目打包前后目录结构差别较大，这之后扯上javaFX的各种fxml文件引用更是让人蛋疼。更不提拉上html之后应用js文件的不同规范。。。">
-<meta property="og:updated_time" content="2016-07-18T01:12:48.307Z">
+<meta property="og:description" content="当尝试在 Android 应用的主线程中访问网络时，会抛出一个NetworkOnMainThreadException异常，这是为什么呢？因为网络请求通常是很耗时的，若想确保应用流畅，主线程的任务执行时间应该控制在十几毫秒级。且当主线程无响应超过5秒，系统就会提示弹出一个对话框，告诉用户当前应用无响应，是否要强制关闭。所以要使用网络请求，我们只能使用辅助线程。">
+<meta property="og:updated_time" content="2017-06-13T15:27:44.064Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小记JAVAFX-Maven-Html项目路径引用">
-<meta name="twitter:description" content="本来java的路径引用还是很宽松的，你可以用相对路径、绝对路径、getClass()获取类路径甚至获取运行项目路径。然而扯上maven之后就不得不规范起来，因为maven项目打包前后目录结构差别较大，这之后扯上javaFX的各种fxml文件引用更是让人蛋疼。更不提拉上html之后应用js文件的不同规范。。。">
+<meta name="twitter:title" content="Android 中的 AsyncTask">
+<meta name="twitter:description" content="当尝试在 Android 应用的主线程中访问网络时，会抛出一个NetworkOnMainThreadException异常，这是为什么呢？因为网络请求通常是很耗时的，若想确保应用流畅，主线程的任务执行时间应该控制在十几毫秒级。且当主线程无响应超过5秒，系统就会提示弹出一个对话框，告诉用户当前应用无响应，是否要强制关闭。所以要使用网络请求，我们只能使用辅助线程。">
 
 
 
@@ -116,9 +116,9 @@
 
 
 
-  <link rel="canonical" href="http://moeyui.cn/2016/07/18/小记JAVAFX-Maven-Html项目路径引用/"/>
+  <link rel="canonical" href="http://moeyui.cn/2017/06/13/Android-中的-AsyncTask/"/>
 
-  <title> 小记JAVAFX-Maven-Html项目路径引用 | 不是很懂你们程序员 </title>
+  <title> Android 中的 AsyncTask | 不是很懂你们程序员 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -287,7 +287,7 @@
             
             
               
-                小记JAVAFX-Maven-Html项目路径引用
+                Android 中的 AsyncTask
               
             
           </h1>
@@ -299,38 +299,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-07-18T08:41:11+08:00" content="2016-07-18">
-              2016-07-18
+            <time itemprop="dateCreated" datetime="2017-06-13T22:48:01+08:00" content="2017-06-13">
+              2017-06-13
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/coding/" itemprop="url" rel="index">
-                    <span itemprop="name">coding</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/07/18/小记JAVAFX-Maven-Html项目路径引用/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/18/小记JAVAFX-Maven-Html项目路径引用/" itemprop="commentsCount"></span>
+                <a href="/2017/06/13/Android-中的-AsyncTask/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/13/Android-中的-AsyncTask/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -340,7 +321,7 @@
 
           
           
-             <span id="/2016/07/18/小记JAVAFX-Maven-Html项目路径引用/" class="leancloud_visitors" data-flag-title="小记JAVAFX-Maven-Html项目路径引用">
+             <span id="/2017/06/13/Android-中的-AsyncTask/" class="leancloud_visitors" data-flag-title="Android 中的 AsyncTask">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -362,27 +343,26 @@
       
 
       
-        <p>本来java的路径引用还是很宽松的，你可以用相对路径、绝对路径、<code>getClass()</code>获取类路径甚至获取运行项目路径。然而扯上maven之后就不得不规范起来，因为maven项目打包前后目录结构差别较大，这之后扯上javaFX的各种fxml文件引用更是让人蛋疼。更不提拉上html之后应用js文件的不同规范。。。</p>
+        <p>当尝试在 Android 应用的主线程中访问网络时，会抛出一个<code>NetworkOnMainThreadException</code>异常，这是为什么呢？<br>因为网络请求通常是很耗时的，若想确保应用流畅，主线程的任务执行时间应该控制在十几毫秒级。且当主线程无响应超过5秒，系统就会提示弹出一个对话框，告诉用户当前应用无响应，是否要强制关闭。所以要使用网络请求，我们只能使用辅助线程。</p>
 <a id="more"></a>
-<h2 id="maven项目的标准引用"><a href="#maven项目的标准引用" class="headerlink" title="maven项目的标准引用"></a>maven项目的标准引用</h2><p>maven项目在打包时会将resource下的资源文件和java目录下的源代码一起放到根目录下，所以简单地用<code>项目路径/resouce/*</code>来引用是不对的，根本没有java和resource这两个文件夹了。</p>
-<p>这时就需要我们用<code>this.getClass().getResource(&quot;路径&quot;)</code>这样的方法啦，在读写文件的时候可能需要<strong>InputStream</strong>对象，此时使用<code>this.getClass().getResourceAsStream(&quot;路径&quot;)</code>。</p>
-<h3 id="不同目录层级的引用"><a href="#不同目录层级的引用" class="headerlink" title="不同目录层级的引用"></a>不同目录层级的引用</h3><p>一般来说都通过<code>../</code>可以表示上一级目录，通过<code>./</code>可以表示当前目录，这种常识在调试项目的时候或许是行得通的，然而打包出来的maven却不能识别这种标识。这里吾辈也没有找到好方法，最后在项目中只好使用<code>/目录名/...</code>的形式。这种形式是在路径名前加一个<code>/</code>这样代表直接从项目根目录开始检索，不使用相对路径。</p>
-<h2 id="javaFX项目的fxml文件"><a href="#javaFX项目的fxml文件" class="headerlink" title="javaFX项目的fxml文件"></a>javaFX项目的fxml文件</h2><p>javaFX可以通过读取fxml文件完成界面的配置，相比代码编写界面，这种方法拥有可视化的优点，而这个可视化设计的优点主要依赖于Oracle的<strong>Sence Builder</strong>这款软件，它可以将fxml文件与其对应的controller类绑定起来，提供友好的可视化设计。</p>
-<p>然而，，javaFX现今尴尬的处境，导致Sence Builder也基本处于半弃坑的状态，重要的一点是，它只能自动帮用户将同一目录下的controller和fxml文件绑定起来。。而按照maven的思想，fxml文件应该放在resource文件夹下，虽然编译后resource文件夹和java文件夹会合并，但开发的时候Sence Builder就会找不到对应的controller文件，无法提供可视化设计。。。</p>
-<h3 id="maven编译资源文件"><a href="#maven编译资源文件" class="headerlink" title="maven编译资源文件"></a>maven编译资源文件</h3><p>为了开发的时候更方便一些，我们选择将fxml文件放在与controller类同一目录下。但是默认情况下maven是不会编译源码文件夹下的非<code>.java</code>文件的，我们可以通过修改maven的pom.xml文件来实现这一需求。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> <span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/java<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.fxml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line">            <span class="comment">&lt;!-- 是否替换资源中的属性--&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">filtering</span>&gt;</span>false<span class="tag">&lt;/<span class="name">filtering</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这种写法是将源码文件夹java也作为一个资源文件夹，但是一旦这样定义，原来的resource文件夹就不会作为资源文件夹，所以我们需要把它也加到pom文件中，如下：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">resource</span>&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">directory</span>&gt;</span>src/main/resource<span class="tag">&lt;/<span class="name">directory</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">includes</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.png<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.json<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.txt<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.jpg<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.icon<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.js<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.fxml<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.css<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>*.css<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>**/*.html<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>src/chart.js/**<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>echarts.min.js<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>echarts.js<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>charts/**<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                    <span class="tag">&lt;<span class="name">include</span>&gt;</span>needed/*<span class="tag">&lt;/<span class="name">include</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;/<span class="name">includes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">resource</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>还有一个问题，在手动指定资源文件夹后，maven就不会帮我们管理这些资源了，所以我们需要手动指定资源文件夹中需要编译的文件的类型，添加<code>include</code>标签即可。</p>
-<h2 id="html资源文件的引用"><a href="#html资源文件的引用" class="headerlink" title="html资源文件的引用"></a>html资源文件的引用</h2><p>在html文件中引用外部js文件时，一般采用<code>script</code>标签，而在项目中这种引用方式不但不支持<code>../</code>，连<code>/目录名/**</code>都不支持。。。</p>
-<blockquote>
-<p>其实这两种方式在ide中调试的时候都是支持的，然而打包之后各种混乱。吾辈采用的打包方式是将所有文件全部打包进一个jar包中。</p>
-</blockquote>
-<p>此处的问题到现在依然没有一个好的解决方案，其中一种方案是，将需要用的js文件上传到cdn，通过http引用，但考虑到网络条件，我们项目最后采用了，，很傻的一种方法。。以下方法不要借鉴。。。</p>
-<blockquote>
-<p>因为项目只引用一个js文件，而且这个js文件也不是很大，所以为了避免出现父级目录访问，我们在每个html文件的文件夹下都拷贝了一份js文件，这样，引用的时候就可以直接：</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src=<span class="string">'custom.js'</span>&gt;<span class="xml"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<h1 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h1><p>AsyncTask，字面意思就是异步的任务，是 Android 提供的一个异步框架。实际上，UI 线程有一个消息队列用于接收和处理其它线程的消息。AsyncTask 对其提供了一个简单的封装。这是 AsyncTask 的声明代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AsyncTask</span>&lt;<span class="title">Params</span>, <span class="title">Progress</span>, <span class="title">Result</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>它是一个泛型抽象类，三个参数意思分别是：</p>
+<ol>
+<li>Params 执行时传递给 task 的参数类型</li>
+<li>Progress 即后台计算时用于更新 task 进度的类型</li>
+<li>Result 即任务执行结果的类型</li>
+</ol>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>AsyncTask 生命周期可以简单分为4个步骤。</p>
+<h3 id="onPreExecute"><a href="#onPreExecute" class="headerlink" title="onPreExecute"></a>onPreExecute</h3><p>首先在 UI 线程调用该方法。</p>
+<h3 id="doInBackground"><a href="#doInBackground" class="headerlink" title="doInBackground"></a>doInBackground</h3><p>这是必须被 Override 的函数，该函数在辅助线程中执行，耗时的任务一般就在这里执行。该方法获得调用 execute 方法的参数。在此方法中可以调用 <code>void publishProgress (Progress... values)</code>这个函数，可以触发 UI 线程中执行 onProgressUpdate 函数。</p>
+<h3 id="onProgressUpdate"><a href="#onProgressUpdate" class="headerlink" title="onProgressUpdate"></a>onProgressUpdate</h3><p>被 publishProgress 函数触发，用于更新 UI 线程中的进度条等组件。</p>
+<h3 id="onPostExecute"><a href="#onPostExecute" class="headerlink" title="onPostExecute"></a>onPostExecute</h3><p>任务执行完后在 UI 线程中被调用。</p>
+<h2 id="线程实现"><a href="#线程实现" class="headerlink" title="线程实现"></a>线程实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CPU_COUNT = Runtime.getRuntime().availableProcessors();</span><br><span class="line"><span class="comment">// We want at least 2 threads and at most 4 threads in the core pool,</span></span><br><span class="line"><span class="comment">// preferring to have 1 less than the CPU count to avoid saturating</span></span><br><span class="line"><span class="comment">// the CPU with background work</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORE_POOL_SIZE = Math.max(<span class="number">2</span>, Math.min(CPU_COUNT - <span class="number">1</span>, <span class="number">4</span>));</span><br><span class="line">...</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BlockingQueue&lt;Runnable&gt; sPoolWorkQueue =</span><br><span class="line">  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(<span class="number">128</span>);</span><br><span class="line"><span class="keyword">static</span> &#123;</span><br><span class="line">  ThreadPoolExecutor threadPoolExecutor = <span class="keyword">new</span> ThreadPoolExecutor(</span><br><span class="line">    CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE_SECONDS, TimeUnit.SECONDS,</span><br><span class="line">    sPoolWorkQueue, sThreadFactory);</span><br><span class="line">  threadPoolExecutor.allowCoreThreadTimeOut(<span class="keyword">true</span>);</span><br><span class="line">  THREAD_POOL_EXECUTOR = threadPoolExecutor;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>阅读代码可以发现任务使用了 java 中的 <code>ThreadPoolExecutor</code>类，并且线程池的大小针对 CPU 核心数做了优化。</p>
+<p>线程池队列采用了链表堵塞队列，保证线程安全性。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">AsyncTask</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  mWorker = <span class="keyword">new</span> WorkerRunnable&lt;Params, Result&gt;() &#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Result <span class="title">call</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">      mTaskInvoked.set(<span class="keyword">true</span>);</span><br><span class="line">      Result result = <span class="keyword">null</span>;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND);</span><br><span class="line">        <span class="comment">//noinspection unchecked</span></span><br><span class="line">        result = doInBackground(mParams);</span><br><span class="line">        Binder.flushPendingCommands();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (Throwable tr) &#123;</span><br><span class="line">        mCancelled.set(<span class="keyword">true</span>);</span><br><span class="line">        <span class="keyword">throw</span> tr;</span><br><span class="line">      &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        postResult(result);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  mFuture = <span class="keyword">new</span> FutureTask&lt;Result&gt;(mWorker) &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">done</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        postResultIfNotInvoked(get());</span><br><span class="line">      &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">        android.util.Log.w(LOG_TAG, e);</span><br><span class="line">      &#125; <span class="keyword">catch</span> (ExecutionException e) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"An error occurred while executing doInBackground()"</span>,</span><br><span class="line">                                   e.getCause());</span><br><span class="line">      &#125; <span class="keyword">catch</span> (CancellationException e) &#123;</span><br><span class="line">        postResultIfNotInvoked(<span class="keyword">null</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面是构造方法，可以发现 task 执行结果是通过 <code>java.util.concurrent。FutureTask</code>实现的。</p>
 
       
     </div>
@@ -405,7 +385,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/日记向/" rel="tag">#日记向</a>
+            <a href="/tags/Android/" rel="tag">#Android</a>
           
         </div>
       
@@ -414,17 +394,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/29/程序员必备系列-Git仓库迁移/" rel="next" title="程序员必备系列-Git仓库迁移">
-                <i class="fa fa-chevron-left"></i> 程序员必备系列-Git仓库迁移
+              <a href="/2017/05/28/初探kotlin给android代码风格带来的改变/" rel="next" title="初探 Kotlin 给 android 代码风格带来的改变">
+                <i class="fa fa-chevron-left"></i> 初探 Kotlin 给 android 代码风格带来的改变
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/08/24/本站最近的一点小动作/" rel="prev" title="本站最近的一点小动作">
-                本站最近的一点小动作 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -439,10 +415,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2016/07/18/小记JAVAFX-Maven-Html项目路径引用/"
-     data-title="小记JAVAFX-Maven-Html项目路径引用"
+        <div class="ds-share flat" data-thread-key="2017/06/13/Android-中的-AsyncTask/"
+     data-title="Android 中的 AsyncTask"
      data-content=""
-     data-url="http://moeyui.cn/2016/07/18/小记JAVAFX-Maven-Html项目路径引用/">
+     data-url="http://moeyui.cn/2017/06/13/Android-中的-AsyncTask/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -469,8 +445,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/07/18/小记JAVAFX-Maven-Html项目路径引用/"
-           data-title="小记JAVAFX-Maven-Html项目路径引用" data-url="http://moeyui.cn/2016/07/18/小记JAVAFX-Maven-Html项目路径引用/">
+      <div class="ds-thread" data-thread-key="2017/06/13/Android-中的-AsyncTask/"
+           data-title="Android 中的 AsyncTask" data-url="http://moeyui.cn/2017/06/13/Android-中的-AsyncTask/">
       </div>
     
   </div>
@@ -611,7 +587,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#maven项目的标准引用"><span class="nav-number">1.</span> <span class="nav-text">maven项目的标准引用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#不同目录层级的引用"><span class="nav-number">1.1.</span> <span class="nav-text">不同目录层级的引用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#javaFX项目的fxml文件"><span class="nav-number">2.</span> <span class="nav-text">javaFX项目的fxml文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#maven编译资源文件"><span class="nav-number">2.1.</span> <span class="nav-text">maven编译资源文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#html资源文件的引用"><span class="nav-number">3.</span> <span class="nav-text">html资源文件的引用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#AsyncTask"><span class="nav-number">1.</span> <span class="nav-text">AsyncTask</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#生命周期"><span class="nav-number">1.1.</span> <span class="nav-text">生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#onPreExecute"><span class="nav-number">1.1.1.</span> <span class="nav-text">onPreExecute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#doInBackground"><span class="nav-number">1.1.2.</span> <span class="nav-text">doInBackground</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onProgressUpdate"><span class="nav-number">1.1.3.</span> <span class="nav-text">onProgressUpdate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#onPostExecute"><span class="nav-number">1.1.4.</span> <span class="nav-text">onPostExecute</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程实现"><span class="nav-number">1.2.</span> <span class="nav-text">线程实现</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
