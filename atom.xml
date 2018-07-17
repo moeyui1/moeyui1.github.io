@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2017-06-27T14:21:55.567Z</updated>
+  <updated>2018-04-03T17:48:36.819Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,43 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Nginx 反向代理的简单应用</title>
+    <link href="http://moeyui.cn/2018/04/01/nginx-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8/"/>
+    <id>http://moeyui.cn/2018/04/01/nginx-反向代理的简单应用/</id>
+    <published>2018-04-01T13:31:14.000Z</published>
+    <updated>2018-04-03T17:48:36.819Z</updated>
+    
+    <content type="html">&lt;h1 id=&quot;Nginx-反向代理的简单应用&quot;&gt;&lt;a href=&quot;#Nginx-反向代理的简单应用&quot; class=&quot;headerlink&quot; title=&quot;Nginx 反向代理的简单应用&quot;&gt;&lt;/a&gt;Nginx 反向代理的简单应用&lt;/h1&gt;&lt;h2 id=&quot;动机&quot;&gt;&lt;a href=&quot;#动机&quot; class=&quot;headerlink&quot; title=&quot;动机&quot;&gt;&lt;/a&gt;动机&lt;/h2&gt;&lt;p&gt;之前看过一个反代谷歌搜索的&lt;a href=&quot;https://github.com/arnofeng/ngx_google_deployment&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Github项目&lt;/a&gt;（没错我也在自己的机器上部署了这个反代谷歌搜索的服务 &lt;a href=&quot;https://g.moeyui.cn），原理很简单，却非常实用。很多人翻墙不过是为了用谷歌而已，何必挂ss呢。通过这个反代项目，我可以随时随地，在任何设备上使用google搜索。&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://g.moeyui.cn），原理很简单，却非常实用。很多人翻墙不过是为了用谷歌而已，何必挂ss呢。通过这个反代项目，我可以随时随地，在任何设备上使用google搜索。&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;自然而然，就想到了反代&lt;code&gt;Pixiv&lt;/code&gt;。&lt;/p&gt;
+&lt;h2 id=&quot;配置文件&quot;&gt;&lt;a href=&quot;#配置文件&quot; class=&quot;headerlink&quot; title=&quot;配置文件&quot;&gt;&lt;/a&gt;配置文件&lt;/h2&gt;&lt;p&gt;整个过程十分简单，全都是通过&lt;code&gt;Nginx&lt;/code&gt;的自带功能和插件实现的。&lt;/p&gt;
+&lt;p&gt;首先写个&lt;code&gt;www.pixiv.net&lt;/code&gt;的代理：&lt;/p&gt;
+&lt;figure class=&quot;highlight nginx&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;location&lt;/span&gt; / &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_redirect&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;off&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; Host &lt;span class=&quot;string&quot;&gt;&quot;www.pixiv.net&quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; X-Real-IP &lt;span class=&quot;variable&quot;&gt;$remote_addr&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-For &lt;span class=&quot;variable&quot;&gt;$proxy_add_x_forwarded_for&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_pass&lt;/span&gt; https://www.pixiv.net;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; Referer https://www.pixiv.net;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;由于&lt;code&gt;Pixiv&lt;/code&gt;是需要登录的，这里首先需要解决的就是登录问题。&lt;/p&gt;
+&lt;h2 id=&quot;Pixiv的登录过程&quot;&gt;&lt;a href=&quot;#Pixiv的登录过程&quot; class=&quot;headerlink&quot; title=&quot;Pixiv的登录过程&quot;&gt;&lt;/a&gt;&lt;code&gt;Pixiv&lt;/code&gt;的登录过程&lt;/h2&gt;&lt;p&gt;访问首页&lt;code&gt;www.pixiv.net&lt;/code&gt;可以看到登录入口，然而点击登录按钮后，会跳转到&lt;code&gt;accounts.pixiv.net&lt;/code&gt;下填写表单。表单提交到&lt;code&gt;accounts.pixiv.net&lt;/code&gt;后会跳转回&lt;code&gt;www.pixiv.net&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;判断用户是否登录应该用到了Cookies，通过开发者工具看到两个域名都共享&lt;code&gt;pixiv.net&lt;/code&gt;下的Cookies。&lt;/p&gt;
+&lt;p&gt;可以对&lt;code&gt;www.pixiv.net&lt;/code&gt;的登录跳转做一些修改：&lt;/p&gt;
+&lt;figure class=&quot;highlight nginx&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;subs_filter&lt;/span&gt; accounts.pixiv.net picwall.moeyui.cn/login;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;所以还需要写一个&lt;code&gt;accounts.pixiv.net&lt;/code&gt;的代理：&lt;/p&gt;
+&lt;figure class=&quot;highlight nginx&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;attribute&quot;&gt;location&lt;/span&gt; /login &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_redirect&lt;/span&gt; &lt;span class=&quot;literal&quot;&gt;off&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_cookie_domain&lt;/span&gt; pixiv.net picwall.moeyui.cn;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; Host &lt;span class=&quot;string&quot;&gt;&quot;accounts.pixiv.net&quot;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; X-Real-IP &lt;span class=&quot;variable&quot;&gt;$remote_addr&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; X-Forwarded-For &lt;span class=&quot;variable&quot;&gt;$proxy_add_x_forwarded_for&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_pass&lt;/span&gt; https://accounts.pixiv.net;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;proxy_set_header&lt;/span&gt; Referer https://www.pixiv.net;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;虽然，挂个ss就可以解决被墙的问题，看起来好像很简单ho（笑。但实际，本来就是无聊的时候刷刷榜单而已，一想到要开ss，瞬间懒得刷了。。。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      前段时间pixiv.net也被墙了，看个图片都要挂ss甚是麻烦。于是想起Nginx的反代功能，顺手写了下配置文件发现也不是很复杂，便记录一下。
+    
+    </summary>
+    
+      <category term="网站" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%AB%99/"/>
+    
+    
+      <category term="网站" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%AB%99/"/>
+    
+      <category term="Nginx" scheme="http://moeyui.cn/tags/Nginx/"/>
+    
+  </entry>
   
   <entry>
     <title>Android views绑定工具Butter Knife</title>
