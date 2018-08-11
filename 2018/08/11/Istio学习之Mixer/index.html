@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Istio 组件和运行在 Service Mesh 中的服务，通过 Mixer 就可以在不直接访问后端接口的情况下和这些后端进行交互。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Istio学习之Mixer">
+<meta property="og:url" content="http://moeyui.cn/2018/08/11/Istio学习之Mixer/index.html">
+<meta property="og:site_name" content="不是很懂你们程序员">
+<meta property="og:description" content="Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Istio 组件和运行在 Service Mesh 中的服务，通过 Mixer 就可以在不直接访问后端接口的情况下和这些后端进行交互。">
+<meta property="og:image" content="https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E6%B5%81%E7%A8%8B.svg">
+<meta property="og:image" content="https://oeoiy7i1f.qnssl.com/istio-miexer/mixer-spof-myth-2.svg">
+<meta property="og:image" content="https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.svg">
+<meta property="og:image" content="https://oeoiy7i1f.qnssl.com/istio-mixer/template%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89%E5%86%85%E5%AE%B9.svg">
+<meta property="og:image" content="https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E4%B8%8EAdapter%E4%BA%A4%E4%BA%92%E8%BF%87%E7%A8%8B.svg">
+<meta property="og:image" content="https://oeoiy7i1f.qnssl.com/istio-mixer/%E6%80%BB%E7%BB%93.svg">
+<meta property="og:updated_time" content="2018-08-11T06:04:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Istio学习之Mixer">
+<meta name="twitter:description" content="Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Istio 组件和运行在 Service Mesh 中的服务，通过 Mixer 就可以在不直接访问后端接口的情况下和这些后端进行交互。">
+<meta name="twitter:image" content="https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E6%B5%81%E7%A8%8B.svg">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="不是很懂你们程序员" type="application/atom+xml" />
+
+
+
+
+  <link rel="canonical" href="http://moeyui.cn/2018/08/11/Istio学习之Mixer/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Istio学习之Mixer | 不是很懂你们程序员</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-75483578-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-75483578-1');
+</script>
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">不是很懂你们程序员</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">不是很懂你们二次元，不是很懂你们程序员</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-th"></i> <br />分类</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+    
+      
+    
+    <a href="https://github.com/yourname" class="github-corner" target="_blank" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg>
+    
+      </a>
+    
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://moeyui.cn/2018/08/11/Istio学习之Mixer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="moeyui">
+      <meta itemprop="description" content="moeyui | moeyui's blog">
+      <meta itemprop="image" content="https://ofjahbxem.qnssl.com/blogAvatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不是很懂你们程序员">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Istio学习之Mixer
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-08-11 13:58:04 / 修改时间：14:04:36" itemprop="dateCreated datePublished" datetime="2018-08-11T13:58:04+08:00">2018-08-11</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/开发/" itemprop="url" rel="index"><span itemprop="name">开发</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+             <span id="/2018/08/11/Istio学习之Mixer/" class="leancloud_visitors" data-flag-title="Istio学习之Mixer">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数：</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Istio 组件和运行在 Service Mesh 中的服务，通过 Mixer 就可以在不直接访问后端接口的情况下和这些后端进行交互。</p>
+<a id="more"></a>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><blockquote>
+<p>Mixer 本质上是一个 Attributes 处理机。</p>
+<p>每个经过 Envoy sidecar 的请求都会调用 Mixer，为 Mixer 提供一组描述 Request 和 Request 周围环境的属性。基于 Envoy sidecar 的配置和给定的特定属性集，Mixer 会调用各种基础设施后端。</p>
+</blockquote>
+<p><img src="https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E6%B5%81%E7%A8%8B.svg" alt=""></p>
+<p>Mixer提供三个核心功能：</p>
+<ul>
+<li>前置条件检查（Precondition Checking）：某一服务响应外部请求前，通过Envoy向Mixer发送Check请求，检查该请求是否满足一定的前提条件，包括白名单检查、ACL检查等。</li>
+<li>配额管理（Quota Management）：当多个请求发生资源竞争时，通过配额管理机制可以实现对资源的有效管理。</li>
+<li>遥测报告上报（Telemetry Reporting）：该服务处理完请求后，通过Envoy向Mixer上报日志、监控等数据。</li>
+</ul>
+<p>首先介绍一些重要的概念。</p>
+<h2 id="Attribute（属性）"><a href="#Attribute（属性）" class="headerlink" title="Attribute（属性）"></a><strong>Attribute（属性）</strong></h2><p>大部分attributes由Envoy提供。Istio用 <a href="https://preliminary.istio.io/docs/concepts/policy-and-control/attributes.html" target="_blank" rel="external">attributes</a> 来控制服务在Service Mesh中运行时行为。attributes是有名称和类型的元数据，用来描述入口和出口流量和流量产生时的环境。Attributes 携带了一些具体信息，比如：API请求状态码、请求响应时间、TCP连接的原始地址等。</p>
+<h3 id="RefrencedAttributes（被引用的属性）"><a href="#RefrencedAttributes（被引用的属性）" class="headerlink" title="RefrencedAttributes（被引用的属性）"></a>RefrencedAttributes（被引用的属性）</h3><p>refrencedAttributes是Mixer Check时进行条件匹配后被使用的属性的集合。Envoy向Mixer发送的Check请求中传递的是属性的全集，refrencedAttributes只是该全集中被应用的一个子集。</p>
+<p>举个例子，Envoy某次发送的Check请求中发送的attributes为{request.path: xyz/abc, request.size: 234,source.ip: 192.168.0.1}，如Mixer中调度到的多个adapters只用到了request.path和request.size这两个属性。那么Check后返回的refrencedAttributes为{request.path: xyz/abc, request.size: 234}。</p>
+<p>为防止每次请求时Envoy都向Mixer中发送Check请求，Mixer中建立了一套复杂的缓存机制，使得大部分请求不需要向Mixer发送Check请求。</p>
+<p>并且Mixer中也是有缓存的，大概是下面的代码。。。位于<em>/Users/mengyikun/code/istio/mixer/pkg/api/grpcServer.go#Check</em></p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> s.cache != <span class="literal">nil</span> &#123;</span><br><span class="line">		<span class="keyword">if</span> value, ok := s.cache.Get(protoBag); ok &#123;</span><br><span class="line">			resp := &amp;mixerpb.CheckResponse&#123;</span><br><span class="line">				Precondition: mixerpb.CheckResponse_PreconditionResult&#123;</span><br><span class="line">					Status: rpc.Status&#123;</span><br><span class="line">						Code:    value.StatusCode,</span><br><span class="line">						Message: value.StatusMessage,</span><br><span class="line">					&#125;,</span><br><span class="line">					ValidDuration:        value.Expiration.Sub(time.Now()),</span><br><span class="line">					ValidUseCount:        value.ValidUseCount,</span><br><span class="line">					ReferencedAttributes: &amp;value.ReferencedAttributes,</span><br><span class="line">				&#125;,</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> status.IsOK(resp.Precondition.Status) &#123;</span><br><span class="line">				log.Debug(<span class="string">"Check approved from cache"</span>)</span><br><span class="line">			&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">				log.Debugf(<span class="string">"Check denied from cache: %v"</span>, resp.Precondition.Status)</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span> !status.IsOK(resp.Precondition.Status) || <span class="built_in">len</span>(req.Quotas) == <span class="number">0</span> &#123;</span><br><span class="line">				<span class="comment">// we found a cached result and no quotas to allocate, so we're outta here</span></span><br><span class="line">				<span class="keyword">return</span> resp, <span class="literal">nil</span></span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://oeoiy7i1f.qnssl.com/istio-miexer/mixer-spof-myth-2.svg" alt="mixer-spof-myth-2.svg"></p>
+<h2 id="Adapter（适配器）"><a href="#Adapter（适配器）" class="headerlink" title="Adapter（适配器）"></a><strong>Adapter（适配器）</strong></h2><p>Mixer是一个高度模块化、可扩展组件，内部提供了多个适配器(<a href="https://link.jianshu.com/?t=https%3A%2F%2Fgithub.com%2Fistio%2Fistio%2Ftree%2Fmaster%2Fmixer%2Fadapter" target="_blank" rel="external">adapter</a>)。</p>
+<p>Envoy提供request级别的属性（<a href="https://link.jianshu.com/?t=https%3A%2F%2Fistio.io%2Fdocs%2Fconcepts%2Fpolicy-and-control%2Fattributes.html" target="_blank" rel="external">attributes</a>）数据。</p>
+<p>adapters基于这些attributes来实现日志记录、监控指标采集展示、配额管理、ACL检查等功能。Istio内置的部分adapters举例如下：</p>
+<ul>
+<li><a href="https://github.com/istio/istio/tree/master/mixer/adapter/circonus" target="_blank" rel="external">circonus</a>：一个微服务监控分析平台。</li>
+<li><a href="https://github.com/istio/istio/tree/master/mixer/adapter/fluentd" target="_blank" rel="external">fluentd</a>：一款开源的日志采集工具。</li>
+<li><a href="https://github.com/istio/istio/tree/master/mixer/adapter/prometheus" target="_blank" rel="external">prometheus</a>：一款开源的时序数据库，非常适合用来存储监控指标数据。</li>
+<li><a href="https://github.com/istio/istio/tree/master/mixer/adapter/statsd" target="_blank" rel="external">statsd</a>：一款采集汇总应用指标的工具。</li>
+<li><a href="https://github.com/istio/istio/tree/master/mixer/adapter/stdio" target="_blank" rel="external">stdio</a>：stdio适配器使Istio能将日志和metrics输出到本地，结合内置的ES、Grafana就可以查看相应的日志或指标了。</li>
+</ul>
+<p>Template author, adapter author, and the operator 的角色划分总结如下:</p>
+<ul>
+<li>The template author defines a <em>template</em>, which describes the data Mixer dispatches to adapters, and the interface that the adapter must implement to process that data. The supported set of templates within Mixer determines the various types of data an operator can configure Mixer to create and dispatch to the adapters.</li>
+<li>The adapter author selects the templates he/she wants to support based on the functionality the adapter must provide. The adapter author’s role is to implement the required set of template-specific interfaces to process the data dispatched by Mixer at runtime.</li>
+<li>The operator defines what data should be collected (<a href="https://istio.io/docs/concepts/policy-and-control/mixer-config.html#instances" target="_blank" rel="external">instances</a>), where it can be sent (<a href="https://istio.io/docs/concepts/policy-and-control/mixer-config.html#handlers" target="_blank" rel="external">handlers</a>), and when to send it (<a href="https://istio.io/docs/concepts/policy-and-control/mixer-config.html#rules" target="_blank" rel="external">rules</a>).</li>
+</ul>
+<p><img src="https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.svg" alt="68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f6f7065..."></p>
+<h3 id="Template"><a href="#Template" class="headerlink" title="Template"></a>Template</h3><p>Template 是用 <a href="https://developers.google.com/protocol-buffers/" target="_blank" rel="external">ProtoBuff</a> 格式编写的。它定义了 Mixer 给 Adapter 的数据格式、Adapter 需要实现的接口等。Adapter 在调用 Template 时，实际上是调用从 proto 自动生成的Go文件。</p>
+<p><img src="https://oeoiy7i1f.qnssl.com/istio-mixer/template%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89%E5%86%85%E5%AE%B9.svg" alt="68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f74656d..."></p>
+<p>每个 Adapter 都必须实现以下方法 :</p>
+<ul>
+<li>A Go struct that implements <code>HandlerBuilder</code> interfaces for all supported templates.</li>
+<li>A Go struct that implements <code>Handler</code> interfaces for all supported templates.</li>
+</ul>
+<h2 id="Mixer-配置模型"><a href="#Mixer-配置模型" class="headerlink" title="Mixer 配置模型"></a>Mixer 配置模型</h2><ul>
+<li>配置一组 <em>handlers</em>，用于确定正在使用的适配器组及其操作方式。处理程序配置的一个例子：为 Statsd 后端提供带有 IP 地址的 statsd 适配器。</li>
+<li>配置一组 <em>instances</em> ，描述如何将请求属性映射到适配器输入。实例表示一个或多个适配器将操作的大量数据。例如，运维人员可能决定从诸如 destination.service 和 response.code 之类的属性中生成 requestcount metric 实例。</li>
+<li>配置一组 <em>rules</em>，这些规则描述了何时调用特定适配器及哪些实例。规则包含 <em>match</em> 表达式和 <em>action</em> 。匹配表达式控制何时调用适配器，而动作决定了要提供给适配器的一组实例。例如，规则可能会将生成的 requestcount metric 实例发送到 statsd 适配器。</li>
+</ul>
+<h3 id="Mixer适配器工作流程"><a href="#Mixer适配器工作流程" class="headerlink" title="Mixer适配器工作流程"></a><strong>Mixer适配器工作流程</strong></h3><ul>
+<li>Mixer server启动。 <ul>
+<li>初始化adapter worker线程池。</li>
+<li>初始化 Mixer Template 仓库。</li>
+<li>初始化 adapter builder 表。</li>
+<li>初始化 runtime 实例。</li>
+<li>注册并启动gRPC server。</li>
+</ul>
+</li>
+<li>某一服务外部请求被envoy拦截，envoy根据请求生成指定的attributes，attributes作为参数之一向Mixer发起Check rpc请求。</li>
+<li>Mixer 进行前置条件检查和配额检查，调用相应的adapter做处理，并返回相应结果。</li>
+<li>Envoy分析结果，决定是否执行请求或拒绝请求。若可以执行请求则执行请求。请求完成后再向Mixer gRPC服务发起Report rpc请求，上报遥测数据。</li>
+<li>Mixer后端的adapter基于遥测数据做进一步处理。</li>
+</ul>
+<p><img src="https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E4%B8%8EAdapter%E4%BA%A4%E4%BA%92%E8%BF%87%E7%A8%8B.svg" alt="68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f6d6978..."></p>
+<h3 id="Check请求执行细节"><a href="#Check请求执行细节" class="headerlink" title="Check请求执行细节"></a><strong>Check请求执行细节</strong></h3><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">func</span> (s *grpcServer) Check(legacyCtx legacyContext.Context, req *mixerpb.CheckRequest) (*mixerpb.CheckResponse, error) &#123;</span><br><span class="line">    <span class="comment">// 构造基于proto的属性包protoBag。protoBag提供了对一组attributes进行访问、修改的机制。</span></span><br><span class="line">    protoBag := attribute.NewProtoBag(&amp;req.Attributes, s.globalDict, s.globalWordList)</span><br><span class="line">    <span class="keyword">defer</span> protoBag.Done()</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 构造可变的（执行check方法后会变化）属性包checkBag </span></span><br><span class="line">    checkBag := attribute.GetMutableBag(protoBag)</span><br><span class="line">    <span class="keyword">defer</span> checkBag.Done()</span><br><span class="line">    <span class="comment">// 执行dispatcher的预处理过程，s.dispatcher为runtime实例impl。</span></span><br><span class="line">    <span class="comment">// impl的Preprocess方法会调度生成属性相关的adapter，比如kubernetes adapter。</span></span><br><span class="line">    s.dispatcher.Preprocess(legacyCtx, protoBag, checkBag);</span><br><span class="line">    <span class="comment">// 获取属性包中被引用的属性快照snapApa，snapApa能在每次check和quota处理中重复使用。</span></span><br><span class="line">    snapApa := protoBag.SnapshotReferencedAttributes()</span><br><span class="line">    <span class="comment">// 执行dispatcher的前置条件检查，Check方法内部会计算被引用的属性并同步到protoBag中。</span></span><br><span class="line">    cr, err := s.dispatcher.Check(legacyCtx, checkBag)</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">// 构造Check rpc response实例</span></span><br><span class="line">    resp := &amp;mixerpb.CheckResponse&#123;</span><br><span class="line">        Precondition: mixerpb.CheckResponse_PreconditionResult&#123;</span><br><span class="line">            ValidDuration:        cr.ValidDuration,</span><br><span class="line">            ValidUseCount:        cr.ValidUseCount,</span><br><span class="line">            Status:               cr.Status,</span><br><span class="line">            ReferencedAttributes: protoBag.GetReferencedAttributes(s.globalDict, globalWordCount),</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果前置条件检查通过且配额表总数大于0，则计算新的配额</span></span><br><span class="line">    <span class="keyword">if</span> status.IsOK(resp.Precondition.Status) &amp;&amp; <span class="built_in">len</span>(req.Quotas) &gt; <span class="number">0</span> &#123;</span><br><span class="line">        resp.Quotas = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]mixerpb.CheckResponse_QuotaResult, <span class="built_in">len</span>(req.Quotas))</span><br><span class="line">        <span class="comment">// 遍历配额表，计算每个配额是否为引用配额</span></span><br><span class="line">        <span class="keyword">for</span> name, param := <span class="keyword">range</span> req.Quotas &#123;</span><br><span class="line">            qma := &amp;dispatcher.QuotaMethodArgs&#123;</span><br><span class="line">                Quota:           name,</span><br><span class="line">                Amount:          param.Amount,</span><br><span class="line">                DeduplicationID: req.DeduplicationId + name,</span><br><span class="line">                BestEffort:      param.BestEffort,</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            protoBag.RestoreReferencedAttributes(snapApa)</span><br><span class="line">            crqr := mixerpb.CheckResponse_QuotaResult&#123;&#125;</span><br><span class="line">            <span class="keyword">var</span> qr *adapter.QuotaResult</span><br><span class="line">            <span class="comment">// 执行dispacher的配额处理方法。istio/mixer/pkg/runtime/dispatcher/dispatcher.go#func (d *Impl) Quota(）</span></span><br><span class="line">            qr, err = s.dispatcher.Quota(legacyCtx, checkBag, qma)</span><br><span class="line">            <span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">                err = fmt.Errorf(<span class="string">"performing quota alloc failed: %v"</span>, err)</span><br><span class="line">                log.Errora(<span class="string">"Quota failure:"</span>, err.Error())</span><br><span class="line">            &#125; <span class="keyword">else</span> <span class="keyword">if</span> qr == <span class="literal">nil</span> &#123;</span><br><span class="line">                crqr.ValidDuration = defaultValidDuration</span><br><span class="line">                crqr.GrantedAmount = qma.Amount</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> !status.IsOK(qr.Status) &#123;</span><br><span class="line">                    log.Debugf(<span class="string">"Quota denied: %v"</span>, qr.Status)</span><br><span class="line">                &#125;</span><br><span class="line">                crqr.ValidDuration = qr.ValidDuration</span><br><span class="line">                crqr.GrantedAmount = qr.Amount</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 根据全局attribute字典来计算被引用的attributes</span></span><br><span class="line">            crqr.ReferencedAttributes = protoBag.GetReferencedAttributes(s.globalDict, globalWordCount)</span><br><span class="line">            resp.Quotas[name] = crqr</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回Check gRPC相应结果</span></span><br><span class="line">    <span class="keyword">return</span> resp, <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Report 请求类似。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>Mixer、Adapter 和 Operator Config 三者的关系如下图：</p>
+<p><img src="https://oeoiy7i1f.qnssl.com/istio-mixer/%E6%80%BB%E7%BB%93.svg" alt="68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f74656d..."></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="http://www.servicemesher.com/blog/istio-deepin-part3-mixer-workflow/" target="_blank" rel="external">Istio源码解析系列part3—Mixer工作流程浅析</a></li>
+<li><a href="https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide" target="_blank" rel="external">Mixer Compiled In Adapter Dev Guide</a></li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Istio/" rel="tag"># Istio</a>
+          
+            <a href="/tags/meituan/" rel="tag"># meituan</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/01/nginx-反向代理的简单应用/" rel="next" title="Nginx 反向代理的简单应用">
+                <i class="fa fa-chevron-left"></i> Nginx 反向代理的简单应用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="https://ofjahbxem.qnssl.com/blogAvatar.jpg"
+                alt="moeyui" />
+            
+              <p class="site-author-name" itemprop="name">moeyui</p>
+              <p class="site-description motion-element" itemprop="description">moeyui | moeyui's blog</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">25</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/moeyui1" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="https://twitter.com/moeyui1" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Attribute（属性）"><span class="nav-number">1.1.</span> <span class="nav-text">Attribute（属性）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RefrencedAttributes（被引用的属性）"><span class="nav-number">1.1.1.</span> <span class="nav-text">RefrencedAttributes（被引用的属性）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Adapter（适配器）"><span class="nav-number">1.2.</span> <span class="nav-text">Adapter（适配器）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Template"><span class="nav-number">1.2.1.</span> <span class="nav-text">Template</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mixer-配置模型"><span class="nav-number">1.3.</span> <span class="nav-text">Mixer 配置模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mixer适配器工作流程"><span class="nav-number">1.3.1.</span> <span class="nav-text">Mixer适配器工作流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check请求执行细节"><span class="nav-number">1.3.2.</span> <span class="nav-text">Check请求执行细节</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">moeyui</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.2.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("Nk9tNzbllEl79DVtRiOuLmbm-gzGzoHsz", "uPzxSfSzF95Gav6vGx2dOhCq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text(counter.get('time'));
+            
+            counter.save(null, {
+              success: function(counter) {
+                
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            
+              var newcounter = new Counter();
+              /* Set ACL */
+              var acl = new AV.ACL();
+              acl.setPublicReadAccess(true);
+              acl.setPublicWriteAccess(true);
+              newcounter.setACL(acl);
+              /* End Set ACL */
+              newcounter.set("title", title);
+              newcounter.set("url", url);
+              newcounter.set("time", 1);
+              newcounter.save(null, {
+                success: function(newcounter) {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+                },
+                error: function(newcounter, error) {
+                  console.log('Failed to create');
+                }
+              });
+            
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
-  <updated>2018-04-03T17:48:36.819Z</updated>
+  <updated>2018-08-11T06:04:36.000Z</updated>
   <id>http://moeyui.cn/</id>
   
   <author>
@@ -14,6 +14,103 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Istio学习之Mixer</title>
+    <link href="http://moeyui.cn/2018/08/11/Istio%E5%AD%A6%E4%B9%A0%E4%B9%8BMixer/"/>
+    <id>http://moeyui.cn/2018/08/11/Istio学习之Mixer/</id>
+    <published>2018-08-11T05:58:04.000Z</published>
+    <updated>2018-08-11T06:04:36.000Z</updated>
+    
+    <content type="html">&lt;p&gt;Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Istio 组件和运行在 Service Mesh 中的服务，通过 Mixer 就可以在不直接访问后端接口的情况下和这些后端进行交互。&lt;/p&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;h1 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h1&gt;&lt;blockquote&gt;
+&lt;p&gt;Mixer 本质上是一个 Attributes 处理机。&lt;/p&gt;
+&lt;p&gt;每个经过 Envoy sidecar 的请求都会调用 Mixer，为 Mixer 提供一组描述 Request 和 Request 周围环境的属性。基于 Envoy sidecar 的配置和给定的特定属性集，Mixer 会调用各种基础设施后端。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E6%B5%81%E7%A8%8B.svg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Mixer提供三个核心功能：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;前置条件检查（Precondition Checking）：某一服务响应外部请求前，通过Envoy向Mixer发送Check请求，检查该请求是否满足一定的前提条件，包括白名单检查、ACL检查等。&lt;/li&gt;
+&lt;li&gt;配额管理（Quota Management）：当多个请求发生资源竞争时，通过配额管理机制可以实现对资源的有效管理。&lt;/li&gt;
+&lt;li&gt;遥测报告上报（Telemetry Reporting）：该服务处理完请求后，通过Envoy向Mixer上报日志、监控等数据。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;首先介绍一些重要的概念。&lt;/p&gt;
+&lt;h2 id=&quot;Attribute（属性）&quot;&gt;&lt;a href=&quot;#Attribute（属性）&quot; class=&quot;headerlink&quot; title=&quot;Attribute（属性）&quot;&gt;&lt;/a&gt;&lt;strong&gt;Attribute（属性）&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;大部分attributes由Envoy提供。Istio用 &lt;a href=&quot;https://preliminary.istio.io/docs/concepts/policy-and-control/attributes.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;attributes&lt;/a&gt; 来控制服务在Service Mesh中运行时行为。attributes是有名称和类型的元数据，用来描述入口和出口流量和流量产生时的环境。Attributes 携带了一些具体信息，比如：API请求状态码、请求响应时间、TCP连接的原始地址等。&lt;/p&gt;
+&lt;h3 id=&quot;RefrencedAttributes（被引用的属性）&quot;&gt;&lt;a href=&quot;#RefrencedAttributes（被引用的属性）&quot; class=&quot;headerlink&quot; title=&quot;RefrencedAttributes（被引用的属性）&quot;&gt;&lt;/a&gt;RefrencedAttributes（被引用的属性）&lt;/h3&gt;&lt;p&gt;refrencedAttributes是Mixer Check时进行条件匹配后被使用的属性的集合。Envoy向Mixer发送的Check请求中传递的是属性的全集，refrencedAttributes只是该全集中被应用的一个子集。&lt;/p&gt;
+&lt;p&gt;举个例子，Envoy某次发送的Check请求中发送的attributes为{request.path: xyz/abc, request.size: 234,source.ip: 192.168.0.1}，如Mixer中调度到的多个adapters只用到了request.path和request.size这两个属性。那么Check后返回的refrencedAttributes为{request.path: xyz/abc, request.size: 234}。&lt;/p&gt;
+&lt;p&gt;为防止每次请求时Envoy都向Mixer中发送Check请求，Mixer中建立了一套复杂的缓存机制，使得大部分请求不需要向Mixer发送Check请求。&lt;/p&gt;
+&lt;p&gt;并且Mixer中也是有缓存的，大概是下面的代码。。。位于&lt;em&gt;/Users/mengyikun/code/istio/mixer/pkg/api/grpcServer.go#Check&lt;/em&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight go&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; s.cache != &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; value, ok := s.cache.Get(protoBag); ok &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			resp := &amp;amp;mixerpb.CheckResponse&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;				Precondition: mixerpb.CheckResponse_PreconditionResult&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;					Status: rpc.Status&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;						Code:    value.StatusCode,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;						Message: value.StatusMessage,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;					&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;					ValidDuration:        value.Expiration.Sub(time.Now()),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;					ValidUseCount:        value.ValidUseCount,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;					ReferencedAttributes: &amp;amp;value.ReferencedAttributes,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;				&amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; status.IsOK(resp.Precondition.Status) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;				log.Debug(&lt;span class=&quot;string&quot;&gt;&quot;Check approved from cache&quot;&lt;/span&gt;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;				log.Debugf(&lt;span class=&quot;string&quot;&gt;&quot;Check denied from cache: %v&quot;&lt;/span&gt;, resp.Precondition.Status)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; !status.IsOK(resp.Precondition.Status) || &lt;span class=&quot;built_in&quot;&gt;len&lt;/span&gt;(req.Quotas) == &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;				&lt;span class=&quot;comment&quot;&gt;// we found a cached result and no quotas to allocate, so we&#39;re outta here&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;				&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; resp, &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;			&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&lt;img src=&quot;https://oeoiy7i1f.qnssl.com/istio-miexer/mixer-spof-myth-2.svg&quot; alt=&quot;mixer-spof-myth-2.svg&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Adapter（适配器）&quot;&gt;&lt;a href=&quot;#Adapter（适配器）&quot; class=&quot;headerlink&quot; title=&quot;Adapter（适配器）&quot;&gt;&lt;/a&gt;&lt;strong&gt;Adapter（适配器）&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;Mixer是一个高度模块化、可扩展组件，内部提供了多个适配器(&lt;a href=&quot;https://link.jianshu.com/?t=https%3A%2F%2Fgithub.com%2Fistio%2Fistio%2Ftree%2Fmaster%2Fmixer%2Fadapter&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;adapter&lt;/a&gt;)。&lt;/p&gt;
+&lt;p&gt;Envoy提供request级别的属性（&lt;a href=&quot;https://link.jianshu.com/?t=https%3A%2F%2Fistio.io%2Fdocs%2Fconcepts%2Fpolicy-and-control%2Fattributes.html&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;attributes&lt;/a&gt;）数据。&lt;/p&gt;
+&lt;p&gt;adapters基于这些attributes来实现日志记录、监控指标采集展示、配额管理、ACL检查等功能。Istio内置的部分adapters举例如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/istio/istio/tree/master/mixer/adapter/circonus&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;circonus&lt;/a&gt;：一个微服务监控分析平台。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/istio/istio/tree/master/mixer/adapter/fluentd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;fluentd&lt;/a&gt;：一款开源的日志采集工具。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/istio/istio/tree/master/mixer/adapter/prometheus&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;prometheus&lt;/a&gt;：一款开源的时序数据库，非常适合用来存储监控指标数据。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/istio/istio/tree/master/mixer/adapter/statsd&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;statsd&lt;/a&gt;：一款采集汇总应用指标的工具。&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/istio/istio/tree/master/mixer/adapter/stdio&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;stdio&lt;/a&gt;：stdio适配器使Istio能将日志和metrics输出到本地，结合内置的ES、Grafana就可以查看相应的日志或指标了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Template author, adapter author, and the operator 的角色划分总结如下:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The template author defines a &lt;em&gt;template&lt;/em&gt;, which describes the data Mixer dispatches to adapters, and the interface that the adapter must implement to process that data. The supported set of templates within Mixer determines the various types of data an operator can configure Mixer to create and dispatch to the adapters.&lt;/li&gt;
+&lt;li&gt;The adapter author selects the templates he/she wants to support based on the functionality the adapter must provide. The adapter author’s role is to implement the required set of template-specific interfaces to process the data dispatched by Mixer at runtime.&lt;/li&gt;
+&lt;li&gt;The operator defines what data should be collected (&lt;a href=&quot;https://istio.io/docs/concepts/policy-and-control/mixer-config.html#instances&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;instances&lt;/a&gt;), where it can be sent (&lt;a href=&quot;https://istio.io/docs/concepts/policy-and-control/mixer-config.html#handlers&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;handlers&lt;/a&gt;), and when to send it (&lt;a href=&quot;https://istio.io/docs/concepts/policy-and-control/mixer-config.html#rules&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;rules&lt;/a&gt;).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84.svg&quot; alt=&quot;68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f6f7065...&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Template&quot;&gt;&lt;a href=&quot;#Template&quot; class=&quot;headerlink&quot; title=&quot;Template&quot;&gt;&lt;/a&gt;Template&lt;/h3&gt;&lt;p&gt;Template 是用 &lt;a href=&quot;https://developers.google.com/protocol-buffers/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;ProtoBuff&lt;/a&gt; 格式编写的。它定义了 Mixer 给 Adapter 的数据格式、Adapter 需要实现的接口等。Adapter 在调用 Template 时，实际上是调用从 proto 自动生成的Go文件。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://oeoiy7i1f.qnssl.com/istio-mixer/template%E6%96%87%E4%BB%B6%E5%AE%9A%E4%B9%89%E5%86%85%E5%AE%B9.svg&quot; alt=&quot;68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f74656d...&quot;&gt;&lt;/p&gt;
+&lt;p&gt;每个 Adapter 都必须实现以下方法 :&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A Go struct that implements &lt;code&gt;HandlerBuilder&lt;/code&gt; interfaces for all supported templates.&lt;/li&gt;
+&lt;li&gt;A Go struct that implements &lt;code&gt;Handler&lt;/code&gt; interfaces for all supported templates.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;Mixer-配置模型&quot;&gt;&lt;a href=&quot;#Mixer-配置模型&quot; class=&quot;headerlink&quot; title=&quot;Mixer 配置模型&quot;&gt;&lt;/a&gt;Mixer 配置模型&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;配置一组 &lt;em&gt;handlers&lt;/em&gt;，用于确定正在使用的适配器组及其操作方式。处理程序配置的一个例子：为 Statsd 后端提供带有 IP 地址的 statsd 适配器。&lt;/li&gt;
+&lt;li&gt;配置一组 &lt;em&gt;instances&lt;/em&gt; ，描述如何将请求属性映射到适配器输入。实例表示一个或多个适配器将操作的大量数据。例如，运维人员可能决定从诸如 destination.service 和 response.code 之类的属性中生成 requestcount metric 实例。&lt;/li&gt;
+&lt;li&gt;配置一组 &lt;em&gt;rules&lt;/em&gt;，这些规则描述了何时调用特定适配器及哪些实例。规则包含 &lt;em&gt;match&lt;/em&gt; 表达式和 &lt;em&gt;action&lt;/em&gt; 。匹配表达式控制何时调用适配器，而动作决定了要提供给适配器的一组实例。例如，规则可能会将生成的 requestcount metric 实例发送到 statsd 适配器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;Mixer适配器工作流程&quot;&gt;&lt;a href=&quot;#Mixer适配器工作流程&quot; class=&quot;headerlink&quot; title=&quot;Mixer适配器工作流程&quot;&gt;&lt;/a&gt;&lt;strong&gt;Mixer适配器工作流程&lt;/strong&gt;&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;Mixer server启动。 &lt;ul&gt;
+&lt;li&gt;初始化adapter worker线程池。&lt;/li&gt;
+&lt;li&gt;初始化 Mixer Template 仓库。&lt;/li&gt;
+&lt;li&gt;初始化 adapter builder 表。&lt;/li&gt;
+&lt;li&gt;初始化 runtime 实例。&lt;/li&gt;
+&lt;li&gt;注册并启动gRPC server。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;某一服务外部请求被envoy拦截，envoy根据请求生成指定的attributes，attributes作为参数之一向Mixer发起Check rpc请求。&lt;/li&gt;
+&lt;li&gt;Mixer 进行前置条件检查和配额检查，调用相应的adapter做处理，并返回相应结果。&lt;/li&gt;
+&lt;li&gt;Envoy分析结果，决定是否执行请求或拒绝请求。若可以执行请求则执行请求。请求完成后再向Mixer gRPC服务发起Report rpc请求，上报遥测数据。&lt;/li&gt;
+&lt;li&gt;Mixer后端的adapter基于遥测数据做进一步处理。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;https://oeoiy7i1f.qnssl.com/istio-mixer/mixer%E4%B8%8EAdapter%E4%BA%A4%E4%BA%92%E8%BF%87%E7%A8%8B.svg&quot; alt=&quot;68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f6d6978...&quot;&gt;&lt;/p&gt;
+&lt;h3 id=&quot;Check请求执行细节&quot;&gt;&lt;a href=&quot;#Check请求执行细节&quot; class=&quot;headerlink&quot; title=&quot;Check请求执行细节&quot;&gt;&lt;/a&gt;&lt;strong&gt;Check请求执行细节&lt;/strong&gt;&lt;/h3&gt;&lt;figure class=&quot;highlight go&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;func&lt;/span&gt; (s *grpcServer) Check(legacyCtx legacyContext.Context, req *mixerpb.CheckRequest) (*mixerpb.CheckResponse, error) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 构造基于proto的属性包protoBag。protoBag提供了对一组attributes进行访问、修改的机制。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    protoBag := attribute.NewProtoBag(&amp;amp;req.Attributes, s.globalDict, s.globalWordList)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;defer&lt;/span&gt; protoBag.Done()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 构造可变的（执行check方法后会变化）属性包checkBag &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    checkBag := attribute.GetMutableBag(protoBag)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;defer&lt;/span&gt; checkBag.Done()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 执行dispatcher的预处理过程，s.dispatcher为runtime实例impl。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// impl的Preprocess方法会调度生成属性相关的adapter，比如kubernetes adapter。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    s.dispatcher.Preprocess(legacyCtx, protoBag, checkBag);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 获取属性包中被引用的属性快照snapApa，snapApa能在每次check和quota处理中重复使用。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    snapApa := protoBag.SnapshotReferencedAttributes()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 执行dispatcher的前置条件检查，Check方法内部会计算被引用的属性并同步到protoBag中。&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cr, err := s.dispatcher.Check(legacyCtx, checkBag)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 构造Check rpc response实例&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    resp := &amp;amp;mixerpb.CheckResponse&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Precondition: mixerpb.CheckResponse_PreconditionResult&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            ValidDuration:        cr.ValidDuration,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            ValidUseCount:        cr.ValidUseCount,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            Status:               cr.Status,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            ReferencedAttributes: protoBag.GetReferencedAttributes(s.globalDict, globalWordCount),&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 如果前置条件检查通过且配额表总数大于0，则计算新的配额&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; status.IsOK(resp.Precondition.Status) &amp;amp;&amp;amp; &lt;span class=&quot;built_in&quot;&gt;len&lt;/span&gt;(req.Quotas) &amp;gt; &lt;span class=&quot;number&quot;&gt;0&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        resp.Quotas = &lt;span class=&quot;built_in&quot;&gt;make&lt;/span&gt;(&lt;span class=&quot;keyword&quot;&gt;map&lt;/span&gt;[&lt;span class=&quot;keyword&quot;&gt;string&lt;/span&gt;]mixerpb.CheckResponse_QuotaResult, &lt;span class=&quot;built_in&quot;&gt;len&lt;/span&gt;(req.Quotas))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;comment&quot;&gt;// 遍历配额表，计算每个配额是否为引用配额&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; name, param := &lt;span class=&quot;keyword&quot;&gt;range&lt;/span&gt; req.Quotas &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            qma := &amp;amp;dispatcher.QuotaMethodArgs&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                Quota:           name,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                Amount:          param.Amount,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                DeduplicationID: req.DeduplicationId + name,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                BestEffort:      param.BestEffort,&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            protoBag.RestoreReferencedAttributes(snapApa)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            crqr := mixerpb.CheckResponse_QuotaResult&amp;#123;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; qr *adapter.QuotaResult&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;comment&quot;&gt;// 执行dispacher的配额处理方法。istio/mixer/pkg/runtime/dispatcher/dispatcher.go#func (d *Impl) Quota(）&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            qr, err = s.dispatcher.Quota(legacyCtx, checkBag, qma)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; err != &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                err = fmt.Errorf(&lt;span class=&quot;string&quot;&gt;&quot;performing quota alloc failed: %v&quot;&lt;/span&gt;, err)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                log.Errora(&lt;span class=&quot;string&quot;&gt;&quot;Quota failure:&quot;&lt;/span&gt;, err.Error())&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; qr == &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                crqr.ValidDuration = defaultValidDuration&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                crqr.GrantedAmount = qma.Amount&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125; &lt;span class=&quot;keyword&quot;&gt;else&lt;/span&gt; &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; !status.IsOK(qr.Status) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                    log.Debugf(&lt;span class=&quot;string&quot;&gt;&quot;Quota denied: %v&quot;&lt;/span&gt;, qr.Status)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                crqr.ValidDuration = qr.ValidDuration&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                crqr.GrantedAmount = qr.Amount&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &lt;span class=&quot;comment&quot;&gt;// 根据全局attribute字典来计算被引用的attributes&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            crqr.ReferencedAttributes = protoBag.GetReferencedAttributes(s.globalDict, globalWordCount)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            resp.Quotas[name] = crqr&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;comment&quot;&gt;// 返回Check gRPC相应结果&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; resp, &lt;span class=&quot;literal&quot;&gt;nil&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;Report 请求类似。&lt;/p&gt;
+&lt;h1 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h1&gt;&lt;p&gt;Mixer、Adapter 和 Operator Config 三者的关系如下图：&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://oeoiy7i1f.qnssl.com/istio-mixer/%E6%80%BB%E7%BB%93.svg&quot; alt=&quot;68747470733a2f2f63646e2e7261776769742e636f6d2f77696b692f697374696f2f697374696f2f696d616765732f74656d...&quot;&gt;&lt;/p&gt;
+&lt;h1 id=&quot;参考&quot;&gt;&lt;a href=&quot;#参考&quot; class=&quot;headerlink&quot; title=&quot;参考&quot;&gt;&lt;/a&gt;参考&lt;/h1&gt;&lt;ol&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.servicemesher.com/blog/istio-deepin-part3-mixer-workflow/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Istio源码解析系列part3—Mixer工作流程浅析&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/istio/istio/wiki/Mixer-Compiled-In-Adapter-Dev-Guide&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Mixer Compiled In Adapter Dev Guide&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Mixer 服务作为 Istio 和一套开放式基础设施之间的抽象层。Istio 组件和运行在 Service Mesh 中的服务，通过 Mixer 就可以在不直接访问后端接口的情况下和这些后端进行交互。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="开发" scheme="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
+    
+    
+      <category term="Istio" scheme="http://moeyui.cn/tags/Istio/"/>
+    
+      <category term="meituan" scheme="http://moeyui.cn/tags/meituan/"/>
+    
+  </entry>
   
   <entry>
     <title>Nginx 反向代理的简单应用</title>
@@ -218,8 +315,8 @@
   
   <entry>
     <title>滚吧！ .tk</title>
-    <link href="http://moeyui.cn/2016/10/16/%E6%BB%9A%E5%90%A7%EF%BC%81%20.tk%20/"/>
-    <id>http://moeyui.cn/2016/10/16/滚吧！ .tk /</id>
+    <link href="http://moeyui.cn/2016/10/16/getout%20.tk%20/"/>
+    <id>http://moeyui.cn/2016/10/16/getout .tk /</id>
     <published>2016-10-16T14:44:15.000Z</published>
     <updated>2016-10-16T16:37:40.338Z</updated>
     
@@ -523,9 +620,9 @@
       <category term="网站" scheme="http://moeyui.cn/categories/%E7%BD%91%E7%AB%99/"/>
     
     
-      <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
-    
       <category term="网络" scheme="http://moeyui.cn/tags/%E7%BD%91%E7%BB%9C/"/>
+    
+      <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
     
   </entry>
   
@@ -755,9 +852,9 @@ public static void main(String[] args) {
     
       <category term="coding" scheme="http://moeyui.cn/tags/coding/"/>
     
-      <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
-    
       <category term="新手向" scheme="http://moeyui.cn/tags/%E6%96%B0%E6%89%8B%E5%90%91/"/>
+    
+      <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
     
   </entry>
   
@@ -809,9 +906,9 @@ public static void main(String[] args) {
       <category term="生活" scheme="http://moeyui.cn/categories/%E7%94%9F%E6%B4%BB/"/>
     
     
-      <category term="福利" scheme="http://moeyui.cn/tags/%E7%A6%8F%E5%88%A9/"/>
-    
       <category term="日记向" scheme="http://moeyui.cn/tags/%E6%97%A5%E8%AE%B0%E5%90%91/"/>
+    
+      <category term="福利" scheme="http://moeyui.cn/tags/%E7%A6%8F%E5%88%A9/"/>
     
   </entry>
   
