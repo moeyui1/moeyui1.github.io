@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>不是很懂你们程序员</title>
-  <subtitle>不是很懂你们二次元，不是很懂你们程序员</subtitle>
+  <title>不是很懂</title>
+  <subtitle>不是很懂你们程序员</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://moeyui.cn/"/>
