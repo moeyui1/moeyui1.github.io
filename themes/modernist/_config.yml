@@ -1,0 +1,28 @@
+menu:
+  Home: /
+  Archives: /archives
+  About: /about
+rss: /atom.xml
+
+excerpt_link: Read More #摘要链接文字
+archive_yearly: false #按年存档
+
+widgets: #配置页脚显示哪些小挂件
+  - category
+#  - tag
+  - tagcloud
+  - recent_posts
+#  - blogroll
+
+blogrolls: #友情链接
+  - bruce sha's duapp wordpress: http://ibruce.duapp.com
+  - bruce sha's javaeye: http://buru.iteye.com
+  - bruce sha's oschina blog: http://my.oschina.net/buru
+  - bruce sha's baidu space: http://hi.baidu.com/iburu
+
+fancybox: true #是否开启fancybox效果
+
+duoshuo_shortname: buru #多说账号
+
+google_analytics:
+rss:
