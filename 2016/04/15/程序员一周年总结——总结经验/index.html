@@ -2123,7 +2123,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fe876e;
+  background: #32ff54;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3330,10 +3330,11 @@ ul.breadcrumb li+li:last-child {
 }
 .post-body h3 {
   font-size: 1.3em;
-  border-bottom: 1px dotted #eee;
+  border-bottom: 1px solid #eee;
 }
 .post-body h4 {
   font-size: 1.2em;
+  border-bottom: 1px dotted #eee;
 }
 .post-body h5 {
   font-size: 1.07em;
@@ -3449,7 +3450,7 @@ ul.breadcrumb li+li:last-child {
     </div>
     
       
-        <p class="site-subtitle">不是很懂你们程序员</p>
+        <h1 class="site-subtitle" itemprop="description">不是很懂你们程序员</h1>
       
     
   </div>
@@ -3586,10 +3587,10 @@ ul.breadcrumb li+li:last-child {
 
         
         
-          <h1 class="post-title" itemprop="name headline">程序员一周年总结——经验分享
+          <h2 class="post-title" itemprop="name headline">程序员一周年总结——经验分享
               
             
-          </h1>
+          </h2>
         
 
         <div class="post-meta">
@@ -3992,12 +3993,12 @@ public static void main(String[] args) {
             <div class="links-of-author motion-element">
               
                 <span class="links-of-author-item">
-                  <a href="https://github.com/moeyui1" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/moeyui1" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
                   
                 </span>
               
                 <span class="links-of-author-item">
-                  <a href="https://twitter.com/moeyui1" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  <a href="https://twitter.com/moeyui1" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
                   
                 </span>
               
@@ -4060,9 +4061,11 @@ public static void main(String[] args) {
 </div>
 
 
+  
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.2.0</div>
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.2.0</div>
 
 
 
@@ -4070,7 +4073,7 @@ public static void main(String[] args) {
 
 
 
-  <div class="theme-info">主题 — <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+  <div class="theme-info">主题 — <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
 
 
 
@@ -4222,6 +4225,8 @@ public static void main(String[] args) {
   
 
   
+
+
 
   
 
@@ -4384,7 +4389,18 @@ public static void main(String[] args) {
       } else if ($('.post-title-link').length > 1) {
         showTime(Counter);
       }
-    });;$('.highlight').each(function (i, e) {
+    });;(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();;$('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap')
       $(e).after($wrap)
       $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {

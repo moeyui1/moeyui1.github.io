@@ -2113,7 +2113,7 @@ img:hover {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #fe876e;
+  background: #32ff54;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -3320,10 +3320,11 @@ ul.breadcrumb li+li:last-child {
 }
 .post-body h3 {
   font-size: 1.3em;
-  border-bottom: 1px dotted #eee;
+  border-bottom: 1px solid #eee;
 }
 .post-body h4 {
   font-size: 1.2em;
+  border-bottom: 1px dotted #eee;
 }
 .post-body h5 {
   font-size: 1.07em;
@@ -3439,7 +3440,7 @@ ul.breadcrumb li+li:last-child {
     </div>
     
       
-        <p class="site-subtitle">不是很懂你们程序员</p>
+        <h1 class="site-subtitle" itemprop="description">不是很懂你们程序员</h1>
       
     
   </div>
@@ -3576,10 +3577,10 @@ ul.breadcrumb li+li:last-child {
 
         
         
-          <h1 class="post-title" itemprop="name headline">优雅地调试 Envoy
+          <h2 class="post-title" itemprop="name headline">优雅地调试 Envoy
               
             
-          </h1>
+          </h2>
         
 
         <div class="post-meta">
@@ -3686,7 +3687,7 @@ ul.breadcrumb li+li:last-child {
 <p>安装 gdb。 <a href="https://alpinelinux.org/" target="_blank" rel="external">Alpine</a> 的软件包中没有 gdb server，且它的 gdb 包也没有包含 gdb server，只好手动下载编译</p>
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apk add --no-cache make</span><br><span class="line">apk add --no-cache linux-headers</span><br><span class="line">apk add --no-cache texinfo</span><br><span class="line">apk add --no-cache gcc</span><br><span class="line">apk add --no-cache g++</span><br><span class="line"></span><br><span class="line"># gdb 版本请随意，这里选用了8.1</span><br><span class="line">wget http://ftp.gnu.org/gnu/gdb/gdb-8.1.tar.xz</span><br><span class="line">tar -xvf gdb-8.1.tar.xz</span><br><span class="line">cd gdb-8.1</span><br><span class="line">./configure --prefix=/usr</span><br><span class="line">make</span><br><span class="line">make -C gdb install</span><br></pre></td></tr></tbody></table></figure>
 <p>上述方法在 docker 下实际上是很糟糕的实践，如果这种调试方法通用化，应该建立自己的镜像文件，其中可以加上以下语句，自动安装 gdb 和 gdb server</p>
-<figure class="highlight dockerfile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">RUN</span> apk update</span><br><span class="line"><span class="comment"># we need make and linux-headers to compile gdb</span></span><br><span class="line"><span class="keyword">RUN</span> apk add --no-cache make</span><br><span class="line"><span class="keyword">RUN</span> apk add --no-cache linux-headers</span><br><span class="line"><span class="keyword">RUN</span> apk add --no-cache texinfo</span><br><span class="line"><span class="keyword">RUN</span> apk add --no-cache gcc</span><br><span class="line"><span class="keyword">RUN</span> apk add --no-cache g++</span><br><span class="line"><span class="keyword">RUN</span> apk add --no-cache gfortran</span><br><span class="line"><span class="comment"># install gdb</span></span><br><span class="line"><span class="comment"># RUN apk add --no-cache gdb</span></span><br><span class="line"><span class="keyword">RUN</span> mkdir gdb-build ;\</span><br><span class="line">    cd gdb-build;\</span><br><span class="line">    wget http://ftp.gnu.org/gnu/gdb/gdb-7.11.tar.xz;\</span><br><span class="line">    tar -xvf gdb-7.11.tar.xz;\</span><br><span class="line">    cd gdb-7.11;\</span><br><span class="line">    ./configure --prefix=/usr;\</span><br><span class="line">    make;\</span><br><span class="line">    make -C gdb install;\</span><br><span class="line">    cd ..;\</span><br><span class="line">    rm -rf gdb-build/;</span><br><span class="line">...</span><br></pre></td></tr></tbody></table></figure>
+<figure class="highlight dockerfile"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="keyword">RUN</span> <span class="bash">apk update</span><br><span class="line"></span><span class="comment"># we need make and linux-headers to compile gdb</span></span><br><span class="line"><span class="keyword">RUN</span> <span class="bash">apk add --no-cache make</span><br><span class="line"></span><span class="keyword">RUN</span> <span class="bash">apk add --no-cache linux-headers</span><br><span class="line"></span><span class="keyword">RUN</span> <span class="bash">apk add --no-cache texinfo</span><br><span class="line"></span><span class="keyword">RUN</span> <span class="bash">apk add --no-cache gcc</span><br><span class="line"></span><span class="keyword">RUN</span> <span class="bash">apk add --no-cache g++</span><br><span class="line"></span><span class="keyword">RUN</span> <span class="bash">apk add --no-cache gfortran</span><br><span class="line"></span><span class="comment"># install gdb</span></span><br><span class="line"><span class="comment"># RUN apk add --no-cache gdb</span></span><br><span class="line"><span class="keyword">RUN</span> <span class="bash">mkdir gdb-build ;\</span><br><span class="line">    <span class="built_in">cd</span> gdb-build;\</span><br><span class="line">    wget http://ftp.gnu.org/gnu/gdb/gdb-7.11.tar.xz;\</span><br><span class="line">    tar -xvf gdb-7.11.tar.xz;\</span><br><span class="line">    <span class="built_in">cd</span> gdb-7.11;\</span><br><span class="line">    ./configure --prefix=/usr;\</span><br><span class="line">    make;\</span><br><span class="line">    make -C gdb install;\</span><br><span class="line">    <span class="built_in">cd</span> ..;\</span><br><span class="line">    rm -rf gdb-build/;</span><br><span class="line"></span>...</span><br></pre></td></tr></tbody></table></figure>
 <h2 id="启动-gdb-server"><a href="#启动-gdb-server" class="headerlink" title="启动 gdb server"></a>启动 gdb server</h2><p>用 ps 查看 Envoy 的进程 ID，然后运行 gdb server</p>
 <figure class="highlight plain"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gdbserver localhost:9999 --attach 8 # --attach 后跟进程 ID ，本文中 ID 为8</span><br></pre></td></tr></tbody></table></figure>
 <h2 id="宿主机安装-gdb"><a href="#宿主机安装-gdb" class="headerlink" title="宿主机安装 gdb"></a>宿主机安装 gdb</h2><p>在这之前 osx 上要安装 gdb，<strong>安装gdb必须使用–with-all-targets参数</strong>，因为默认安装是基于机子操作系统的结构体系，而远程调试的机子不一定与本机相同，使用该参数主要是适配远程各种平台的结构体系，当然可以下载gdb源码，修改配置中结构体系配置编译安装，这部分读者自行google。</p>
@@ -3931,12 +3932,12 @@ ul.breadcrumb li+li:last-child {
             <div class="links-of-author motion-element">
               
                 <span class="links-of-author-item">
-                  <a href="https://github.com/moeyui1" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <a href="https://github.com/moeyui1" target="_blank" title="GitHub" rel="external nofollow"><i class="fa fa-fw fa-github"></i>GitHub</a>
                   
                 </span>
               
                 <span class="links-of-author-item">
-                  <a href="https://twitter.com/moeyui1" target="_blank" title="Twitter"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  <a href="https://twitter.com/moeyui1" target="_blank" title="Twitter" rel="external nofollow"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
                   
                 </span>
               
@@ -3999,9 +4000,11 @@ ul.breadcrumb li+li:last-child {
 </div>
 
 
+  
 
 
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.2.0</div>
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> 强力驱动 v3.2.0</div>
 
 
 
@@ -4009,7 +4012,7 @@ ul.breadcrumb li+li:last-child {
 
 
 
-  <div class="theme-info">主题 — <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
+  <div class="theme-info">主题 — <a class="theme-link" target="_blank" rel="external nofollow" href="https://theme-next.org">NexT.Gemini</a> v6.3.0</div>
 
 
 
@@ -4161,6 +4164,8 @@ ul.breadcrumb li+li:last-child {
   
 
   
+
+
 
   
 
@@ -4323,7 +4328,18 @@ ul.breadcrumb li+li:last-child {
       } else if ($('.post-title-link').length > 1) {
         showTime(Counter);
       }
-    });;$('.highlight').each(function (i, e) {
+    });;(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();;$('.highlight').each(function (i, e) {
       var $wrap = $('<div>').addClass('highlight-wrap')
       $(e).after($wrap)
       $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
