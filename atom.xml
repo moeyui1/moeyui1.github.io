@@ -213,11 +213,11 @@
       <category term="开发" scheme="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
-    
       <category term="Istio" scheme="http://moeyui.cn/tags/Istio/"/>
     
       <category term="meituan" scheme="http://moeyui.cn/tags/meituan/"/>
+    
+      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
     
   </entry>
   
@@ -336,11 +336,11 @@
       <category term="开发" scheme="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
-    
       <category term="Istio" scheme="http://moeyui.cn/tags/Istio/"/>
     
       <category term="meituan" scheme="http://moeyui.cn/tags/meituan/"/>
+    
+      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
     
   </entry>
   
