@@ -4,6 +4,28 @@
 
     
   <url>
+    <loc>http://moeyui.cn/%E5%BC%80%E5%8F%91/d1717587.html</loc>
+    <lastmod>2018-10-13T11:44:39.819Z</lastmod>
+    <data>
+        <display>
+        <title>gRPC Bidirectional（双向流）源码分析</title>
+        <pubTime>2018-10-13T11:26:28.000Z</pubTime>
+        
+        <tag>源码分析</tag>
+         
+        <tag>gRPC</tag>
+         
+         
+           
+             
+              <breadCrumb title="开发" url="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://moeyui.cn/%E5%BC%80%E5%8F%91/7c949937.html</loc>
     <lastmod>2018-09-24T16:15:12.323Z</lastmod>
     <data>
@@ -35,11 +57,11 @@
         <title>Istio学习之Pilot-agent</title>
         <pubTime>2018-09-09T06:09:06.000Z</pubTime>
         
+        <tag>service mesh</tag>
+         
         <tag>Istio</tag>
          
         <tag>meituan</tag>
-         
-        <tag>service mesh</tag>
          
          
            
@@ -59,11 +81,11 @@
         <title>Istio学习之Pilot-Discovery</title>
         <pubTime>2018-09-09T06:20:34.000Z</pubTime>
         
+        <tag>service mesh</tag>
+         
         <tag>Istio</tag>
          
         <tag>meituan</tag>
-         
-        <tag>service mesh</tag>
          
          
            
