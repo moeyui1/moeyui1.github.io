@@ -80,8 +80,10 @@ logger_format:
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  repository: git@github.com:moeyui1/moeyui1.github.io.git
+  - type: git
+    repository: git@github.com:moeyui1/moeyui1.github.io.git
+  - type: git
+    repository: git@git.dev.tencent.com:moeyui/moeyui.coding.me.git
 
 # 头像设定
 avatar: /images/blogAvatar.jpg
@@ -128,7 +130,7 @@ baidusitemap:
 
 ## https://github.com/EYHN/hexo-helper-live2d
 live2d:
-  enable: true
+  enable: false
   scriptFrom: local
   pluginRootPath: live2dw/
   pluginJsPath: lib/
