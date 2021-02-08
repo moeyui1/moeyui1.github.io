@@ -1,1 +1,654 @@
-<!DOCTYPE html><html class="theme-next gemini use-motion" lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=2"><meta name="theme-color" content="#222"><link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico?v=6.7.0"><link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico?v=6.7.0"><link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico?v=6.7.0"><script id="hexo.configurations">var NexT=window.NexT||{},CONFIG={root:"/",scheme:"Gemini",version:"6.7.0",sidebar:{position:"left",display:"post",offset:12,b2t:!1,scrollpercent:!1,onmobile:!1},fancybox:!0,fastclick:!0,lazyload:!1,tabs:!0,motion:{enable:!0,async:!1,transition:{post_block:"fadeIn",post_header:"slideDownIn",post_body:"slideDownIn",coll_header:"slideLeftIn",sidebar:"slideUpIn"}},algolia:{applicationID:"",apiKey:"",indexName:"",hits:{per_page:10},labels:{input_placeholder:"Search for Posts",hits_empty:"We didn't find any results for the search: ${query}",hits_stats:"${hits} results found in ${time} ms"}}}</script><meta name="description" content="Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service."><meta name="keywords" content="service mesh,Istio,meituan"><meta property="og:type" content="article"><meta property="og:title" content="Istio学习之Pilot-Discovery"><meta property="og:url" content="http://moeyui.cn/开发/ff55e9f.html"><meta property="og:site_name" content="不是很懂"><meta property="og:description" content="Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service."><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://camo.githubusercontent.com/919e2e3cd8e4267a00035b813df53902864a3388/68747470733a2f2f63646e2e7261776769742e636f6d2f697374696f2f70696c6f742f6d61737465722f646f632f70696c6f742e737667"><meta property="og:image" content="https://i.loli.net/2018/09/09/5b94b7a12b30f.png"><meta property="og:image" content="https://i.loli.net/2018/09/09/5b94b7a0cb075.png"><meta property="og:updated_time" content="2018-11-25T11:06:14.267Z"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Istio学习之Pilot-Discovery"><meta name="twitter:description" content="Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service."><meta name="twitter:image" content="https://camo.githubusercontent.com/919e2e3cd8e4267a00035b813df53902864a3388/68747470733a2f2f63646e2e7261776769742e636f6d2f697374696f2f70696c6f742f6d61737465722f646f632f70696c6f742e737667"><link rel="alternate" href="/atom.xml" title="不是很懂" type="application/atom+xml"><link rel="canonical" href="http://moeyui.cn/开发/ff55e9f.html"><script id="page.configurations">CONFIG.page={sidebar:""}</script><title>Istio学习之Pilot-Discovery | 不是很懂</title><script async="" src="//www.googletagmanager.com/gtag/js?id=UA-75483578-1"></script><script>function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","UA-75483578-1")</script><noscript><style>.sidebar-inner,.use-motion .brand,.use-motion .collection-title,.use-motion .comments,.use-motion .menu-item,.use-motion .motion-element,.use-motion .pagination,.use-motion .post-block,.use-motion .post-body,.use-motion .post-header{opacity:initial}.use-motion .logo,.use-motion .site-subtitle,.use-motion .site-title{opacity:initial;top:initial}.use-motion .logo-line-before i{left:initial}.use-motion .logo-line-after i{right:initial}</style></noscript><script>function loadCss(e){var t=document,s=t.head,n=t.createElement("link");n.rel="stylesheet",n.href=e,function e(s){if(t.body)return s();setTimeout(function(){e(s)})}(function(){s.appendChild(n)})}loadCss("/style.css"),loadCss("https://cdn.staticfile.org/font-awesome/4.6.2/css/font-awesome.min.css")</script><noscript><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.6.2/css/font-awesome.min.css"></noscript></head><body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN"><div class="container sidebar-position-left page-post-detail"><div class="headband"></div><header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader"><div class="header-inner"><div class="site-brand-wrapper"><div class="site-meta"><div class="custom-logo-site-title"><a href="/" class="brand" rel="start"><span class="logo-line-before"><i></i></span> <span class="site-title">不是很懂</span><span class="logo-line-after"><i></i></span></a></div><h1 class="site-subtitle" itemprop="description">不是很懂你们程序员</h1></div><div class="site-nav-toggle"> <button aria-label="切换导航栏"><span class="btn-bar"></span><span class="btn-bar"></span><span class="btn-bar"></span></button></div></div><nav class="site-nav"><ul id="menu" class="menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i><br>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i><br>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i><br>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i><br>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i><br>归档</a></li></ul></nav></div></header> <a href="https://github.com/moeyui1" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#222;color:#fff;position:absolute;top:0;border:0;right:0" aria-hidden="true"><path d="M0 0 115 115 130 115 142 142 250 250 250 0Z"></path><path d="M128.3 109C113.8 99.7 119 89.6 119 89.6 122 82.7 120.5 78.6 120.5 78.6 119.2 72 123.4 76.3 123.4 76.3 127.3 80.9 125.5 87.3 125.5 87.3 122.9 97.6 130.6 101.9 134.4 103.2" fill="currentColor" style="transform-origin:130px 106px" class="octo-arm"></path><path d="M115 115C114.9 115.1 118.7 116.5 119.8 115.4L133.7 101.6C136.9 99.2 139.9 98.4 142.2 98.6 133.8 88 127.5 74.4 143.8 58 148.5 53.4 154 51.2 159.7 51 160.3 49.4 163.2 43.6 171.4 40.1 171.4 40.1 176.1 42.5 178.8 56.2 183.1 58.6 187.2 61.8 190.9 65.4 194.5 69 197.7 73.2 200.1 77.6 213.8 80.2 216.3 84.9 216.3 84.9 212.7 93.1 206.9 96 205.4 96.6 205.1 102.4 203 107.8 198.3 112.5 181.9 128.9 168.3 122.5 157.7 114.1 157.9 116.9 156.7 120.9 152.7 124.9L141 136.5C139.8 137.7 141.6 141.9 141.8 141.8Z" fill="currentColor" class="octo-body"></path></svg></a><main id="main" class="main"><div class="main-inner"><div class="content-wrap"><div id="content" class="content"><div id="posts" class="posts-expand"><article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article"><div class="post-block"><link itemprop="mainEntityOfPage" href="http://moeyui.cn/开发/ff55e9f.html"><span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person"><meta itemprop="name" content="moeyui"><meta itemprop="description" content="moeyui | moeyui's blog"><meta itemprop="image" content="/images/blogAvatar.jpg"></span><span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization"><meta itemprop="name" content="不是很懂"></span><header class="post-header"><h2 class="post-title" itemprop="name headline">Istio学习之Pilot-Discovery</h2><div class="post-meta"><span class="post-time"><span class="post-meta-item-icon"><i class="fa fa-calendar-o"></i></span> <span class="post-meta-item-text">发表于</span> <time title="创建时间：2018-09-09 14:20:34" itemprop="dateCreated datePublished" datetime="2018-09-09T14:20:34+08:00">2018-09-09</time> <span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-calendar-check-o"></i></span> <span class="post-meta-item-text">更新于</span> <time title="修改时间：2018-11-25 19:06:14" itemprop="dateModified" datetime="2018-11-25T19:06:14+08:00">2018-11-25</time></span> <span class="post-category"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-folder-o"></i></span> <span class="post-meta-item-text">分类于</span> <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/开发/" itemprop="url" rel="index"><span itemprop="name">开发</span></a></span></span> <span class="post-comments-count"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-comment-o"></i></span> <a href="/开发/ff55e9f.html#comments" itemprop="discussionUrl"><span class="post-meta-item-text">评论数：</span><span class="post-comments-count valine-comment-count" data-xid="/开发/ff55e9f.html" itemprop="commentCount"></span></a></span> <span id="/开发/ff55e9f.html" class="leancloud_visitors" data-flag-title="Istio学习之Pilot-Discovery"><span class="post-meta-divider">|</span><span class="post-meta-item-icon"><i class="fa fa-eye"></i></span> <span class="post-meta-item-text">阅读次数：</span><span class="leancloud-visitors-count"></span></span></div></header><div class="post-body" itemprop="articleBody"><p>Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service.</p><p><img src="https://camo.githubusercontent.com/919e2e3cd8e4267a00035b813df53902864a3388/68747470733a2f2f63646e2e7261776769742e636f6d2f697374696f2f70696c6f742f6d61737465722f646f632f70696c6f742e737667" alt="Pilot"></p><a id="more"></a><h1 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h1><ol><li>Istio 控制面信息监控与处理</li><li>服务注册信息监控与处理</li><li>Envoy控制面信息服务：XDS Server</li></ol><p><img src="https://i.loli.net/2018/09/09/5b94b7a12b30f.png" alt="Discovery Service 初始化.png"></p><h2 id="Config-Controller"><a href="#Config-Controller" class="headerlink" title="Config Controller"></a>Config Controller</h2><p><img src="https://i.loli.net/2018/09/09/5b94b7a0cb075.png" alt="config controller.png"></p><p>config controller包含以下3个部分：</p><h2 id="client"><a href="#client" class="headerlink" title="client"></a>client</h2><p>client是一个rest client集合，用于连接Kubernetes apiserver，实现对istio CRD资源的 <a href="https://km.sankuai.com/page/69543931" target="_blank" rel="noopener">list/watch</a>。具体而言，为每个CRD资源的group version (如config.istio.io/v1alpha2、networking.istio.io/v1alpha3)创建一个rest client。该rest client里包含了连接Kubernetes apiserver需要用到的apimachinary、client-go等库里的对象，如GroupVersion、RESTClient等。</p><h2 id="queue"><a href="#queue" class="headerlink" title="queue"></a>queue</h2><p>用于缓存istio CRD资源对象（如virtual-service、route-rule等）的Add、Update、Delete事件的队列，等待后续由config controller处理。详见本文后续描述</p><h2 id="kinds"><a href="#kinds" class="headerlink" title="kinds"></a>kinds</h2><p>为每种CRD资源（如virtual-service、route-rule等）创建一个用于list/watch的SharedIndexInformer（Kubernetes client-go库里的概念）。</p><h2 id="主循环"><a href="#主循环" class="headerlink" title="主循环"></a>主循环</h2><p>config controller主循环主要包括两方面：</p><ol><li>利用client-go库里的SharedIndexInformer实现对CRD资源的 list/watch，为每种CRD资源的Add、Update、Delete事件创建处理统一的流程框架。 这个流程将Add、Update、Delete事件涉及到的CRD资源对象封装为一个 Task 对象，并将之push到config controller的 queue 成员里。Task对象除了包含CRD资源对象之外，还包含事件类型（如Add、Update、Delete等），以及处理函数 ChainHandler。ChainHandler支持多个处理函数的串联。</li><li>启动协程逐一处理CRD资源事件（queue.run），处理方法是调用每个从 queue 中取出的 Task 对象上的 ChainHandler</li></ol><h2 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h2><p>a) 事件涉及的资源对象</p><p> b) 事件类型：Add、Update和Delete</p><p> c) Handler：ChainHandler。ChainHandler支持多个处理函数的串联</p><h2 id="Service-Controller"><a href="#Service-Controller" class="headerlink" title="Service Controller"></a>Service Controller</h2><p>大体同 Config Controller。</p><h1 id="XDS"><a href="#XDS" class="headerlink" title="XDS"></a>XDS</h1><h2 id="CDS"><a href="#CDS" class="headerlink" title="CDS"></a>CDS</h2><p>cds，即cluster discovery service，是pilot-discovery为Envoy动态提供cluster相关信息的协议。Envoy可以向pilot-discovery的gRPC server发送一个DiscoveryRequest，并将需要获取的配置信息类型（TypeUrl）设置为cds。discovery server，即ads服务的实现类，在收到DiscoveryRequest后，将Abstract Model中保存的相关信息组装成cluster，然后封装在DiscoveryResponse返回给Envoy。</p><p>discovery server为了组装出cluster信息，需要从Abstract Model中提取以下两类信息类型；</p><ol><li>服务注册信息：如从Kubernetes中的服务注册信息转化而来的service</li><li>通过istioctl提供的配置信息，如DestinationRule</li></ol><p>discovery server将这两类信息组装成cluster信息的流程大致如下：</p><p>略</p><h2 id="EDS"><a href="#EDS" class="headerlink" title="EDS"></a>EDS</h2><p>discovery server处理eds类型的DiscoveryRequest的逻辑相对简单，流程如下：</p><ol><li>根据cluster的名称，把对应Kubernetes中service对象的name和所属的namespace解析出来。使用Kubernetes的client-go库中的SharedIndexInformer获取Kubernetes中的service对象。</li><li>使用SharedIndexInformer获取 Kubernetes 中的endpoint所有对象（SharedIndexInformer包含了本地缓机制，所以并非每次处理eds类型的DiscoveryRequest都需要从Kubernetes同步大量数据），选择其中name和namespace匹配的endpoint。</li><li>使用subset中的label(不知道subset中的label代表什么意思的同学，请回忆前面分析cds中关于subcluster构建过程)，比如version=v1，再次过滤上步被筛选过的endpoint</li><li>获取endpoint的ip、端口和可用域（availability zone）等信息。其中的可用域由endpoint对应的pod所运行的node上的两个“著名”label的value构成（中间用”/“分隔），label的key分别为：”failure-domain.beta.kubernetes.io/region”和”failure-domain.beta.kubernetes.io/zone”。</li><li>根据可用域信息（locality）将endpoint分组，每个locality对应一个LocalityLbEndpoints对象</li></ol><p>discovery server在获取endpoint之后，将他们封装在DiscoveryResponse中，将DiscoveryResponse的类型（即TypeUrl）设置为type.googleapis.com/envoy.api.v2.ClusterLoadAssignment，Nonce设置为当前时间（nonce的解释见本文前面部分）, 启动单独的协程通过与Envoy建立的双向stream gRPC连接发送给Envoy，发送超时为5秒</p><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// updateCluster is called from the event (or global cache invalidation) to update</span></span><br><span class="line"><span class="comment">// the endpoints for the cluster.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *DiscoveryServer)</span> <span class="title">updateCluster</span><span class="params">(clusterName <span class="keyword">string</span>, edsCluster *EdsCluster)</span> <span class="title">error</span></span> {</span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> should we lock this as well ? Once we move to event-based it may not matter.</span></span><br><span class="line">	<span class="keyword">var</span> hostname model.Hostname</span><br><span class="line">	<span class="comment">//var ports model.PortList</span></span><br><span class="line">	<span class="keyword">var</span> labels model.LabelsCollection</span><br><span class="line">	<span class="keyword">var</span> instances []*model.ServiceInstance</span><br><span class="line">	<span class="keyword">var</span> err error</span><br><span class="line">	<span class="keyword">if</span> strings.Index(clusterName, <span class="string">"outbound"</span>) == <span class="number">0</span> ||</span><br><span class="line">		strings.Index(clusterName, <span class="string">"inbound"</span>) == <span class="number">0</span> { <span class="comment">//new style cluster names</span></span><br><span class="line">		<span class="keyword">var</span> p <span class="keyword">int</span></span><br><span class="line">		<span class="keyword">var</span> subsetName <span class="keyword">string</span></span><br><span class="line">		_, subsetName, hostname, p = model.ParseSubsetKey(clusterName)</span><br><span class="line">		labels = edsCluster.discovery.env.IstioConfigStore.SubsetToLabels(subsetName, hostname)</span><br><span class="line">		instances, err = edsCluster.discovery.env.ServiceDiscovery.InstancesByPort(hostname, p, labels)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(instances) == <span class="number">0</span> {</span><br><span class="line">			s.env.PushStatus.Add(model.ProxyStatusClusterNoInstances, clusterName, <span class="literal">nil</span>, <span class="string">""</span>)</span><br><span class="line">			<span class="comment">//adsLog.Infof("EDS: no instances %s (host=%s ports=%v labels=%v)", clusterName, hostname, p, labels)</span></span><br><span class="line">		}</span><br><span class="line">		edsInstances.With(prometheus.Labels{<span class="string">"cluster"</span>: clusterName}).Set(<span class="keyword">float64</span>(<span class="built_in">len</span>(instances)))</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">		adsLog.Warnf(<span class="string">"endpoints for service cluster %q returned error %q"</span>, clusterName, err)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	}</span><br><span class="line">	locEps := localityLbEndpointsFromInstances(instances)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// There is a chance multiple goroutines will update the cluster at the same time.</span></span><br><span class="line">	<span class="comment">// This could be prevented by a lock - but because the update may be slow, it may be</span></span><br><span class="line">	<span class="comment">// better to accept the extra computations.</span></span><br><span class="line">	<span class="comment">// We still lock the access to the LoadAssignments.</span></span><br><span class="line">	edsCluster.mutex.Lock()</span><br><span class="line">	<span class="keyword">defer</span> edsCluster.mutex.Unlock()</span><br><span class="line">	edsCluster.LoadAssignment = &amp;xdsapi.ClusterLoadAssignment{</span><br><span class="line">		ClusterName: clusterName,</span><br><span class="line">		Endpoints:   locEps,</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(locEps) &gt; <span class="number">0</span> &amp;&amp; edsCluster.NonEmptyTime.IsZero() {</span><br><span class="line">		edsCluster.NonEmptyTime = time.Now()</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure><h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><ol><li><h2 id="对k8s的-list-watch-是什么意思？"><a href="#对k8s的-list-watch-是什么意思？" class="headerlink" title="对k8s的 list/watch 是什么意思？"></a>对k8s的 list/watch 是什么意思？</h2><p>k8s提供的基于发布订阅模型的资源变更通知，详见<a href="https://km.sankuai.com/page/69543931" target="_blank" rel="noopener">apiserver-list/watch</a>。</p></li><li><h2 id="Istio-如何处理-k8s-中的服务注册信息，并传递给-Proxy"><a href="#Istio-如何处理-k8s-中的服务注册信息，并传递给-Proxy" class="headerlink" title="Istio 如何处理 k8s 中的服务注册信息，并传递给 Proxy?"></a>Istio 如何处理 k8s 中的服务注册信息，并传递给 Proxy?</h2><p>k8s 中的服务注册信息一般指 k8s Service 信息，但 Envoy 发起请求时并不走 k8s Service ，而是直接定向到一个 Endpoint，这与 k8s 的思想稍有不同。Istio 会监控 k8s 中的 Services, Endpoint, Node 和 Pod信息，然后<strong>自行按照自己的条件将 Endpoint 划分为 subset</strong>（Istio 自己的一个概念，k8s Service 的子集）。</p><figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NewController creates a new Kubernetes controller</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewController</span><span class="params">(client kubernetes.Interface, options ControllerOptions)</span> *<span class="title">Controller</span></span> {</span><br><span class="line">	log.Infof(<span class="string">"Service controller watching namespace %q for service, endpoint, nodes and pods, refresh %d"</span>,</span><br><span class="line">		options.WatchedNamespace, options.ResyncPeriod)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Queue requires a time duration for a retry delay after a handler error</span></span><br><span class="line">	out := &amp;Controller{</span><br><span class="line">		domainSuffix: options.DomainSuffix,</span><br><span class="line">		client:       client,</span><br><span class="line">		queue:        NewQueue(<span class="number">1</span> * time.Second),</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	out.services = out.createInformer(&amp;v1.Service{}, <span class="string">"Service"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Services(options.WatchedNamespace).List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Services(options.WatchedNamespace).Watch(opts)</span><br><span class="line">		})</span><br><span class="line"></span><br><span class="line">	out.endpoints = out.createInformer(&amp;v1.Endpoints{}, <span class="string">"Endpoints"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Endpoints(options.WatchedNamespace).List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Endpoints(options.WatchedNamespace).Watch(opts)</span><br><span class="line">		})</span><br><span class="line"></span><br><span class="line">	out.nodes = out.createInformer(&amp;v1.Node{}, <span class="string">"Node"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Nodes().List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Nodes().Watch(opts)</span><br><span class="line">		})</span><br><span class="line"></span><br><span class="line">	out.pods = newPodCache(out.createInformer(&amp;v1.Pod{}, <span class="string">"Pod"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Pods(options.WatchedNamespace).List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Pods(options.WatchedNamespace).Watch(opts)</span><br><span class="line">		}))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> out</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure></li></ol><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol><li><a href="http://www.servicemesher.com/blog/istio-service-mesh-source-code-pilot-discovery-module-deepin" target="_blank" rel="noopener">Service Mesh深度学习系列part2—istio源码分析之pilot-discovery模块分析</a></li><li><a href="http://www.servicemesher.com/blog/istio-service-mesh-source-code-pilot-discovery-module-deepin-part2" target="_blank" rel="noopener">Service Mesh深度学习系列part3—istio源码分析之pilot-discovery模块分析（续）</a></li><li><a href="https://km.sankuai.com/page/68516093#id-Envoy" target="_blank" rel="noopener">Service Mesh相关-Istio调研&amp;&amp;学习</a></li></ol></div><footer class="post-footer"><div class="post-tags"> <a href="/tags/service-mesh/" rel="tag"># service mesh</a> <a href="/tags/Istio/" rel="tag"># Istio</a> <a href="/tags/meituan/" rel="tag"># meituan</a></div><div class="post-nav"><div class="post-nav-next post-nav-item"><a href="/开发/760a5082.html" rel="next" title="Istio学习之Pilot-agent"><i class="fa fa-chevron-left"></i> Istio学习之Pilot-agent</a></div><span class="post-nav-divider"></span><div class="post-nav-prev post-nav-item"> <a href="/开发/7c949937.html" rel="prev" title="Envoy 统计数据子系统源码分析">Envoy 统计数据子系统源码分析<i class="fa fa-chevron-right"></i></a></div></div></footer></div></article></div></div><div class="comments" id="comments"></div></div><div class="sidebar-toggle"><div class="sidebar-toggle-line-wrap"><span class="sidebar-toggle-line sidebar-toggle-line-first"></span><span class="sidebar-toggle-line sidebar-toggle-line-middle"></span><span class="sidebar-toggle-line sidebar-toggle-line-last"></span></div></div><aside id="sidebar" class="sidebar"><div class="sidebar-inner"><ul class="sidebar-nav motion-element"><li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap"> 文章目录</li><li class="sidebar-nav-overview" data-target="site-overview-wrap"> 站点概览</li></ul><div class="site-overview-wrap sidebar-panel"><div class="site-overview"><div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person"> <img class="site-author-image" itemprop="image" src="/images/blogAvatar.jpg" alt="moeyui"><p class="site-author-name" itemprop="name">moeyui</p><p class="site-description motion-element" itemprop="description">moeyui | moeyui's blog</p></div><nav class="site-state motion-element"><div class="site-state-item site-state-posts"> <a href="/archives/"><span class="site-state-item-count">39</span> <span class="site-state-item-name">日志</span></a></div><div class="site-state-item site-state-categories"> <a href="/categories/index.html"><span class="site-state-item-count">6</span> <span class="site-state-item-name">分类</span></a></div><div class="site-state-item site-state-tags"> <a href="/tags/index.html"><span class="site-state-item-count">36</span> <span class="site-state-item-name">标签</span></a></div></nav><div class="feed-link motion-element"><a href="/atom.xml" rel="alternate"><i class="fa fa-rss"></i> RSS</a></div><div class="links-of-author motion-element"><span class="links-of-author-item"><a href="https://github.com/moeyui1" title="GitHub → https://github.com/moeyui1" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i> GitHub</a></span><span class="links-of-author-item"><a href="https://twitter.com/moeyui1" title="Twitter → https://twitter.com/moeyui1" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i> Twitter</a></span></div></div></div><div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active"><div class="post-toc"><div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#主要功能"><span class="nav-number">1.</span> <span class="nav-text">主要功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Config-Controller"><span class="nav-number">1.1.</span> <span class="nav-text">Config Controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#client"><span class="nav-number">1.2.</span> <span class="nav-text">client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#queue"><span class="nav-number">1.3.</span> <span class="nav-text">queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kinds"><span class="nav-number">1.4.</span> <span class="nav-text">kinds</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主循环"><span class="nav-number">1.5.</span> <span class="nav-text">主循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task"><span class="nav-number">1.6.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-Controller"><span class="nav-number">1.7.</span> <span class="nav-text">Service Controller</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XDS"><span class="nav-number">2.</span> <span class="nav-text">XDS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CDS"><span class="nav-number">2.1.</span> <span class="nav-text">CDS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EDS"><span class="nav-number">2.2.</span> <span class="nav-text">EDS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FAQ"><span class="nav-number">3.</span> <span class="nav-text">FAQ</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对k8s的-list-watch-是什么意思？"><span class="nav-number">3.1.</span> <span class="nav-text">对k8s的 list/watch 是什么意思？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Istio-如何处理-k8s-中的服务注册信息，并传递给-Proxy"><span class="nav-number">3.2.</span> <span class="nav-text">Istio 如何处理 k8s 中的服务注册信息，并传递给 Proxy?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div></div></div></div></aside></div></main><footer id="footer" class="footer"><div class="footer-inner"><div class="copyright">© 2015 – <span itemprop="copyrightYear">2020</span><span class="with-love" id="animate"><i class="fa fa-user"></i></span> <span class="author" itemprop="copyrightHolder">moeyui</span></div><div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div> <span class="post-meta-divider">|</span><div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v6.7.0</div></div></footer><div class="back-to-top"><i class="fa fa-arrow-up"></i></div></div><script src="//cdn1.lncld.net/static/js/3.11.1/av-min.js"></script><script src="//unpkg.com/valine/dist/Valine.min.js"></script><style>.copy-btn{display:inline-block;padding:6px 12px;font-size:13px;font-weight:700;line-height:20px;color:#333;white-space:nowrap;vertical-align:middle;cursor:pointer;background-color:#eee;background-image:linear-gradient(#fcfcfc,#eee);border:1px solid #d5d5d5;border-radius:3px;user-select:none;outline:0}.highlight-wrap .copy-btn{transition:opacity .3s ease-in-out;opacity:0;padding:2px 6px;position:absolute;right:4px;top:8px}.highlight-wrap .copy-btn:focus,.highlight-wrap:hover .copy-btn{opacity:1}.highlight-wrap{position:relative}</style><script src="/bundle.js"></script><script>"[object Function]"!==Object.prototype.toString.call(window.Promise)&&(window.Promise=null);var GUEST=["nick","mail","link"],guest="nick,mail,link";guest=guest.split(",").filter(function(e){return-1<GUEST.indexOf(e)}),new Valine({el:"#comments",verify:!1,notify:!1,appId:"Nk9tNzbllEl79DVtRiOuLmbm-gzGzoHsz",appKey:"uPzxSfSzF95Gav6vGx2dOhCq",placeholder:"Just go go",avatar:"retro",meta:guest,pageSize:"10",visitor:!0}),$(".highlight").each(function(e,t){var n=$("<div>").addClass("highlight-wrap");$(t).after(n),n.append($("<button>").addClass("copy-btn").append("复制").on("click",function(e){var t=$(this).parent().find(".code").find(".line").map(function(e,t){return $(t).text()}).toArray().join("\n"),n=document.createElement("textarea"),o=document.createRange(),i=window.getSelection(),a=window.pageYOffset||document.documentElement.scrollTop;n.style.top=a+"px",n.style.position="absolute",n.style.opacity="0",n.value=t,n.textContent=t,n.contentEditable=!0,n.readOnly=!1,document.body.appendChild(n),o.selectNode(n),i.removeAllRanges(),i.addRange(o),n.setSelectionRange(0,t.length);document.execCommand("copy");n.blur(),$(this).blur()})).on("mouseleave",function(e){var t=$(this).find(".copy-btn");setTimeout(function(){t.text("复制")},300)}).append(t)})</script></body></html>
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+
+
+
+
+  
+  
+  
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"moeyui.cn","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":true,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service.">
+<meta name="keywords" content="Istio,meituan,service mesh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Istio学习之Pilot-Discovery">
+<meta property="og:url" content="http://moeyui.cn/开发/ff55e9f.html">
+<meta property="og:site_name" content="不是很懂">
+<meta property="og:description" content="Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service.">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://camo.githubusercontent.com/919e2e3cd8e4267a00035b813df53902864a3388/68747470733a2f2f63646e2e7261776769742e636f6d2f697374696f2f70696c6f742f6d61737465722f646f632f70696c6f742e737667">
+<meta property="og:image" content="https://i.loli.net/2018/09/09/5b94b7a12b30f.png">
+<meta property="og:image" content="https://i.loli.net/2018/09/09/5b94b7a0cb075.png">
+<meta property="og:updated_time" content="2018-11-25T11:06:14.267Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Istio学习之Pilot-Discovery">
+<meta name="twitter:description" content="Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service.">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/919e2e3cd8e4267a00035b813df53902864a3388/68747470733a2f2f63646e2e7261776769742e636f6d2f697374696f2f70696c6f742f6d61737465722f646f632f70696c6f742e737667">
+
+<link rel="canonical" href="http://moeyui.cn/开发/ff55e9f.html">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Istio学习之Pilot-Discovery | 不是很懂</title>
+  
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-75483578-1"></script>
+    <script data-pjax="">
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-75483578-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<script>function loadCss(l){var d=document,h=d.head,s=d.createElement('link');s.rel='stylesheet';s.href=l;!function e(f){if (d.body)return f();setTimeout(function(){e(f)})}(function(){h.appendChild(s);});}loadCss('/style.css');loadCss('//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css');loadCss('//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css');</script><noscript><link rel="stylesheet" href="/style.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5/css/all.min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.css"></noscript></head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">不是很懂</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">不是很懂你们程序员</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+  <a href="https://github.com/moeyui1" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope="" itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://moeyui.cn/开发/ff55e9f.html">
+
+    <span hidden="" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/blogAvatar.jpg">
+      <meta itemprop="name" content="moeyui">
+      <meta itemprop="description" content="moeyui | moeyui's blog">
+    </span>
+
+    <span hidden="" itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="不是很懂">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Istio学习之Pilot-Discovery
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-09-09 14:20:34" itemprop="dateCreated datePublished" datetime="2018-09-09T14:20:34+08:00">2018-09-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2018-11-25 19:06:14" itemprop="dateModified" datetime="2018-11-25T19:06:14+08:00">2018-11-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing">
+                  <a href="/categories/开发/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
+                </span>
+            </span>
+
+          
+            <span id="/开发/ff55e9f.html" class="post-meta-item leancloud_visitors" data-flag-title="Istio学习之Pilot-Discovery" title="阅读次数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span class="leancloud-visitors-count"></span>
+            </span>
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/开发/ff55e9f.html#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/开发/ff55e9f.html" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>Pilot 是 Istio 中一个重要的组件，它主要分为 Agent 和 Discovery Services 两部分。本文着重介绍负责注册信息和配置信息管理的 Discovery Service.</p>
+<p><img src="https://camo.githubusercontent.com/919e2e3cd8e4267a00035b813df53902864a3388/68747470733a2f2f63646e2e7261776769742e636f6d2f697374696f2f70696c6f742f6d61737465722f646f632f70696c6f742e737667" alt="Pilot"></p>
+<a id="more"></a>
+
+<h1 id="主要功能"><a href="#主要功能" class="headerlink" title="主要功能"></a>主要功能</h1><ol>
+<li>Istio 控制面信息监控与处理</li>
+<li>服务注册信息监控与处理</li>
+<li>Envoy控制面信息服务：XDS Server</li>
+</ol>
+<p><img src="https://i.loli.net/2018/09/09/5b94b7a12b30f.png" alt="Discovery Service 初始化.png"></p>
+<h2 id="Config-Controller"><a href="#Config-Controller" class="headerlink" title="Config Controller"></a>Config Controller</h2><p><img src="https://i.loli.net/2018/09/09/5b94b7a0cb075.png" alt="config controller.png"></p>
+<p>config controller包含以下3个部分：</p>
+<h2 id="client"><a href="#client" class="headerlink" title="client"></a>client</h2><p>client是一个rest client集合，用于连接Kubernetes apiserver，实现对istio CRD资源的 <a href="https://km.sankuai.com/page/69543931" target="_blank" rel="noopener">list/watch</a>。具体而言，为每个CRD资源的group version (如config.istio.io/v1alpha2、networking.istio.io/v1alpha3)创建一个rest client。该rest client里包含了连接Kubernetes apiserver需要用到的apimachinary、client-go等库里的对象，如GroupVersion、RESTClient等。</p>
+<h2 id="queue"><a href="#queue" class="headerlink" title="queue"></a>queue</h2><p>用于缓存istio CRD资源对象（如virtual-service、route-rule等）的Add、Update、Delete事件的队列，等待后续由config controller处理。详见本文后续描述</p>
+<h2 id="kinds"><a href="#kinds" class="headerlink" title="kinds"></a>kinds</h2><p>为每种CRD资源（如virtual-service、route-rule等）创建一个用于list/watch的SharedIndexInformer（Kubernetes client-go库里的概念）。</p>
+<h2 id="主循环"><a href="#主循环" class="headerlink" title="主循环"></a>主循环</h2><p>config controller主循环主要包括两方面：</p>
+<ol>
+<li>利用client-go库里的SharedIndexInformer实现对CRD资源的 list/watch，为每种CRD资源的Add、Update、Delete事件创建处理统一的流程框架。 这个流程将Add、Update、Delete事件涉及到的CRD资源对象封装为一个 Task 对象，并将之push到config controller的 queue 成员里。Task对象除了包含CRD资源对象之外，还包含事件类型（如Add、Update、Delete等），以及处理函数 ChainHandler。ChainHandler支持多个处理函数的串联。</li>
+<li>启动协程逐一处理CRD资源事件（queue.run），处理方法是调用每个从 queue 中取出的 Task 对象上的 ChainHandler</li>
+</ol>
+<h2 id="Task"><a href="#Task" class="headerlink" title="Task"></a>Task</h2><p>a) 事件涉及的资源对象</p>
+<p> b) 事件类型：Add、Update和Delete</p>
+<p> c) Handler：ChainHandler。ChainHandler支持多个处理函数的串联</p>
+<h2 id="Service-Controller"><a href="#Service-Controller" class="headerlink" title="Service Controller"></a>Service Controller</h2><p>大体同 Config Controller。</p>
+<h1 id="XDS"><a href="#XDS" class="headerlink" title="XDS"></a>XDS</h1><h2 id="CDS"><a href="#CDS" class="headerlink" title="CDS"></a>CDS</h2><p>cds，即cluster discovery service，是pilot-discovery为Envoy动态提供cluster相关信息的协议。Envoy可以向pilot-discovery的gRPC server发送一个DiscoveryRequest，并将需要获取的配置信息类型（TypeUrl）设置为cds。discovery server，即ads服务的实现类，在收到DiscoveryRequest后，将Abstract Model中保存的相关信息组装成cluster，然后封装在DiscoveryResponse返回给Envoy。</p>
+<p>discovery server为了组装出cluster信息，需要从Abstract Model中提取以下两类信息类型；</p>
+<ol>
+<li>服务注册信息：如从Kubernetes中的服务注册信息转化而来的service</li>
+<li>通过istioctl提供的配置信息，如DestinationRule</li>
+</ol>
+<p>discovery server将这两类信息组装成cluster信息的流程大致如下：</p>
+<p>略</p>
+<h2 id="EDS"><a href="#EDS" class="headerlink" title="EDS"></a>EDS</h2><p>discovery server处理eds类型的DiscoveryRequest的逻辑相对简单，流程如下：</p>
+<ol>
+<li>根据cluster的名称，把对应Kubernetes中service对象的name和所属的namespace解析出来。使用Kubernetes的client-go库中的SharedIndexInformer获取Kubernetes中的service对象。</li>
+<li>使用SharedIndexInformer获取 Kubernetes 中的endpoint所有对象（SharedIndexInformer包含了本地缓机制，所以并非每次处理eds类型的DiscoveryRequest都需要从Kubernetes同步大量数据），选择其中name和namespace匹配的endpoint。</li>
+<li>使用subset中的label(不知道subset中的label代表什么意思的同学，请回忆前面分析cds中关于subcluster构建过程)，比如version=v1，再次过滤上步被筛选过的endpoint</li>
+<li>获取endpoint的ip、端口和可用域（availability zone）等信息。其中的可用域由endpoint对应的pod所运行的node上的两个“著名”label的value构成（中间用”/“分隔），label的key分别为：”failure-domain.beta.kubernetes.io/region”和”failure-domain.beta.kubernetes.io/zone”。</li>
+<li>根据可用域信息（locality）将endpoint分组，每个locality对应一个LocalityLbEndpoints对象</li>
+</ol>
+<p>discovery server在获取endpoint之后，将他们封装在DiscoveryResponse中，将DiscoveryResponse的类型（即TypeUrl）设置为type.googleapis.com/envoy.api.v2.ClusterLoadAssignment，Nonce设置为当前时间（nonce的解释见本文前面部分）, 启动单独的协程通过与Envoy建立的双向stream gRPC连接发送给Envoy，发送超时为5秒</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// updateCluster is called from the event (or global cache invalidation) to update</span></span><br><span class="line"><span class="comment">// the endpoints for the cluster.</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="params">(s *DiscoveryServer)</span> <span class="title">updateCluster</span><span class="params">(clusterName <span class="keyword">string</span>, edsCluster *EdsCluster)</span> <span class="title">error</span></span> {</span><br><span class="line">	<span class="comment">// <span class="doctag">TODO:</span> should we lock this as well ? Once we move to event-based it may not matter.</span></span><br><span class="line">	<span class="keyword">var</span> hostname model.Hostname</span><br><span class="line">	<span class="comment">//var ports model.PortList</span></span><br><span class="line">	<span class="keyword">var</span> labels model.LabelsCollection</span><br><span class="line">	<span class="keyword">var</span> instances []*model.ServiceInstance</span><br><span class="line">	<span class="keyword">var</span> err error</span><br><span class="line">	<span class="keyword">if</span> strings.Index(clusterName, <span class="string">"outbound"</span>) == <span class="number">0</span> ||</span><br><span class="line">		strings.Index(clusterName, <span class="string">"inbound"</span>) == <span class="number">0</span> { <span class="comment">//new style cluster names</span></span><br><span class="line">		<span class="keyword">var</span> p <span class="keyword">int</span></span><br><span class="line">		<span class="keyword">var</span> subsetName <span class="keyword">string</span></span><br><span class="line">		_, subsetName, hostname, p = model.ParseSubsetKey(clusterName)</span><br><span class="line">		labels = edsCluster.discovery.env.IstioConfigStore.SubsetToLabels(subsetName, hostname)</span><br><span class="line">		instances, err = edsCluster.discovery.env.ServiceDiscovery.InstancesByPort(hostname, p, labels)</span><br><span class="line">		<span class="keyword">if</span> <span class="built_in">len</span>(instances) == <span class="number">0</span> {</span><br><span class="line">			s.env.PushStatus.Add(model.ProxyStatusClusterNoInstances, clusterName, <span class="literal">nil</span>, <span class="string">""</span>)</span><br><span class="line">			<span class="comment">//adsLog.Infof("EDS: no instances %s (host=%s ports=%v labels=%v)", clusterName, hostname, p, labels)</span></span><br><span class="line">		}</span><br><span class="line">		edsInstances.With(prometheus.Labels{<span class="string">"cluster"</span>: clusterName}).Set(<span class="keyword">float64</span>(<span class="built_in">len</span>(instances)))</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> {</span><br><span class="line">		adsLog.Warnf(<span class="string">"endpoints for service cluster %q returned error %q"</span>, clusterName, err)</span><br><span class="line">		<span class="keyword">return</span> err</span><br><span class="line">	}</span><br><span class="line">	locEps := localityLbEndpointsFromInstances(instances)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// There is a chance multiple goroutines will update the cluster at the same time.</span></span><br><span class="line">	<span class="comment">// This could be prevented by a lock - but because the update may be slow, it may be</span></span><br><span class="line">	<span class="comment">// better to accept the extra computations.</span></span><br><span class="line">	<span class="comment">// We still lock the access to the LoadAssignments.</span></span><br><span class="line">	edsCluster.mutex.Lock()</span><br><span class="line">	<span class="keyword">defer</span> edsCluster.mutex.Unlock()</span><br><span class="line">	edsCluster.LoadAssignment = &amp;xdsapi.ClusterLoadAssignment{</span><br><span class="line">		ClusterName: clusterName,</span><br><span class="line">		Endpoints:   locEps,</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">if</span> <span class="built_in">len</span>(locEps) &gt; <span class="number">0</span> &amp;&amp; edsCluster.NonEmptyTime.IsZero() {</span><br><span class="line">		edsCluster.NonEmptyTime = time.Now()</span><br><span class="line">	}</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><ol>
+<li><h2 id="对k8s的-list-watch-是什么意思？"><a href="#对k8s的-list-watch-是什么意思？" class="headerlink" title="对k8s的 list/watch 是什么意思？"></a>对k8s的 list/watch 是什么意思？</h2><p>k8s提供的基于发布订阅模型的资源变更通知，详见<a href="https://km.sankuai.com/page/69543931" target="_blank" rel="noopener">apiserver-list/watch</a>。</p>
+</li>
+<li><h2 id="Istio-如何处理-k8s-中的服务注册信息，并传递给-Proxy"><a href="#Istio-如何处理-k8s-中的服务注册信息，并传递给-Proxy" class="headerlink" title="Istio 如何处理 k8s 中的服务注册信息，并传递给 Proxy?"></a>Istio 如何处理 k8s 中的服务注册信息，并传递给 Proxy?</h2><p>k8s 中的服务注册信息一般指 k8s Service 信息，但 Envoy 发起请求时并不走 k8s Service ，而是直接定向到一个 Endpoint，这与 k8s 的思想稍有不同。Istio 会监控 k8s 中的 Services, Endpoint, Node 和 Pod信息，然后<strong>自行按照自己的条件将 Endpoint 划分为 subset</strong>（Istio 自己的一个概念，k8s Service 的子集）。</p>
+<figure class="highlight go"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// NewController creates a new Kubernetes controller</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">NewController</span><span class="params">(client kubernetes.Interface, options ControllerOptions)</span> *<span class="title">Controller</span></span> {</span><br><span class="line">	log.Infof(<span class="string">"Service controller watching namespace %q for service, endpoint, nodes and pods, refresh %d"</span>,</span><br><span class="line">		options.WatchedNamespace, options.ResyncPeriod)</span><br><span class="line"></span><br><span class="line">	<span class="comment">// Queue requires a time duration for a retry delay after a handler error</span></span><br><span class="line">	out := &amp;Controller{</span><br><span class="line">		domainSuffix: options.DomainSuffix,</span><br><span class="line">		client:       client,</span><br><span class="line">		queue:        NewQueue(<span class="number">1</span> * time.Second),</span><br><span class="line">	}</span><br><span class="line"></span><br><span class="line">	out.services = out.createInformer(&amp;v1.Service{}, <span class="string">"Service"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Services(options.WatchedNamespace).List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Services(options.WatchedNamespace).Watch(opts)</span><br><span class="line">		})</span><br><span class="line"></span><br><span class="line">	out.endpoints = out.createInformer(&amp;v1.Endpoints{}, <span class="string">"Endpoints"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Endpoints(options.WatchedNamespace).List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Endpoints(options.WatchedNamespace).Watch(opts)</span><br><span class="line">		})</span><br><span class="line"></span><br><span class="line">	out.nodes = out.createInformer(&amp;v1.Node{}, <span class="string">"Node"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Nodes().List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Nodes().Watch(opts)</span><br><span class="line">		})</span><br><span class="line"></span><br><span class="line">	out.pods = newPodCache(out.createInformer(&amp;v1.Pod{}, <span class="string">"Pod"</span>, options.ResyncPeriod,</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(runtime.Object, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Pods(options.WatchedNamespace).List(opts)</span><br><span class="line">		},</span><br><span class="line">		<span class="function"><span class="keyword">func</span><span class="params">(opts meta_v1.ListOptions)</span> <span class="params">(watch.Interface, error)</span></span> {</span><br><span class="line">			<span class="keyword">return</span> client.CoreV1().Pods(options.WatchedNamespace).Watch(opts)</span><br><span class="line">		}))</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> out</span><br><span class="line">}</span><br></pre></td></tr></tbody></table></figure>
+
+</li>
+</ol>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><ol>
+<li><a href="http://www.servicemesher.com/blog/istio-service-mesh-source-code-pilot-discovery-module-deepin" target="_blank" rel="noopener">Service Mesh深度学习系列part2—istio源码分析之pilot-discovery模块分析</a></li>
+<li><a href="http://www.servicemesher.com/blog/istio-service-mesh-source-code-pilot-discovery-module-deepin-part2" target="_blank" rel="noopener">Service Mesh深度学习系列part3—istio源码分析之pilot-discovery模块分析（续）</a></li>
+<li><a href="https://km.sankuai.com/page/68516093#id-Envoy" target="_blank" rel="noopener">Service Mesh相关-Istio调研&amp;&amp;学习</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Istio/" rel="tag"># Istio</a>
+              <a href="/tags/meituan/" rel="tag"># meituan</a>
+              <a href="/tags/service-mesh/" rel="tag"># service mesh</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/开发/760a5082.html" rel="prev" title="Istio学习之Pilot-agent">
+      <i class="fa fa-chevron-left"></i> Istio学习之Pilot-agent
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/开发/7c949937.html" rel="next" title="Envoy 统计数据子系统源码分析">
+      Envoy 统计数据子系统源码分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#主要功能"><span class="nav-number">1.</span> <span class="nav-text">主要功能</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Config-Controller"><span class="nav-number">1.1.</span> <span class="nav-text">Config Controller</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#client"><span class="nav-number">1.2.</span> <span class="nav-text">client</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#queue"><span class="nav-number">1.3.</span> <span class="nav-text">queue</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kinds"><span class="nav-number">1.4.</span> <span class="nav-text">kinds</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主循环"><span class="nav-number">1.5.</span> <span class="nav-text">主循环</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task"><span class="nav-number">1.6.</span> <span class="nav-text">Task</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Service-Controller"><span class="nav-number">1.7.</span> <span class="nav-text">Service Controller</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XDS"><span class="nav-number">2.</span> <span class="nav-text">XDS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CDS"><span class="nav-number">2.1.</span> <span class="nav-text">CDS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EDS"><span class="nav-number">2.2.</span> <span class="nav-text">EDS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#FAQ"><span class="nav-number">3.</span> <span class="nav-text">FAQ</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对k8s的-list-watch-是什么意思？"><span class="nav-number">3.1.</span> <span class="nav-text">对k8s的 list/watch 是什么意思？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Istio-如何处理-k8s-中的服务注册信息，并传递给-Proxy"><span class="nav-number">3.2.</span> <span class="nav-text">Istio 如何处理 k8s 中的服务注册信息，并传递给 Proxy?</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="moeyui" src="/images/blogAvatar.jpg">
+  <p class="site-author-name" itemprop="name">moeyui</p>
+  <div class="site-description" itemprop="description">moeyui | moeyui's blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">39</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/moeyui1" title="GitHub → https://github.com/moeyui1" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  © 2015 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">moeyui</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> &amp; <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script data-pjax="" async="" src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  
+  <script src="//cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script>
+  <script src="//cdn.jsdelivr.net/gh/fancyapps/fancybox@3/dist/jquery.fancybox.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/lozad@1/dist/lozad.min.js"></script>
+  
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="pjax">
+  
+
+  
+
+
+
+
+    </div>
+
+
+<script src="/bundle.js"></script><script>window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  };var pjax = new Pjax({
+  selectors: [
+    'head title',
+    '#page-configurations',
+    '.content-wrap',
+    '.post-toc-wrap',
+    '.languages',
+    '#pjax'
+  ],
+  switches: {
+    '.post-toc-wrap': Pjax.switches.innerHTML
+  },
+  analytics: false,
+  cacheBust: false,
+  scrollTo : !CONFIG.bookmark.enable
+});
+
+window.addEventListener('pjax:success', () => {
+  document.querySelectorAll('script[data-pjax], script#page-configurations, #pjax script').forEach(element => {
+    var code = element.text || element.textContent || element.innerHTML || '';
+    var parent = element.parentNode;
+    parent.removeChild(element);
+    var script = document.createElement('script');
+    if (element.id) {
+      script.id = element.id;
+    }
+    if (element.className) {
+      script.className = element.className;
+    }
+    if (element.type) {
+      script.type = element.type;
+    }
+    if (element.src) {
+      script.src = element.src;
+      // Force synchronous loading of peripheral JS.
+      script.async = false;
+    }
+    if (element.dataset.pjax !== undefined) {
+      script.dataset.pjax = '';
+    }
+    if (code !== '') {
+      script.appendChild(document.createTextNode(code));
+    }
+    parent.appendChild(script);
+  });
+  NexT.boot.refresh();
+  // Define Motion Sequence & Bootstrap Motion.
+  if (CONFIG.motion.enable) {
+    NexT.motion.integrator
+      .init()
+      .add(NexT.motion.middleWares.subMenu)
+      .add(NexT.motion.middleWares.postList)
+      .bootstrap();
+  }
+  NexT.utils.updateSidebarPosition();
+});;(function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();;NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'Nk9tNzbllEl79DVtRiOuLmbm-gzGzoHsz',
+      appKey     : 'uPzxSfSzF95Gav6vGx2dOhCq',
+      placeholder: "Just go go",
+      avatar     : 'retro',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : true,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});</script></body></html>

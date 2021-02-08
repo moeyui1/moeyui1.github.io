@@ -403,9 +403,9 @@
       <category term="开发" scheme="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="envoy" scheme="http://moeyui.cn/tags/envoy/"/>
-    
       <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
+    
+      <category term="envoy" scheme="http://moeyui.cn/tags/envoy/"/>
     
       <category term="源码分析" scheme="http://moeyui.cn/tags/%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
     
@@ -430,11 +430,11 @@
       <category term="开发" scheme="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
-    
       <category term="Istio" scheme="http://moeyui.cn/tags/Istio/"/>
     
       <category term="meituan" scheme="http://moeyui.cn/tags/meituan/"/>
+    
+      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
     
   </entry>
   
@@ -457,11 +457,11 @@
       <category term="开发" scheme="http://moeyui.cn/categories/%E5%BC%80%E5%8F%91/"/>
     
     
-      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
-    
       <category term="Istio" scheme="http://moeyui.cn/tags/Istio/"/>
     
       <category term="meituan" scheme="http://moeyui.cn/tags/meituan/"/>
+    
+      <category term="service mesh" scheme="http://moeyui.cn/tags/service-mesh/"/>
     
   </entry>
   
