@@ -7,6 +7,11 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
 	site: 'https://moeyui1.github.io',
 	integrations: [mdx(), sitemap(), tailwind()],
+	vite: {
+		server: {
+			allowedHosts: ['claw-home.tail0a9150.ts.net'],
+		},
+	},
 	markdown: {
 		shikiConfig: {
 			themes: {
