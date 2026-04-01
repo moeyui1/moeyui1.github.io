@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import PostCard from '../../components/PostCard.astro';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('blog');
+	const tagSet = new Set<string>();
+	posts.forEach((post) => {
+		const tags = post.data.tags;
+		if (tags) {
+			(Array.isArray(tags) ? tags : [tags]).forEach((tag: string) => tagSet.add(tag));
+		}
+	});
+
+	return [...tagSet].map((tag) => ({
+		params: { tag },
+		props: {
+			tag,
+			posts: posts
+				.filter((post) => {
+					const tags = post.data.tags;
+					return tags && (Array.isArray(tags) ? tags : [tags]).includes(tag);
+				})
+				.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+		},
+	}));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<Base title={`#${tag} - 不是很懂`} description={`标签 ${tag} 下的所有文章`}>
+	<section class="mx-auto max-w-4xl px-4 py-10 sm:px-6">
+		<div class="mb-8">
+			<a href="/tags" class="text-sm text-primary-600 hover:text-primary-500 dark:text-primary-400">
+				← 所有标签
+			</a>
+			<h1 class="mt-2 text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-50">
+				#{tag}
+				<span class="ml-2 text-base font-normal text-zinc-500 dark:text-zinc-400">({posts.length})</span>
+			</h1>
+		</div>
+		<div class="grid gap-4">
+			{posts.map((post) => <PostCard post={post} />)}
+		</div>
+	</section>
+</Base>

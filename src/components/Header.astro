@@ -1,0 +1,114 @@
+---
+import { SITE_TITLE } from '../consts';
+import ThemeToggle from './ThemeToggle.astro';
+
+const pathname = Astro.url.pathname;
+
+const navLinks = [
+	{ href: '/', label: '首页' },
+	{ href: '/blog', label: '博客' },
+	{ href: '/tags', label: '标签' },
+	{ href: '/about', label: '关于' },
+];
+---
+
+<header
+	class="sticky top-0 z-50 w-full border-b border-zinc-200/60 bg-white/70 backdrop-blur-xl backdrop-saturate-150 dark:border-zinc-800/60 dark:bg-zinc-950/70"
+>
+	<nav class="mx-auto flex max-w-4xl items-center justify-between px-4 py-3 sm:px-6">
+		<!-- Logo with avatar -->
+		<a
+			href="/"
+			class="flex items-center gap-2.5 transition-opacity hover:opacity-80"
+		>
+			<img
+				src="/images/blogAvatar.jpg"
+				alt="avatar"
+				class="h-8 w-8 rounded-full object-cover ring-2 ring-primary-100 dark:ring-primary-900"
+				width="32"
+				height="32"
+				loading="eager"
+			/>
+			<span class="bg-gradient-to-r from-zinc-900 to-zinc-600 bg-clip-text text-lg font-bold tracking-tight text-transparent dark:from-zinc-100 dark:to-zinc-400">
+				{SITE_TITLE}
+			</span>
+		</a>
+
+		<!-- Desktop nav -->
+		<div class="hidden items-center gap-1 sm:flex">
+			{
+				navLinks.map((link) => (
+					<a
+						href={link.href}
+						class:list={[
+							'relative rounded-lg px-3 py-1.5 text-sm font-medium transition-all duration-200',
+							pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+								? 'text-primary-700 dark:text-primary-300'
+								: 'text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-100',
+						]}
+					>
+						{(pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))) && (
+							<span class="absolute inset-x-1 -bottom-[13px] h-[2px] rounded-full bg-gradient-to-r from-primary-500 to-accent-500" />
+						)}
+						{link.label}
+					</a>
+				))
+			}
+			<div class="ml-3 border-l border-zinc-200 pl-3 dark:border-zinc-700">
+				<ThemeToggle />
+			</div>
+		</div>
+
+		<!-- Mobile nav -->
+		<div class="flex items-center gap-2 sm:hidden">
+			<ThemeToggle />
+			<button
+				id="mobile-menu-btn"
+				class="rounded-lg p-2 text-zinc-600 transition-colors hover:bg-zinc-100 dark:text-zinc-400 dark:hover:bg-zinc-800"
+				aria-label="打开菜单"
+				type="button"
+			>
+				<svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+				</svg>
+			</button>
+		</div>
+	</nav>
+
+	<!-- Mobile dropdown menu -->
+	<div
+		id="mobile-menu"
+		class="hidden border-t border-zinc-100 px-4 pb-4 sm:hidden dark:border-zinc-800"
+	>
+		<div class="flex flex-col gap-1 pt-2">
+			{
+				navLinks.map((link) => (
+					<a
+						href={link.href}
+						class:list={[
+							'rounded-lg px-3 py-2 text-sm font-medium transition-colors',
+							pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href))
+								? 'bg-primary-50 text-primary-700 dark:bg-primary-950 dark:text-primary-300'
+								: 'text-zinc-600 hover:bg-zinc-50 dark:text-zinc-400 dark:hover:bg-zinc-800/50',
+						]}
+					>
+						{link.label}
+					</a>
+				))
+			}
+		</div>
+	</div>
+</header>
+
+<script>
+	function setupMobileMenu() {
+		const btn = document.getElementById('mobile-menu-btn');
+		const menu = document.getElementById('mobile-menu');
+		if (!btn || !menu) return;
+		btn.addEventListener('click', () => {
+			menu.classList.toggle('hidden');
+		});
+	}
+	setupMobileMenu();
+	document.addEventListener('astro:after-swap', setupMobileMenu);
+</script>

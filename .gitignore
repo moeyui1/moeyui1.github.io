@@ -1,7 +1,15 @@
+# Dependencies
 node_modules/
-.deploy_git/
-public/
-package-lock.json
+
+# Build output
+dist/
+
+# Astro
+.astro/
+
+# Editor
 .vscode/
-2015/
-db.json
+
+# OS
+.DS_Store
+Thumbs.db

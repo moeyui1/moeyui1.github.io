@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="404 - 不是很懂" description="页面未找到">
+	<section class="relative mx-auto flex max-w-4xl flex-col items-center justify-center px-4 py-24 text-center sm:px-6 sm:py-32">
+		<!-- Background blob -->
+		<div class="absolute left-1/2 top-1/2 -z-10 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-100/50 blur-3xl dark:bg-primary-900/20"></div>
+
+		<p class="bg-gradient-to-r from-primary-400 to-accent-400 bg-clip-text text-8xl font-black text-transparent sm:text-9xl">404</p>
+		<p class="mt-4 text-xl font-medium text-zinc-600 dark:text-zinc-400">页面走丢了</p>
+		<p class="mt-2 text-sm text-zinc-500 dark:text-zinc-500">你要找的页面不存在，或已被移动。</p>
+		<a
+			href="/"
+			class="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary-600 to-accent-600 px-6 py-2.5 text-sm font-medium text-white shadow-lg shadow-primary-500/25 transition-all hover:shadow-xl hover:shadow-primary-500/30"
+		>
+			<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+				<path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+			</svg>
+			返回首页
+		</a>
+	</section>
+</Base>
